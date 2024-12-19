@@ -3,6 +3,7 @@
 
 # include "libft.h"
 # include "math.h"
+# include "get_next_line/get_next_line.h"
 # include "minilibx.h"
 
 typedef struct s_cube	t_cube;

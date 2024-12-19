@@ -33,4 +33,3 @@ void	executer(t_cube cube)
 	game_cycle(cube);// start
 	clean_cube(cube);
 }
-

@@ -4,20 +4,43 @@
 # include "libft.h"
 # include "math.h"
 # include "get_next_line/get_next_line.h"
-# include "minilibx.h"
+# include "mlx/mlx.h"
 
 typedef struct s_cube	t_cube;
 typedef struct s_tex	t_tex;
 typedef struct s_pos	t_pos;
 typedef struct s_map	t_map;
+typedef struct s_rgb	t_rgb;
+typedef struct s_ray	t_ray;
+typedef struct s_vec3	t_vec3;
+
+struct s_rgb
+{
+	char	r;
+	char	g;
+	char	b;
+};
+
+struct s_vec3
+{
+	float	x;
+	float	y;
+	float	z;
+};
+
+struct s_ray
+{
+	t_vec3	origin;
+	t_vec3	direction;
+};
 
 struct s_cube
 {
-	t_mlx		*mlx;
-	t_window	*window;
-	t_map		*map;
-	t_tex		*tex;
-	t_pos		*pos;
+	void	*mlx;
+	void	*window;
+	t_map	*map;
+	t_tex	*tex;
+	t_pos	*pos;
 };
 
 struct	s_tex
@@ -33,6 +56,8 @@ struct	s_tex
 	void	*hud;
 	void	*timer;
 	void	*portal;
+	t_rgb	floor;
+	t_rgb	ceil;
 };
 
 struct s_pos

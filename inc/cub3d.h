@@ -10,15 +10,17 @@ typedef struct s_cube	t_cube;
 typedef struct s_tex	t_tex;
 typedef struct s_pos	t_pos;
 typedef struct s_map	t_map;
-typedef struct s_rgb	t_rgb;
+typedef struct s_img	t_img;
 typedef struct s_ray	t_ray;
 typedef struct s_vec3	t_vec3;
 
-struct s_rgb
+struct s_img
 {
-	char	r;
-	char	g;
-	char	b;
+	void	*img;
+	char	*addr;
+	int		bits_ppixel;
+	int		line_len;
+	int		endian;
 };
 
 struct s_vec3
@@ -56,8 +58,8 @@ struct	s_tex
 	void	*hud;
 	void	*timer;
 	void	*portal;
-	t_rgb	floor;
-	t_rgb	ceil;
+	t_img	floor;
+	t_img	ceil;
 };
 
 struct s_pos
@@ -77,6 +79,6 @@ struct s_map
 };
 
 void	print_error(const char *error);
-void	clean_cube(t_cube cube);
+void	free_cube(t_cube cube);
 
 #endif

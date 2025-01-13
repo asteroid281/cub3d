@@ -6,7 +6,7 @@
 /*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 19:04:35 by apalaz            #+#    #+#             */
-/*   Updated: 2023/12/15 16:00:53 by apalaz           ###   ########.fr       */
+/*   Updated: 2025/01/13 16:06:37 by apalaz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 		chngi = -1;
 		i = len - 1;
 	}
-	while (i < len && i >= 0)
+	while (i < len)
 	{
 		((char *) dst)[i] = ((char *) src)[i];
 		if (i == 0 && chngi == -1)

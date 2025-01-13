@@ -14,9 +14,8 @@ int main(int argc, char **argv)
 
 	cube = (t_cube){0};
 	if (argc != 2)
-		return (print_error("Argument Number"), EXIT_FAILURE);// error message
+		return (print_error("Argument Number"), EXIT_FAILURE);
 	if (parser(argv, cube))// error messages
-		return (EXIT_FAILURE);// no error message!
-	executer(cube);
-	return (EXIT_SUCCESS);
+		return (EXIT_FAILURE);
+	return (executer(cube), EXIT_SUCCESS);
 }

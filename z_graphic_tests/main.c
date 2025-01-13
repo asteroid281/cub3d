@@ -1,6 +1,12 @@
 #include "test.h"
 #include "stdio.h"
 
+int	exit_cube(void *mlx)
+{
+	free(mlx);
+	exit(0);
+}
+
 int main(int argc, char **argv)
 {
 	void	*mlx;
@@ -34,6 +40,7 @@ int main(int argc, char **argv)
 		y++;
 	}
 	mlx_put_image_to_window(mlx, mlx_win, img_fl, 0, 0);
+	mlx_hook(mlx_win, 17, 0, exit_cube, mlx);
 	mlx_loop(mlx);
 }
 // 0x00755732

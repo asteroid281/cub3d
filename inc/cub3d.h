@@ -2,9 +2,9 @@
 # define CUB3D_H
 
 # include "libft.h"
-# include "math.h"
 # include "get_next_line/get_next_line.h"
 # include "mlx/mlx.h"
+# include "math.h"
 
 typedef struct s_cube	t_cube;
 typedef struct s_tex	t_tex;
@@ -75,5 +75,8 @@ struct s_map
 	int		zeros;
 	char	nswe;
 };
+
+void	print_error(const char *error);
+void	clean_cube(t_cube cube);
 
 #endif

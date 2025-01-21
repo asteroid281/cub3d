@@ -7,6 +7,11 @@ int	exit_cube(void *mlx)
 	exit(0);
 }
 
+int main(void)
+{}
+
+/*
+
 int main(int argc, char **argv)
 {
 	void	*mlx;
@@ -28,12 +33,12 @@ int main(int argc, char **argv)
 	int		x, y;
 	char	*dst;
 	y = 0;
-	while (y < 480)
+	while (y < 540)
 	{
 		x = 0;
-		while (x < 270)
+		while (x < 1920)
 		{
-			dst = img_addr + (y * 4) + (x * 4);
+			dst = img_addr + (y * line_length) + (x * 4);
 			*(unsigned int *)dst = 0x00755732;
 			x++;
 		}
@@ -43,4 +48,5 @@ int main(int argc, char **argv)
 	mlx_hook(mlx_win, 17, 0, exit_cube, mlx);
 	mlx_loop(mlx);
 }
+*/
 // 0x00755732

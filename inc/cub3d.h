@@ -6,6 +6,9 @@
 # include "mlx/mlx.h"
 # include "math.h"
 
+# define WIN_X 1920
+# define WIN_Y 1080
+
 typedef struct s_cube	t_cube;
 typedef struct s_tex	t_tex;
 typedef struct s_pos	t_pos;
@@ -18,7 +21,7 @@ struct s_img
 {
 	void	*img;
 	char	*addr;
-	int		bits_ppixel;
+	int		bpp;
 	int		line_len;
 	int		endian;
 };
@@ -59,7 +62,9 @@ struct	s_tex
 	void	*timer;
 	void	*portal;
 	t_img	floor;
+	int		fl_color;
 	t_img	ceil;
+	int		ceil_color;
 };
 
 struct s_pos

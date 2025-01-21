@@ -26,14 +26,14 @@ char	set_floor_and_ceil(t_cube *cube)
 	if (!cube.tex.floor.img)
 		return (EXIT_FAILURE);
 	cube.tex.floor.addr = mlx_get_data_addr(cube.tex.floor.img, &cube.tex.floor.bpp, \
-	&cube.tex.floor.line_len, &cube.tex.floor.endian);
+		&cube.tex.floor.line_len, &cube.tex.floor.endian);
 	if (!cube.tex.floor.addr)
 		return (EXIT_FAILURE);
 	cube.tex.ceil.img = mlx_new_image(cube.mlx, WIN_X, 540);
 	if (!cube.tex.ceil.img)
 		return (EXIT_FAILURE);
 	cube.tex.ceil.addr = mlx_get_data_addr(cube.tex.ceil.img, &cube.tex.ceil.bpp, \
-	&cube.tex.ceil.line_len, &cube.tex.ceil.endian);
+		&cube.tex.ceil.line_len, &cube.tex.ceil.endian);
 	if (!cube.tex.ceil.addr)
 		return (EXIT_FAILURE);
 	set_color(cube.tex.floor, cube.tex.fl_color);

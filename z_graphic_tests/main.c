@@ -8,10 +8,20 @@ int	exit_cube(void *mlx)
 }
 
 int main(void)
-{}
+{
+	void	*mlx;
+	void	*win;
+	void	*no;
+	int		x;
+	int		y;
+
+	mlx = mlx_init();
+	win = mlx_new_window(mlx, 1920, 1080, "Window Name");
+	no = mlx_xpm_file_to_image(cube.mlx, \
+		"textures/no.xpm", &x, &y);
+}
 
 /*
-
 int main(int argc, char **argv)
 {
 	void	*mlx;

@@ -51,9 +51,13 @@ struct s_cube
 struct	s_tex
 {
 	void	*no;
+	char	*np;
 	void	*so;
+	char	*sp;
 	void	*we;
+	char	*wp;
 	void	*ea;
+	char	*ep;
 	void	*rick;
 	void	*morty;
 	void	*gun;

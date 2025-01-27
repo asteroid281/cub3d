@@ -43,38 +43,14 @@ int main(void)
 	double	planeX;
 	double	planeY;
 	char	is_done;
-	double	raydirX;
-	double	raydirY;
 	int		width;
 	int		height;
-	int		mapX;
-	int		mapY;
-	double	sidedistX;
-	double	sidedistY;
-	double	deltadistX;
-	double	deltadistY;
-	double	perpwalldist;
-	int		stepX;
-	int		stepY;
-	char	hit;
-	char	side;
 	int		x;
 	int		y;
 	int		bbp;
 	int		endian;
 	int		line_length0;
 	int		line_length;
-	int		lineheight;
-	int		pitch;
-	int		drawstart;
-	int		drawend;
-	double	wallX;
-	int		texX;
-	int		texY;
-	double	step;
-	double	texpos;
-	int		texnum;
-	int		color;
 	char	*addr1;
 	char	*addr2;
 	char	*addr3;
@@ -86,8 +62,6 @@ int main(void)
 	double	frame_time;
 	double	fps;
 	char	*dst;
-	double	camX;
-	//double	camY;
 	char	*texs[4];
 
 	mlx = mlx_init();
@@ -125,15 +99,24 @@ int main(void)
 		x = 0;
 		while (x < width)
 		{
-			camX = 2 * x / (double) (width) - 1;
-			raydirX = dirX + planeX * camX;
-			raydirY = dirY + planeY * camX;	//	camY olabilir !!
+			double	camX = 2 * x / ((double) (width)) - 1;
+			double	raydirX = dirX + planeX * camX;
+			double	raydirY = dirY + planeY * camX;
 
-			mapX = (int) (posX);
-			mapY = (int) (posY);
+			int	mapX = (int) (posX);
+			int	mapY = (int) (posY);
 
-			deltadistX = sqrt(1 + (raydirY * raydirY) / (raydirX * raydirX));
-			deltadistY = sqrt(1 + (raydirX * raydirX) / (raydirY * raydirY));
+			double	sidedistX;
+			double	sidedistY;
+
+			double	deltadistX = sqrt(1 + (raydirY * raydirY) / (raydirX * raydirX));
+			double	deltadistY = sqrt(1 + (raydirX * raydirX) / (raydirY * raydirY));
+			double	perpwalldist;
+
+			int	stepX;
+			int	stepY;
+
+			char	side;
 
 			if (raydirX < 0)
 			{
@@ -155,7 +138,7 @@ int main(void)
 				stepY = 1;
 				sidedistY = (mapY + 1.0 - posY) * deltadistY;
 			}
-			hit = 0;
+			char	hit = 0;
 			while (hit == 0)
 			{
 				if (sidedistX < sidedistY)
@@ -177,37 +160,35 @@ int main(void)
 				perpwalldist = sidedistX - deltadistX;
 			else
 				perpwalldist = sidedistY - deltadistY;
-			lineheight = (int) (height / perpwalldist);
-			pitch = 10;
-			drawstart = -lineheight / 2 + height / 2 + pitch;
+			int	lineheight = (int) (height / perpwalldist);
+			int	pitch = 10;
+			int	drawstart = -lineheight / 2 + height / 2 + pitch;
 			if (drawstart < 0)
 				drawstart = 0;
-			drawend = lineheight / 2 + height / 2 + pitch;
+			int	drawend = lineheight / 2 + height / 2 + pitch;
 			if (drawend >= height)
 				drawend = height - 1;
+			double wallX;
 			if (side == 0)
 				wallX = posY + perpwalldist * raydirY;
 			else
 				wallX = posX + perpwalldist * raydirX;
 			wallX -= floor(wallX);
-			texX = (int) (64.0 * wallX);
+			int	texX = (int) (64.0 * wallX);
 			if ((side == 0 && raydirX > 0) || (side == 1 && raydirY < 0))
 				texX = 63 - texX;
-			step = 64.0 / lineheight;
-			texpos = (drawstart - pitch - height / 2 + lineheight / 2) * step;
-			if (side == 0)
-				texnum = 0;
-			else
-				texnum = 3;
+			double	step = 64.0 / lineheight;
+			double	texpos = (drawstart - pitch - height / 2 + lineheight / 2) * step;
+			int	texnum = 0;
 			y = drawstart;
 			while (y < drawend)
 			{
-				texY = (int) texpos & 63;
+				int texY = (int) texpos & 63;
 				texpos += step;
-				color = texs[texnum][texY * 64 + texX];
+				int color = texs[texnum][texY * 64 + texX];
 				if (side == 1)
 					color = (color >> 1) & 0x7F7F7F;
-				dst = win_addr + y * line_length0 + 4 * x;
+				dst = win_addr +(y * line_length0) + (4 * x);
 				*(unsigned int *) dst = color;
 				y++;
 			}
@@ -226,7 +207,8 @@ int main(void)
 		s_time = clock();
 		frame_time = (s_time - e_time) / CLOCKS_PER_SEC;
 		fps = 1 / frame_time;
-		printf("fps = %f\n", fps);
+		(void)fps;
+		//printf("fps = %f\n", fps);
 	}
 }
 //*/

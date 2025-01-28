@@ -7,14 +7,14 @@
 
 # define WIN_X 1920
 # define WIN_Y 1080
+# define PITCH 10
 
 typedef struct s_cube	t_cube;
 typedef struct s_tex	t_tex;
 typedef struct s_pos	t_pos;
 typedef struct s_map	t_map;
 typedef struct s_img	t_img;
-typedef struct s_ray	t_ray;
-typedef struct s_vec3	t_vec3;
+typedef struct s_calc	t_calc;
 
 struct s_img
 {
@@ -25,23 +25,43 @@ struct s_img
 	int		endian;
 };
 
-struct s_vec3
+struct s_calc
 {
-	float	x;
-	float	y;
-	float	z;
-};
-
-struct s_ray
-{
-	t_vec3	origin;
-	t_vec3	direction;
+	float	cam;
+	float	dirX;
+	float	dirY;
+	float	planeX;
+	float	planeY;
+	float	raydirX;
+	float	raydirY;
+	float	sidedistX;
+	float	sidedistY;
+	float	deltadistX;
+	float	deltadistY;
+	float	perpwalldist;
+	float	wallX;
+	float	step;
+	float	texpos;
+	char	hit;
+	char	side;
+	int		lineheight;
+	int		mapX;
+	int		mapY;
+	int		stepX;
+	int		stepY;
+	int		drawstart;
+	int		drawend;
+	int		texX;
+	int		texY;
+	int		color;
+	int		texnum;
 };
 
 struct s_cube
 {
 	void	*mlx;
 	void	*window;
+	t_img	*win;
 	t_map	*map;
 	t_tex	*tex;
 	t_pos	*pos;
@@ -49,21 +69,17 @@ struct s_cube
 
 struct	s_tex
 {
-	void	*no;
-	char	*np;
-	void	*so;
-	char	*sp;
-	void	*we;
-	char	*wp;
-	void	*ea;
-	char	*ep;
-	void	*rick;
-	void	*morty;
-	void	*gun;
-	void	*ammo;
-	void	*hud;
-	void	*timer;
-	void	*portal;
+	t_img	no;
+	t_img	so;
+	t_img	we;
+	t_img	ea;
+	t_img	rick;
+	t_img	morty;
+	t_img	gun;
+	t_img	ammo;
+	t_img	hud;
+	t_img	timer;
+	t_img	portal;
 	t_img	floor;
 	int		fl_color;
 	t_img	ceil;

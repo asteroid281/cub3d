@@ -5,8 +5,8 @@
 # include "mlx/mlx.h"
 # include "math.h"
 
-# define WIN_X 1920
-# define WIN_Y 1080
+# define WIDTH 1920
+# define HEIGHT 1080
 # define PITCH 10
 
 typedef struct s_cube	t_cube;
@@ -61,10 +61,10 @@ struct s_cube
 {
 	void	*mlx;
 	void	*window;
-	t_img	*win;
-	t_map	*map;
-	t_tex	*tex;
-	t_pos	*pos;
+	t_img	win;
+	t_map	map;
+	t_tex	tex;
+	t_pos	pos;
 };
 
 struct	s_tex
@@ -103,6 +103,7 @@ struct s_map
 };
 
 void	print_error(const char *error);
+void	free_str_arr(char **str_arr);
 void	free_cube(t_cube cube);
 
 #endif

@@ -20,7 +20,7 @@ void	set_color(t_img floor, int color)
 	}
 }
 
-char	set_floor_and_ceil(t_cube *cube)
+char	set_floor_and_ceil(t_cube cube)
 {
 	cube.tex.floor.img = mlx_new_image(cube.mlx, WIN_X, 540);
 	if (!cube.tex.floor.img)

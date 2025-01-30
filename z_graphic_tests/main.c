@@ -7,6 +7,66 @@ int	exit_cube(void *mlx)
 	free(mlx);
 	exit(0);
 }
+
+/*
+struct calc
+{
+	float	camX;
+	float	posX;
+	float	posY;
+	float	dirX;
+	float	dirY;
+	float	raydirX;
+	float	raydirY;
+	float	sidedistX;
+	float	sidedistY;
+	float	deltadistX;
+	float	deltadistY;
+	float	planeX;
+	float	planeY;
+	int		mapX;
+	int		mapY;
+};
+
+int main(void)
+{
+	int		map[15][20] =
+	{
+		{1, 1, 1, 1, 1 , 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1},
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 1, 1, 0, 1},
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 1, 1, 1 , 0, 1, 1, 0, 1},
+		{1, 0, 0, 0, 0 , 1, 1, 1, 0, 1 , 1, 0, 1, 1, 1 , 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0 , 1, 0, 1, 1, 1 , 1, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+
+		{1, 0, 0, 0, 0 , 1, 0, 0, 0, 0 , 1, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 1, 1, 0, 0 , 1, 1, 1, 1, 1 , 0, 0, 1, 1, 1 , 1, 1, 1, 1, 1},
+		{1, 1, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 1, 1, 0 , 0, 1, 0, 0, 1},
+		{1, 1, 1, 1, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 1, 1 , 1, 1, 0, 0, 1},
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 1, 1, 1, 1 , 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1}
+	};
+	void	*mlx;
+	void	*win;
+	char	*win_addr;
+	void	*no;
+	char	*no_addr;
+	void	*so;
+	char	*so_addr;
+	void	*ea;
+	char	*ea_addr;
+	void	*we;
+	char	*we_addr;
+	int		bpp;
+	int		ll;
+	int		endian;
+}
+//*/
+
 //*
 int main(void)
 {
@@ -63,6 +123,8 @@ int main(void)
 	double	fps;
 	char	*dst;
 	char	*texs[4];
+	int		texH = 64;
+	int		texW = 64;
 
 	mlx = mlx_init();
 	width = 1920;
@@ -86,8 +148,8 @@ int main(void)
 	texs[1] = addr2;
 	texs[2] = addr3;
 	texs[3] = addr4;
-	posX = 11.5;
-	posY = 10.5;
+	posX = 11;
+	posY = 10;
 	dirX = -1.0;
 	dirY = 0.0;
 	planeX = 0.0;
@@ -111,6 +173,22 @@ int main(void)
 
 			double	deltadistX = sqrt(1 + (raydirY * raydirY) / (raydirX * raydirX));
 			double	deltadistY = sqrt(1 + (raydirX * raydirX) / (raydirY * raydirY));
+
+			// double	deltadistX;
+			// double	deltadistY;
+			// if (raydirX == 0)
+			// 	deltadistX = 1 / 30;
+			// else
+			// 	deltadistX = 1 / raydirX;
+			// if (raydirY == 0)
+			// 	deltadistY = 1 / 30;
+			// else
+			// 	deltadistY = 1 / raydirY;
+			// if (deltadistX < 0)
+			// 	deltadistX *= -1;
+			// if (deltadistY < 0)
+			// 	deltadistY *= -1;
+
 			double	perpwalldist;
 
 			int	stepX;
@@ -174,22 +252,29 @@ int main(void)
 			else
 				wallX = posX + perpwalldist * raydirX;
 			wallX -= floor(wallX);
-			int	texX = (int) (64.0 * wallX);
+			int	texX = (int) (1.0 * texW * wallX);
 			if ((side == 0 && raydirX > 0) || (side == 1 && raydirY < 0))
-				texX = 63 - texX;
-			double	step = 64.0 / lineheight;
-			double	texpos = (drawstart - pitch - height / 2 + lineheight / 2) * step;
-			int	texnum = 0;
+				texX = texW - texX - 1;
+			double	step = 1.0 * texH / lineheight;
+			double	texpos = (drawstart - height / 2 + lineheight / 2) * step;
+			int	texnum = 1;
+			if (side)
+				texnum = 1;
 			y = drawstart;
 			while (y < drawend)
 			{
-				int texY = (int) texpos & 63;
-				texpos += step;
+				int texY = (int) texpos & (texH - 1);
 				int color = texs[texnum][texY * 64 + texX];
+				// printf("texY : %d\ntexX : %d\ntexY * 64 + texX : %d\n", texY, texX, texY * 64 + texX);
+				// (void)texs;
+				// (void)texY;
+				// (void)texnum;
+				// int	color = 0xCCBBAA;
 				if (side == 1)
 					color = (color >> 1) & 0x7F7F7F;
-				dst = win_addr +(y * line_length0) + (4 * x);
+				dst = win_addr + (y * line_length0) + (4 * x);
 				*(unsigned int *) dst = color;
+				texpos += step;
 				y++;
 			}
 			x++;

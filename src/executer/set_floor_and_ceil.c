@@ -10,7 +10,7 @@ void	set_color(t_img floor, int color)
 	while (y < 540)
 	{
 		x = 0;
-		while (x < WIN_X)
+		while (x < WIDTH)
 		{
 			dst = floor.addr + (y * floor.line_len) + (4 * x);
 			*(unsigned int *) dst = color;
@@ -22,14 +22,14 @@ void	set_color(t_img floor, int color)
 
 char	set_floor_and_ceil(t_cube cube)
 {
-	cube.tex.floor.img = mlx_new_image(cube.mlx, WIN_X, 540);
+	cube.tex.floor.img = mlx_new_image(cube.mlx, WIDTH, 540);
 	if (!cube.tex.floor.img)
 		return (EXIT_FAILURE);
 	cube.tex.floor.addr = mlx_get_data_addr(cube.tex.floor.img, &cube.tex.floor.bpp, \
 		&cube.tex.floor.line_len, &cube.tex.floor.endian);
 	if (!cube.tex.floor.addr)
 		return (EXIT_FAILURE);
-	cube.tex.ceil.img = mlx_new_image(cube.mlx, WIN_X, 540);
+	cube.tex.ceil.img = mlx_new_image(cube.mlx, WIDTH, 540);
 	if (!cube.tex.ceil.img)
 		return (EXIT_FAILURE);
 	cube.tex.ceil.addr = mlx_get_data_addr(cube.tex.ceil.img, &cube.tex.ceil.bpp, \

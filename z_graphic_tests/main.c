@@ -102,7 +102,20 @@ int main(void)
 	double	dirY;
 	double	planeX;
 	double	planeY;
+	double	camX;
+	double	raydirX;
+	double	raydirY;
+	double	sidedistX;
+	double	sidedistY;
+	double	deltadistX;
+	double	deltadistY;
+	double	perpwalldist;
+	double	wallX;
+	double	step;
+	double	texpos;
+	char	side;
 	char	is_done;
+	char	hit;
 	int		width;
 	int		height;
 	int		x;
@@ -111,6 +124,18 @@ int main(void)
 	int		endian;
 	int		line_length0;
 	int		line_length;
+	int		mapX;
+	int		mapY;
+	int		stepX;
+	int		stepY;
+	int		lineheight;
+	int		pitch;
+	int		drawstart;
+	int		drawend;
+	int		texX;
+	int 	texY;
+	int		texnum;
+	int 	color;
 	char	*addr1;
 	char	*addr2;
 	char	*addr3;
@@ -126,75 +151,68 @@ int main(void)
 	int		texH = 64;
 	int		texW = 64;
 
-	mlx = mlx_init();
-	width = 1920;
-	height = 1080;
-	win = mlx_new_window(mlx, width, height, "Window Name");
-	win_img = mlx_new_image(mlx, width, height);
-	win_addr = mlx_get_data_addr(win_img, &bbp, &line_length0, &endian);
-	no = mlx_xpm_file_to_image(mlx, \
-		"textures/no.xpm", &x, &y);
-	so = mlx_xpm_file_to_image(mlx, \
-		"textures/so.xpm", &x, &y);
-	we = mlx_xpm_file_to_image(mlx, \
-		"textures/we.xpm", &x, &y);
-	ea = mlx_xpm_file_to_image(mlx, \
-		"textures/ea.xpm", &x, &y);
-	addr1 = mlx_get_data_addr(no, &bbp, &line_length, &endian);
-	addr2 = mlx_get_data_addr(so, &bbp, &line_length, &endian);
-	addr3 = mlx_get_data_addr(ea, &bbp, &line_length, &endian);
-	addr4 = mlx_get_data_addr(we, &bbp, &line_length, &endian);
-	texs[0] = addr1;
-	texs[1] = addr2;
-	texs[2] = addr3;
-	texs[3] = addr4;
-	posX = 11;
-	posY = 10;
-	dirX = -1.0;
-	dirY = 0.0;
-	planeX = 0.0;
-	planeY = 0.66;
-	s_time = 0;
-	is_done = 0;
+	if (1)
+	{
+		mlx = mlx_init();
+		width = 1920;
+		height = 1080;
+		win = mlx_new_window(mlx, width, height, "Window Name");
+		win_img = mlx_new_image(mlx, width, height);
+		win_addr = mlx_get_data_addr(win_img, &bbp, &line_length0, &endian);
+		no = mlx_xpm_file_to_image(mlx, \
+			"textures/no.xpm", &x, &y);
+		so = mlx_xpm_file_to_image(mlx, \
+			"textures/so.xpm", &x, &y);
+		we = mlx_xpm_file_to_image(mlx, \
+			"textures/we.xpm", &x, &y);
+		ea = mlx_xpm_file_to_image(mlx, \
+			"textures/ea.xpm", &x, &y);
+		addr1 = mlx_get_data_addr(no, &bbp, &line_length, &endian);
+		addr2 = mlx_get_data_addr(so, &bbp, &line_length, &endian);
+		addr3 = mlx_get_data_addr(ea, &bbp, &line_length, &endian);
+		addr4 = mlx_get_data_addr(we, &bbp, &line_length, &endian);
+		texs[0] = addr1;
+		texs[1] = addr2;
+		texs[2] = addr3;
+		texs[3] = addr4;
+		posX = 11;
+		posY = 10;
+		dirX = -1.0;
+		dirY = 0.0;
+		planeX = 0.0;
+		planeY = 0.66;
+		s_time = 0;
+		is_done = 0;
+	}
 	while (!is_done)
 	{
 		x = 0;
 		while (x < width)
 		{
-			double	camX = 2 * x / ((double) (width)) - 1;
-			double	raydirX = dirX + planeX * camX;
-			double	raydirY = dirY + planeY * camX;
+			camX = 2 * x / ((double) (width)) - 1;
+			raydirX = dirX + planeX * camX;
+			raydirY = dirY + planeY * camX;
 
-			int	mapX = (int) (posX);
-			int	mapY = (int) (posY);
+			mapX = (int) (posX);
+			mapY = (int) (posY);
 
-			double	sidedistX;
-			double	sidedistY;
+			deltadistX = sqrt(1 + (raydirY * raydirY) / (raydirX * raydirX));
+			deltadistY = sqrt(1 + (raydirX * raydirX) / (raydirY * raydirY));
 
-			double	deltadistX = sqrt(1 + (raydirY * raydirY) / (raydirX * raydirX));
-			double	deltadistY = sqrt(1 + (raydirX * raydirX) / (raydirY * raydirY));
-
-			// double	deltadistX;
-			// double	deltadistY;
-			// if (raydirX == 0)
-			// 	deltadistX = 1 / 30;
-			// else
-			// 	deltadistX = 1 / raydirX;
-			// if (raydirY == 0)
-			// 	deltadistY = 1 / 30;
-			// else
-			// 	deltadistY = 1 / raydirY;
-			// if (deltadistX < 0)
-			// 	deltadistX *= -1;
-			// if (deltadistY < 0)
-			// 	deltadistY *= -1;
-
-			double	perpwalldist;
-
-			int	stepX;
-			int	stepY;
-
-			char	side;
+			/*
+			if (raydirX == 0)
+				deltadistX = 1 / 30;
+			else
+				deltadistX = 1 / raydirX;
+			if (raydirY == 0)
+				deltadistY = 1 / 30;
+			else
+				deltadistY = 1 / raydirY;
+			if (deltadistX < 0)
+				deltadistX *= -1;
+			if (deltadistY < 0)
+				deltadistY *= -1;
+			//*/
 
 			if (raydirX < 0)
 			{
@@ -216,7 +234,7 @@ int main(void)
 				stepY = 1;
 				sidedistY = (mapY + 1.0 - posY) * deltadistY;
 			}
-			char	hit = 0;
+			hit = 0;
 			while (hit == 0)
 			{
 				if (sidedistX < sidedistY)
@@ -238,38 +256,39 @@ int main(void)
 				perpwalldist = sidedistX - deltadistX;
 			else
 				perpwalldist = sidedistY - deltadistY;
-			int	lineheight = (int) (height / perpwalldist);
-			int	pitch = 10;
-			int	drawstart = -lineheight / 2 + height / 2 + pitch;
+			lineheight = (int) (height / perpwalldist);
+			pitch = 10;
+			drawstart = -lineheight / 2 + height / 2 + pitch;
 			if (drawstart < 0)
 				drawstart = 0;
-			int	drawend = lineheight / 2 + height / 2 + pitch;
+			drawend = lineheight / 2 + height / 2 + pitch;
 			if (drawend >= height)
 				drawend = height - 1;
-			double wallX;
 			if (side == 0)
 				wallX = posY + perpwalldist * raydirY;
 			else
 				wallX = posX + perpwalldist * raydirX;
 			wallX -= floor(wallX);
-			int	texX = (int) (1.0 * texW * wallX);
+			texX = (int) (1.0 * texW * wallX);
 			if ((side == 0 && raydirX > 0) || (side == 1 && raydirY < 0))
 				texX = texW - texX - 1;
-			double	step = 1.0 * texH / lineheight;
-			double	texpos = (drawstart - height / 2 + lineheight / 2) * step;
-			int	texnum = 1;
+			step = 1.0 * texH / lineheight;
+			texpos = (drawstart - height / 2 + lineheight / 2) * step;
+			texnum = 1;
 			if (side)
 				texnum = 1;
 			y = drawstart;
 			while (y < drawend)
 			{
-				int texY = (int) texpos & (texH - 1);
-				int color = texs[texnum][texY * 64 + texX];
-				// printf("texY : %d\ntexX : %d\ntexY * 64 + texX : %d\n", texY, texX, texY * 64 + texX);
-				// (void)texs;
-				// (void)texY;
-				// (void)texnum;
-				// int	color = 0xCCBBAA;
+				texY = (int) texpos & (texH - 1);
+				color = texs[texnum][texY * 64 + texX];
+				/*
+				printf("texY : %d\ntexX : %d\ncolor : %d\n", texY, color);
+				(void)texs;
+				(void)texY;
+				(void)texnum;
+				int	color = 0xCCBBAA;
+				//*/
 				if (side == 1)
 					color = (color >> 1) & 0x7F7F7F;
 				dst = win_addr + (y * line_length0) + (4 * x);

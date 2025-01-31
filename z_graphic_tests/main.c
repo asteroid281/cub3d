@@ -162,7 +162,7 @@ int main(void)
 		win_img = mlx_new_image(mlx, width, height);
 		win_addr = mlx_get_data_addr(win_img, &bbp, &line_length0, &endian);
 		no = mlx_xpm_file_to_image(mlx, \
-			"textures/doom.xpm", &x, &y);
+			"textures/no.xpm", &x, &y);
 		texW = x;
 		texH = y;
 		printf("x : %d\ny : %d\n", x, y);
@@ -278,9 +278,9 @@ int main(void)
 				texX = texW - texX - 1;
 			step = 1.0 * texH / lineheight;
 			texpos = (drawstart - height / 2 + lineheight / 2) * step;
-			texnum = 0;
+			texnum = 1;
 			if (side)
-				texnum = 0;
+				texnum = 1;
 			y = drawstart;
 			while (y < drawend)
 			{
@@ -291,7 +291,7 @@ int main(void)
 				(void)texs;
 				(void)texY;
 				(void)texnum;
-				int	color = 0xCCBBAA;
+				color = 0xCCBBAA;
 				//*/
 				if (side == 1)
 					color = (color >> 1) & 0x7F7F7F;

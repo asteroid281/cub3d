@@ -88,10 +88,10 @@ struct	s_tex
 
 struct s_pos
 {
-	int	x_rick;
-	int	y_rick;
-	int	x_morty;
-	int	y_morty;
+	int		x_rick;
+	int		y_rick;
+	int		x_morty;
+	int		y_morty;
 };
 
 struct s_map

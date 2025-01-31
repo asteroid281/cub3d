@@ -1,4 +1,6 @@
-#include "test.h"
+#include "../inc/libft/libft.h"
+#include "../inc/mlx/mlx.h"
+#include "math.h"
 #include "stdio.h"
 #include "time.h"
 
@@ -116,6 +118,7 @@ int main(void)
 	char	side;
 	char	is_done;
 	char	hit;
+	int		pitch = 10;
 	int		width;
 	int		height;
 	int		x;
@@ -129,13 +132,14 @@ int main(void)
 	int		stepX;
 	int		stepY;
 	int		lineheight;
-	int		pitch;
 	int		drawstart;
 	int		drawend;
 	int		texX;
 	int 	texY;
 	int		texnum;
 	int 	color;
+	int		texW;
+	int		texH;
 	char	*addr1;
 	char	*addr2;
 	char	*addr3;
@@ -148,8 +152,6 @@ int main(void)
 	double	fps;
 	char	*dst;
 	char	*texs[4];
-	int		texH = 64;
-	int		texW = 64;
 
 	if (1)
 	{
@@ -160,7 +162,10 @@ int main(void)
 		win_img = mlx_new_image(mlx, width, height);
 		win_addr = mlx_get_data_addr(win_img, &bbp, &line_length0, &endian);
 		no = mlx_xpm_file_to_image(mlx, \
-			"textures/no.xpm", &x, &y);
+			"textures/doom.xpm", &x, &y);
+		texW = x;
+		texH = y;
+		printf("x : %d\ny : %d\n", x, y);
 		so = mlx_xpm_file_to_image(mlx, \
 			"textures/so.xpm", &x, &y);
 		we = mlx_xpm_file_to_image(mlx, \
@@ -257,7 +262,6 @@ int main(void)
 			else
 				perpwalldist = sidedistY - deltadistY;
 			lineheight = (int) (height / perpwalldist);
-			pitch = 10;
 			drawstart = -lineheight / 2 + height / 2 + pitch;
 			if (drawstart < 0)
 				drawstart = 0;
@@ -274,14 +278,14 @@ int main(void)
 				texX = texW - texX - 1;
 			step = 1.0 * texH / lineheight;
 			texpos = (drawstart - height / 2 + lineheight / 2) * step;
-			texnum = 1;
+			texnum = 0;
 			if (side)
-				texnum = 1;
+				texnum = 0;
 			y = drawstart;
 			while (y < drawend)
 			{
 				texY = (int) texpos & (texH - 1);
-				color = texs[texnum][texY * 64 + texX];
+				color = texs[texnum][texY * texW + texX];
 				/*
 				printf("texY : %d\ntexX : %d\ncolor : %d\n", texY, color);
 				(void)texs;

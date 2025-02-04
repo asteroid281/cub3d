@@ -13,26 +13,6 @@ int	exit_cube(void *mlx)
 //*
 int main(void)
 {
-	int		map[15][20] =
-	{
-		{1, 1, 1, 1, 1 , 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 1, 1, 0, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 1, 1, 1 , 0, 1, 1, 0, 1},
-		{1, 0, 0, 0, 0 , 1, 1, 1, 0, 1 , 1, 0, 1, 1, 1 , 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0 , 1, 0, 1, 1, 1 , 1, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-
-		{1, 0, 0, 0, 0 , 1, 0, 0, 0, 0 , 1, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-		{1, 1, 1, 0, 0 , 1, 1, 1, 1, 1 , 0, 0, 1, 1, 1 , 1, 1, 1, 1, 1},
-		{1, 1, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 1, 1, 0 , 0, 1, 0, 0, 1},
-		{1, 1, 1, 1, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 1, 1 , 1, 1, 0, 0, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-		{1, 1, 1, 1, 1 , 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1}
-	};
 	void	*mlx;
 	void	*win;
 	void	*no;
@@ -93,12 +73,30 @@ int main(void)
 	char	*src;
 	char	*dst;
 	char	*texs[4];
+	// doğuya bakıyor !!
+	// sağındaki solda solundaki sağda çıkıyor !!
+	int		map[10][15] =
+	{
+		{1, 1, 1, 1, 1 , 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1},
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 0, 1, 1, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 1, 1, 1, 1 , 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1}
+	};
 
 	if (1)
 	{
 		mlx = mlx_init();
 		width = 1920;
 		height = 1080;
+		posX = 4.5;
+		posY = 4.5;
 		win = mlx_new_window(mlx, width, height, "Window Name");
 		win_img = mlx_new_image(mlx, width, height);
 		win_addr = mlx_get_data_addr(win_img, &bbp, &line_length0, &endian);
@@ -107,7 +105,7 @@ int main(void)
 		texW = x;
 		texH = y;
 		so = mlx_xpm_file_to_image(mlx, \
-			"textures/so.xpm", &x, &y);
+			"textures/no.xpm", &x, &y);
 		we = mlx_xpm_file_to_image(mlx, \
 			"textures/we.xpm", &x, &y);
 		ea = mlx_xpm_file_to_image(mlx, \
@@ -120,8 +118,6 @@ int main(void)
 		texs[1] = addr2;
 		texs[2] = addr3;
 		texs[3] = addr4;
-		posX = 11;
-		posY = 10;
 		dirX = -1.0;
 		dirY = 0.0;
 		planeX = 0.0;
@@ -194,18 +190,24 @@ int main(void)
 					drawend = height - 1;
 			}
 			if (side == 0)
+			{
 				wallX = posY + perpwalldist * raydirY;
+				if (raydirX < 0)
+					texnum = 0;
+				else
+					texnum = 2;
+			}
 			else
+			{
 				wallX = posX + perpwalldist * raydirX;
+				texnum = 1;
+			}
 			wallX -= floor(wallX);
 			texX = (int) (1.0 * texW * wallX);
 			if ((side == 0 && raydirX > 0) || (side == 1 && raydirY < 0))
 				texX = texW - texX - 1;
 			step = 1.0 * texH / lineheight;
 			texpos = (drawstart - height / 2 + lineheight / 2) * step;
-			texnum = 0;
-			if (side)
-				texnum = 2;
 			y = drawstart;
 			while (y < drawend)
 			{
@@ -222,6 +224,7 @@ int main(void)
 			x++;
 		}
 		mlx_put_image_to_window(mlx, win, win_img, 0, 0);
+		/*
 		y = -1;
 		while (++y < height)
 		{
@@ -229,12 +232,15 @@ int main(void)
 			while (++x < width)
 				win_addr[y * width + x] = 0;
 		}
+		//*/
 		e_time = s_time;
 		s_time = clock();
 		frame_time = (s_time - e_time) / CLOCKS_PER_SEC;
 		fps = 1 / frame_time;
 		(void)fps;
 		//printf("fps = %f\n", fps);
+		mlx_hook(win, 17, 0, exit_cube, mlx);
+		mlx_loop(mlx);
 	}
 }
 //*/

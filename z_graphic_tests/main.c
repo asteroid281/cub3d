@@ -10,65 +10,6 @@ int	exit_cube(void *mlx)
 	exit(0);
 }
 
-/*
-struct calc
-{
-	float	camX;
-	float	posX;
-	float	posY;
-	float	dirX;
-	float	dirY;
-	float	raydirX;
-	float	raydirY;
-	float	sidedistX;
-	float	sidedistY;
-	float	deltadistX;
-	float	deltadistY;
-	float	planeX;
-	float	planeY;
-	int		mapX;
-	int		mapY;
-};
-
-int main(void)
-{
-	int		map[15][20] =
-	{
-		{1, 1, 1, 1, 1 , 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 1, 1, 0, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 1, 1, 1 , 0, 1, 1, 0, 1},
-		{1, 0, 0, 0, 0 , 1, 1, 1, 0, 1 , 1, 0, 1, 1, 1 , 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0 , 1, 0, 1, 1, 1 , 1, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-
-		{1, 0, 0, 0, 0 , 1, 0, 0, 0, 0 , 1, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-		{1, 1, 1, 0, 0 , 1, 1, 1, 1, 1 , 0, 0, 1, 1, 1 , 1, 1, 1, 1, 1},
-		{1, 1, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 1, 1, 0 , 0, 1, 0, 0, 1},
-		{1, 1, 1, 1, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 1, 1 , 1, 1, 0, 0, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-		{1, 1, 1, 1, 1 , 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1}
-	};
-	void	*mlx;
-	void	*win;
-	char	*win_addr;
-	void	*no;
-	char	*no_addr;
-	void	*so;
-	char	*so_addr;
-	void	*ea;
-	char	*ea_addr;
-	void	*we;
-	char	*we_addr;
-	int		bpp;
-	int		ll;
-	int		endian;
-}
-//*/
-
 //*
 int main(void)
 {
@@ -118,7 +59,6 @@ int main(void)
 	char	side;
 	char	is_done;
 	char	hit;
-	int		pitch = 10;
 	int		width;
 	int		height;
 	int		x;
@@ -150,6 +90,7 @@ int main(void)
 	double	e_time;
 	double	frame_time;
 	double	fps;
+	char	*src;
 	char	*dst;
 	char	*texs[4];
 
@@ -162,10 +103,9 @@ int main(void)
 		win_img = mlx_new_image(mlx, width, height);
 		win_addr = mlx_get_data_addr(win_img, &bbp, &line_length0, &endian);
 		no = mlx_xpm_file_to_image(mlx, \
-			"textures/no.xpm", &x, &y);
+			"textures/doom.xpm", &x, &y);
 		texW = x;
 		texH = y;
-		printf("x : %d\ny : %d\n", x, y);
 		so = mlx_xpm_file_to_image(mlx, \
 			"textures/so.xpm", &x, &y);
 		we = mlx_xpm_file_to_image(mlx, \
@@ -194,80 +134,65 @@ int main(void)
 		x = 0;
 		while (x < width)
 		{
-			camX = 2 * x / ((double) (width)) - 1;
-			raydirX = dirX + planeX * camX;
-			raydirY = dirY + planeY * camX;
-
-			mapX = (int) (posX);
-			mapY = (int) (posY);
-
-			deltadistX = sqrt(1 + (raydirY * raydirY) / (raydirX * raydirX));
-			deltadistY = sqrt(1 + (raydirX * raydirX) / (raydirY * raydirY));
-
-			/*
-			if (raydirX == 0)
-				deltadistX = 1 / 30;
-			else
-				deltadistX = 1 / raydirX;
-			if (raydirY == 0)
-				deltadistY = 1 / 30;
-			else
-				deltadistY = 1 / raydirY;
-			if (deltadistX < 0)
-				deltadistX *= -1;
-			if (deltadistY < 0)
-				deltadistY *= -1;
-			//*/
-
-			if (raydirX < 0)
+			if (1)
 			{
-				stepX = -1;
-				sidedistX = (posX - mapX) * deltadistX;
-			}
-			else
-			{
-				stepX = 1;
-				sidedistX = (mapX + 1.0 - posX) * deltadistX;
-			}
-			if (raydirY < 0)
-			{
-				stepY = -1;
-				sidedistY = (posY - mapY) * deltadistY;
-			}
-			else
-			{
-				stepY = 1;
-				sidedistY = (mapY + 1.0 - posY) * deltadistY;
-			}
-			hit = 0;
-			while (hit == 0)
-			{
-				if (sidedistX < sidedistY)
+				camX = 2 * x / ((double) (width)) - 1;
+				raydirX = dirX + planeX * camX;
+				raydirY = dirY + planeY * camX;
+				mapX = (int) (posX);
+				mapY = (int) (posY);
+				deltadistX = sqrt(1 + (raydirY * raydirY) / (raydirX * raydirX));
+				deltadistY = sqrt(1 + (raydirX * raydirX) / (raydirY * raydirY));
+				if (raydirX < 0)
 				{
-					sidedistX += deltadistX;
-					mapX += stepX;
-					side = 0;
+					stepX = -1;
+					sidedistX = (posX - mapX) * deltadistX;
 				}
 				else
 				{
-					sidedistY += deltadistY;
-					mapY += stepY;
-					side = 1;
+					stepX = 1;
+					sidedistX = (mapX + 1.0 - posX) * deltadistX;
 				}
-				if (map[mapY][mapX] == 1)
-					hit = 1;
+				if (raydirY < 0)
+				{
+					stepY = -1;
+					sidedistY = (posY - mapY) * deltadistY;
+				}
+				else
+				{
+					stepY = 1;
+					sidedistY = (mapY + 1.0 - posY) * deltadistY;
+				}
+				hit = 0;
+				while (hit == 0)
+				{
+					if (sidedistX < sidedistY)
+					{
+						sidedistX += deltadistX;
+						mapX += stepX;
+						side = 0;
+					}
+					else
+					{
+						sidedistY += deltadistY;
+						mapY += stepY;
+						side = 1;
+					}
+					if (map[mapY][mapX] == 1)
+						hit = 1;
+				}
+				if (side == 0)
+					perpwalldist = sidedistX - deltadistX;
+				else
+					perpwalldist = sidedistY - deltadistY;
+				lineheight = (int) (height / perpwalldist);
+				drawstart = -lineheight / 2 + height / 2;
+				if (drawstart < 0)
+					drawstart = 0;
+				drawend = lineheight / 2 + height / 2;
+				if (drawend >= height)
+					drawend = height - 1;
 			}
-			if (side == 0)
-				perpwalldist = sidedistX - deltadistX;
-			else
-				perpwalldist = sidedistY - deltadistY;
-			lineheight = (int) (height / perpwalldist);
-			drawstart = -lineheight / 2 + height / 2 + pitch;
-			if (drawstart < 0)
-				drawstart = 0;
-			drawend = lineheight / 2 + height / 2 + pitch;
-			if (drawend >= height)
-				drawend = height - 1;
 			if (side == 0)
 				wallX = posY + perpwalldist * raydirY;
 			else
@@ -278,21 +203,15 @@ int main(void)
 				texX = texW - texX - 1;
 			step = 1.0 * texH / lineheight;
 			texpos = (drawstart - height / 2 + lineheight / 2) * step;
-			texnum = 1;
+			texnum = 0;
 			if (side)
-				texnum = 1;
+				texnum = 2;
 			y = drawstart;
 			while (y < drawend)
 			{
 				texY = (int) texpos & (texH - 1);
-				color = texs[texnum][texY * texW + texX];
-				/*
-				printf("texY : %d\ntexX : %d\ncolor : %d\n", texY, color);
-				(void)texs;
-				(void)texY;
-				(void)texnum;
-				color = 0xCCBBAA;
-				//*/
+				src = texs[texnum] + texY * line_length + 4 * texX;
+				color = *(unsigned int *) src;
 				if (side == 1)
 					color = (color >> 1) & 0x7F7F7F;
 				dst = win_addr + (y * line_length0) + (4 * x);
@@ -303,13 +222,12 @@ int main(void)
 			x++;
 		}
 		mlx_put_image_to_window(mlx, win, win_img, 0, 0);
-		y = 0;
-		while (y < height)
+		y = -1;
+		while (++y < height)
 		{
 			x = -1;
 			while (++x < width)
 				win_addr[y * width + x] = 0;
-			y++;
 		}
 		e_time = s_time;
 		s_time = clock();

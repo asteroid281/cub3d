@@ -68,6 +68,8 @@ int main(void)
 	char	*win_addr;
 	float	s_time;
 	float	e_time;
+	float	ts_time;
+	float	te_time;
 	float	frame_time;
 	float	fps;
 	char	*src;
@@ -122,6 +124,7 @@ int main(void)
 		planeX = 0.0;
 		planeY = 0.67;
 		s_time = 0;
+		ts_time = clock();
 		is_done = 0;
 	}
 	while (!is_done)
@@ -240,10 +243,15 @@ int main(void)
 		frame_time = (s_time - e_time) / CLOCKS_PER_SEC;
 		fps = 1 / frame_time;
 		(void)fps;
-		//printf("fps = %f\n", fps);
+		te_time = clock();
+		if ((te_time - ts_time) / CLOCKS_PER_SEC > 1)
+		{
+			ts_time = te_time;
+			printf("fps = %f\n", fps);
+		}
 		mlx_hook(win, 17, 0, exit_cube, mlx);
-		mlx_loop(mlx);
 	}
+	mlx_loop(mlx);
 }
 //*/
 

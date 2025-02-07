@@ -1,0 +1,112 @@
+#include "../../inc/cub3d.h"
+
+static void	cpi_lh1_continue(t_cube cube, t_calc *c)
+{
+	char	hit;
+
+	hit = 0;
+	while (!hit)
+	{
+		if (c->sidedistX < c->sidedistY)
+		{
+			c->sidedistX += c->deltadistX;
+			c->mapX += c->stepX;
+			c->side = 0;
+		}
+		else
+		{
+			c->sidedistY += c->deltadistY;
+			c->mapY += c->stepY;
+			c->side = 1;
+		}
+		if (cube.map.map[c->mapY][c->mapX] == 1)
+			hit = 1;
+	}
+	if (c->side == 0)
+		c->perpwalldist = c->sidedistX - c->deltadistX;
+	else
+		c->perpwalldist = c->sidedistY - c->deltadistY;
+	c->lineheight = (int) (HEIGHT / c->perpwalldist);
+}
+
+static void	cpi_lh1(t_cube cube, t_calc *c)
+{
+	if (c->raydirX < 0)
+	{
+		c->stepX = -1;
+		c->sidedistX = (cube.pos.x_morty - c->mapX) * c->deltadistX;
+	}
+	else
+	{
+		c->stepX = 1;
+		c->sidedistX = (c->mapX + 1.0 - cube.pos.x_morty) * c->deltadistX;
+	}
+	if (c->raydirY < 0)
+	{
+		c->stepY = 1;
+		c->sidedistY = (cube.pos.y_morty - c->mapY) * c->deltadistY;
+	}
+	else
+	{
+		c->stepY = -1;
+		c->sidedistY = (c->mapY + 1.0 - cube.pos.y_morty) * c->deltadistY;
+	}
+	cpi_lh1_continue(cube, c);
+	c->drawstart = -c->lineheight / 2 + HEIGHT_2;
+	c->drawend = c->lineheight / 2 + HEIGHT_2;
+}
+
+static void	cpi_lh2(t_cube cube, t_calc *c, int x)
+{
+	if (!c->side)
+	{
+		c->wallX = cube.pos.y_morty + c->perpwalldist * c->raydirY;
+		if (c->raydirX >= 0)
+			c->texnum = 1;
+	}
+	else
+	{
+		c->wallX = cube.pos.x_morty + c->perpwalldist * c->raydirX;
+		if (c->raydirY >= 0)
+			c->texnum = 3;
+		else
+			c->texnum = 2;
+	}
+	c->wallX -= floor(c->wallX);
+	c->texX = (int) (1.0 * c->wallX * cube.tex.nsew[c->texnum].tex_w);
+	if ((!c->side && c->raydirX > 0) || (c->side && c->raydirY < 0))
+		c->texX = cube.tex.nsew[c->texnum].tex_w - c->texX - 1;
+	c->step = 1.0 * cube.tex.nsew[c->texnum].tex_h / c->lineheight;
+	get_win_img(cube, c, x);
+}
+
+static void	cycle_per_img(t_cube cube)
+{
+	t_calc	*c;
+	int		x;
+
+	c = &cube.calc;
+	x = 0;
+	while (x < WIDTH)
+	{
+		c->mapX = (int) cube.pos.x_morty;
+		c->mapY = (int) cube.pos.y_morty;
+		c->cam = 2 * x / (float) WIDTH - 1;
+		c->raydirX = c->dirX + c->planeX * c->cam;
+		c->deltadistX = sqrt(1 + (c->raydirY * c->raydirY) / (c->raydirX * c->raydirX));
+		c->deltadistY = sqrt(1 + (c->raydirX * c->raydirX) / (c->raydirY * c->raydirY));
+		cpi_lh1(cube, c);
+		if (c->drawstart < 0)
+			c->drawstart = 0;
+		if (c->drawend >= HEIGHT)
+			c->drawend = HEIGHT - 1;
+		cpi_lh2(cube, c, x);
+		x++;
+	}
+}
+
+char	handle_ray(t_cube cube)
+{
+	cycle_per_img(cube);
+	//mlx_put_image_to_window(cube.mlx, cube.window, cube.win.img, 0, 0);
+}

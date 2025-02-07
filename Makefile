@@ -13,7 +13,8 @@ P_PATH = parser/
 PARSER_SRCS = $(P_PATH)parser.c
 
 E_PATH = executer/
-EXEC_SRCS = $(E_PATH)executer.c $(E_PATH)set_all_data_to_window.c
+EXEC_SRCS = $(E_PATH)executer.c $(E_PATH)set_all_data_to_window.c \
+$(E_PATH)set_floor_and_ceil.c $(E_PATH)handle_ray.c $(E_PATH)handle_ray_helper.c
 
 H_PATH = helpers/
 H_SRCS = $(H_PATH)free_helpers_1.c

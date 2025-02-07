@@ -19,23 +19,23 @@ int main(void)
 	void	*so;
 	void	*we;
 	void	*ea;
-	double	posX;
-	double	posY;
-	double	dirX;
-	double	dirY;
-	double	planeX;
-	double	planeY;
-	double	camX;
-	double	raydirX;
-	double	raydirY;
-	double	sidedistX;
-	double	sidedistY;
-	double	deltadistX;
-	double	deltadistY;
-	double	perpwalldist;
-	double	wallX;
-	double	step;
-	double	texpos;
+	float	posX;
+	float	posY;
+	float	dirX;
+	float	dirY;
+	float	planeX;
+	float	planeY;
+	float	camX;
+	float	raydirX;
+	float	raydirY;
+	float	sidedistX;
+	float	sidedistY;
+	float	deltadistX;
+	float	deltadistY;
+	float	perpwalldist;
+	float	wallX;
+	float	step;
+	float	texpos;
 	char	side;
 	char	is_done;
 	char	hit;
@@ -66,28 +66,27 @@ int main(void)
 	char	*addr4;
 	void	*win_img;
 	char	*win_addr;
-	double	s_time;
-	double	e_time;
-	double	frame_time;
-	double	fps;
+	float	s_time;
+	float	e_time;
+	float	frame_time;
+	float	fps;
 	char	*src;
 	char	*dst;
 	char	*texs[4];
 	// doğuya bakıyor !!
-	// sağındaki solda solundaki sağda çıkıyor !!
-	int		map[10][15] =
+	int		map[10][10] =
 	{
-		{1, 1, 1, 1, 1 , 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-		{1, 0, 1, 1, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 1, 1, 1, 1 , 1, 1, 1, 1, 1},
+		{1, 0, 0, 1, 0 , 1, 1, 0, 0, 1},
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 1, 1, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
 
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
-		{1, 1, 1, 1, 1 , 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1}
+		{1, 1, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0 , 0, 0, 0, 0, 1},
+		{1, 1, 1, 1, 1 , 1, 1, 1, 1, 1}
 	};
 
 	if (1)
@@ -95,17 +94,17 @@ int main(void)
 		mlx = mlx_init();
 		width = 1920;
 		height = 1080;
-		posX = 4.5;
 		posY = 4.5;
+		posX = 6.5;
 		win = mlx_new_window(mlx, width, height, "Window Name");
 		win_img = mlx_new_image(mlx, width, height);
 		win_addr = mlx_get_data_addr(win_img, &bbp, &line_length0, &endian);
 		no = mlx_xpm_file_to_image(mlx, \
-			"textures/doom.xpm", &x, &y);
+			"textures/no.xpm", &x, &y);
 		texW = x;
 		texH = y;
 		so = mlx_xpm_file_to_image(mlx, \
-			"textures/no.xpm", &x, &y);
+			"textures/so.xpm", &x, &y);
 		we = mlx_xpm_file_to_image(mlx, \
 			"textures/we.xpm", &x, &y);
 		ea = mlx_xpm_file_to_image(mlx, \
@@ -121,7 +120,7 @@ int main(void)
 		dirX = -1.0;
 		dirY = 0.0;
 		planeX = 0.0;
-		planeY = 0.66;
+		planeY = 0.67;
 		s_time = 0;
 		is_done = 0;
 	}
@@ -132,11 +131,11 @@ int main(void)
 		{
 			if (1)
 			{
-				camX = 2 * x / ((double) (width)) - 1;
-				raydirX = dirX + planeX * camX;
-				raydirY = dirY + planeY * camX;
 				mapX = (int) (posX);
 				mapY = (int) (posY);
+				camX = 2 * x / ((float) (width)) - 1;
+				raydirX = dirX + planeX * camX;
+				raydirY = dirY + planeY * camX;
 				deltadistX = sqrt(1 + (raydirY * raydirY) / (raydirX * raydirX));
 				deltadistY = sqrt(1 + (raydirX * raydirX) / (raydirY * raydirY));
 				if (raydirX < 0)
@@ -195,19 +194,22 @@ int main(void)
 				if (raydirX < 0)
 					texnum = 0;
 				else
-					texnum = 2;
+					texnum = 1;
 			}
 			else
 			{
 				wallX = posX + perpwalldist * raydirX;
-				texnum = 1;
+				if (raydirY < 0)
+					texnum = 2;
+				else
+					texnum = 3;
 			}
 			wallX -= floor(wallX);
 			texX = (int) (1.0 * texW * wallX);
 			if ((side == 0 && raydirX > 0) || (side == 1 && raydirY < 0))
 				texX = texW - texX - 1;
 			step = 1.0 * texH / lineheight;
-			texpos = (drawstart - height / 2 + lineheight / 2) * step;
+			texpos = 0;
 			y = drawstart;
 			while (y < drawend)
 			{

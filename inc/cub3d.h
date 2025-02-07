@@ -5,9 +5,9 @@
 # include "mlx/mlx.h"
 # include "math.h"
 
-# define WIDTH 1920
-# define HEIGHT 1080
-# define PITCH 10
+# define WIDTH		1920
+# define HEIGHT		1080
+# define HEIGHT_2	540
 
 typedef struct s_cube	t_cube;
 typedef struct s_tex	t_tex;
@@ -23,6 +23,8 @@ struct s_img
 	int		bpp;
 	int		line_len;
 	int		endian;
+	int		tex_w;
+	int		tex_h;
 };
 
 struct s_calc
@@ -65,14 +67,12 @@ struct s_cube
 	t_map	map;
 	t_tex	tex;
 	t_pos	pos;
+	t_calc	calc;
 };
 
 struct	s_tex
 {
-	t_img	no;
-	t_img	so;
-	t_img	we;
-	t_img	ea;
+	t_img	nsew[4];
 	t_img	rick;
 	t_img	morty;
 	t_img	gun;
@@ -105,5 +105,9 @@ struct s_map
 void	print_error(const char *error);
 void	free_str_arr(char **str_arr);
 void	free_cube(t_cube cube);
+
+char	set_all_data_to_window(t_cube cube);
+char	set_floor_and_ceil(t_cube cube);
+void	get_win_img(t_cube cube, t_calc *c, int x);
 
 #endif

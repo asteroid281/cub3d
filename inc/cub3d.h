@@ -8,6 +8,7 @@
 # define WIDTH		1920
 # define HEIGHT		1080
 # define HEIGHT_2	540
+# define MLX_ERROR	"Mlx Function"
 
 typedef struct s_cube	t_cube;
 typedef struct s_tex	t_tex;

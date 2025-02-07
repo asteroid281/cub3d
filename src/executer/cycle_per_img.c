@@ -1,5 +1,29 @@
 #include "../../inc/cub3d.h"
 
+static void	get_win_img(t_cube cube, t_calc *c, int x)
+{
+	char	*src;
+	char	*dst;
+	t_img	temp;
+	int		color;
+	int		y;
+
+	y = c->drawstart;
+	while (y < c->drawend)
+	{
+		temp = cube.tex.nsew[c->texnum];
+		c->texY = (int) c->texpos & (temp.tex_h - 1);
+		src = temp.addr + c->texY * temp.line_len + (temp.bpp / 8) * c->texX;
+		color = *(unsigned int *) src;
+		if (c->side)
+			color = (color >> 1) & 0x7F7F7F;
+		dst = cube.win.addr + y * cube.win.line_len + (cube.win.bpp / 8) * x;
+		*(unsigned int *) dst = color;
+		c->texpos += c->step;
+		y++;
+	}
+}
+
 static void	cpi_lh1_continue(t_cube cube, t_calc *c)
 {
 	char	hit;
@@ -80,7 +104,7 @@ static void	cpi_lh2(t_cube cube, t_calc *c, int x)
 	get_win_img(cube, c, x);
 }
 
-static void	cycle_per_img(t_cube cube)
+void	cycle_per_img(t_cube cube)
 {
 	t_calc	*c;
 	int		x;
@@ -103,10 +127,4 @@ static void	cycle_per_img(t_cube cube)
 		cpi_lh2(cube, c, x);
 		x++;
 	}
-}
-
-char	handle_ray(t_cube cube)
-{
-	cycle_per_img(cube);
-	//mlx_put_image_to_window(cube.mlx, cube.window, cube.win.img, 0, 0);
 }

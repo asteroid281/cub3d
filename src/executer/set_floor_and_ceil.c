@@ -38,7 +38,9 @@ char	set_floor_and_ceil(t_cube cube)
 		return (EXIT_FAILURE);
 	set_color(cube.tex.floor, cube.tex.fl_color);
 	set_color(cube.tex.ceil, cube.tex.ceil_color);
-	mlx_put_image_to_window(cube.mlx, cube.window, cube.tex.floor.img, 0, 540);
-	mlx_put_image_to_window(cube.mlx, cube.window, cube.tex.ceil.img, 0, 0);
+	if (mlx_put_image_to_window(cube.mlx, cube.window, cube.tex.floor.img, 0, 540))
+		return (EXIT_FAILURE);
+	if (mlx_put_image_to_window(cube.mlx, cube.window, cube.tex.ceil.img, 0, 0))
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

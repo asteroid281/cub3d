@@ -2,7 +2,7 @@
 
 void	print_error(const char *error)
 {
-	ft_putendl_fd("Error :", 2);
+	ft_putstr_fd("Error : ", 2);
 	if (!error)
 		return ;
 	ft_putendl_fd(error, 2);

@@ -75,7 +75,6 @@ int main(void)
 	char	*src;
 	char	*dst;
 	char	*texs[4];
-	// doğuya bakıyor !!
 	int		map[10][10] =
 	{
 		{1, 1, 1, 1, 1 , 1, 1, 1, 1, 1},
@@ -122,7 +121,7 @@ int main(void)
 		dirX = -1.0;
 		dirY = 0.0;
 		planeX = 0.0;
-		planeY = 0.67;
+		planeY = 0.66;
 		s_time = 0;
 		ts_time = clock();
 		is_done = 0;

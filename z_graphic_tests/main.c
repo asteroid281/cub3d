@@ -163,7 +163,7 @@ int main(void)
 				hit = 0;
 				while (hit == 0)
 				{
-					if (sidedistX < sidedistY)
+					if (fabs(sidedistX) < fabs(sidedistY))
 					{
 						sidedistX += deltadistX;
 						mapX += stepX;
@@ -220,7 +220,7 @@ int main(void)
 				color = *(unsigned int *) src;
 				if (side == 1)
 					color = (color >> 1) & 0x7F7F7F;
-				dst = win_addr + (y * line_length0) + (4 * x);
+				dst = win_addr + (y * line_length0) + (int)(4 * x);
 				*(unsigned int *) dst = color;
 				texpos += step;
 				y++;

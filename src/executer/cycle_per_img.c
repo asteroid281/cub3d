@@ -31,7 +31,7 @@ static void	cpi_lh1_continue(t_cube cube, t_calc *c)
 	hit = 0;
 	while (!hit)
 	{
-		if (c->sidedistX < c->sidedistY)
+		if (fabs(c->sidedistX) < fabs(c->sidedistY))
 		{
 			c->sidedistX += c->deltadistX;
 			c->mapX += c->stepX;

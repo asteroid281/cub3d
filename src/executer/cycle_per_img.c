@@ -87,18 +87,18 @@ static void	cpi_lh2(t_cube *cube, t_calc *c, int x)
 	if (!c->side)
 	{
 		c->wallX = cube->pos.y_morty + c->perpwalldist * c->raydirY;
-		if (c->raydirX >= 0)
-			c->texnum = 1;
+		if (c->raydirX < 0)
+			c->texnum = N;
 		else
-			c->texnum = 0;
+			c->texnum = S;
 	}
 	else
 	{
 		c->wallX = cube->pos.x_morty + c->perpwalldist * c->raydirX;
-		if (c->raydirY >= 0)
-			c->texnum = 3;
+		if (c->raydirY < 0)
+			c->texnum = E;
 		else
-			c->texnum = 2;
+			c->texnum = W;
 	}
 	c->wallX -= floor(c->wallX);
 	c->texX = (int) (1.0 * c->wallX * cube->tex.nsew[c->texnum].tex_w);
@@ -121,6 +121,7 @@ char	cycle_per_img(t_cube *cube)
 		c->mapY = (int) cube->pos.y_morty;
 		c->cam = 2 * x / (float) WIDTH - 1;
 		c->raydirX = c->dirX + c->planeX * c->cam;
+		c->raydirY = c->dirY + c->planeY * c->cam;
 		cpi_lh1(cube, c);
 		if (c->drawstart < 0)
 			c->drawstart = 0;

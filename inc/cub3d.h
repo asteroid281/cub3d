@@ -2,12 +2,17 @@
 # define CUB3D_H
 
 # include "libft/libft.h"
+# include "get_next_line/get_next_line.h"
 # include "mlx/mlx.h"
 # include "math.h"
 
 # define WIDTH		1920
 # define HEIGHT		1080
 # define HEIGHT_2	540
+# define N			0
+# define S			1
+# define E			2
+# define W			3
 # define MLX_ERROR	"Mlx Function"
 
 typedef struct s_cube	t_cube;
@@ -102,8 +107,10 @@ void	print_error(const char *error);
 void	free_str_arr(char **str_arr);
 void	free_cube(t_cube *cube);
 
+
 char	set_all_data_to_window(t_cube *cube);
 char	set_floor_and_ceil(t_cube *cube);
+char	cycle_per_img(t_cube *cube);
 void	get_win_img(t_cube *cube, t_calc *c, int x);
 
 #endif

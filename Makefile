@@ -14,7 +14,7 @@ PARSER_SRCS = $(P_PATH)parser.c
 
 E_PATH = executer/
 EXEC_SRCS = $(E_PATH)executer.c $(E_PATH)set_all_data_to_window.c \
-$(E_PATH)set_floor_and_ceil.c $(E_PATH)cycle_per_img.c
+$(E_PATH)cycle_per_img.c
 
 H_PATH = helpers/
 H_SRCS = $(H_PATH)free_helpers_1.c
@@ -27,14 +27,18 @@ OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+$(NAME): $(LIBFT) $(MLX) $(OBJS)
+	$(CC) $(CFLAGS) $(LIBFT) $(MLX) $(OBJS) -o $(NAME)
 
 $(LIBFT):
-	make -C $(LIBFT_PATH)
+	@make -C $(LIBFT_PATH)
+	@make clean -C $(LIBFT_PATH)
+
+$(MLX):
+	@make -C $(MLX_PATH)
+	@make -C $(MLX_PATH) clean
 
 clean:
-	make clean -C $(LIBFT_PATH)
 	$(RM) $(OBJS)
 
 fclean: clean

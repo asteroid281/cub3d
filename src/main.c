@@ -10,12 +10,14 @@ void	print_error(const char *error)
 
 int main(int argc, char **argv)
 {
-	t_cube	cube;
+	t_cube	*cube;
 
-	cube = (t_cube){0};
+	cube = &(t_cube){0};
 	if (argc != 2)
 		return (print_error("Argument Number"), EXIT_FAILURE);
 	if (parser(argv, cube))// error messages
-		return (EXIT_FAILURE);
-	return (executer(cube), EXIT_SUCCESS);
+		return (free_cube(cube), EXIT_FAILURE);
+	if (executer(cube))
+		return (free_cube(cube), EXIT_FAILURE);
+	return (free_cube(cube), EXIT_SUCCESS);
 }

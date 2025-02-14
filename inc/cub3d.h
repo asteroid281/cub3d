@@ -76,11 +76,6 @@ struct	s_tex
 	t_img	nsew[4];
 	t_img	rick;
 	t_img	morty;
-	t_img	gun;
-	t_img	ammo;
-	t_img	hud;
-	t_img	timer;
-	t_img	portal;
 	t_img	floor;
 	int		fl_color;
 	t_img	ceil;
@@ -105,10 +100,10 @@ struct s_map
 
 void	print_error(const char *error);
 void	free_str_arr(char **str_arr);
-void	free_cube(t_cube cube);
+void	free_cube(t_cube *cube);
 
-char	set_all_data_to_window(t_cube cube);
-char	set_floor_and_ceil(t_cube cube);
-void	get_win_img(t_cube cube, t_calc *c, int x);
+char	set_all_data_to_window(t_cube *cube);
+char	set_floor_and_ceil(t_cube *cube);
+void	get_win_img(t_cube *cube, t_calc *c, int x);
 
 #endif

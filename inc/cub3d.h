@@ -96,16 +96,18 @@ struct s_pos
 };
 
 struct s_map
-{
+{	char	*nsewfc_tex[6];
 	char	**map;
 	int		ones;
 	int		zeros;
-	char	nswe;
+	char	nsew;
 };
 
 void	print_error(const char *error);
 void	free_str_arr(char **str_arr);
 void	free_cube(t_cube *cube);
+char 	*skip_white_spaces(char *str);
+char 	*strdup_without_spaces(char *str);
 
 
 char	set_all_data_to_window(t_cube *cube);

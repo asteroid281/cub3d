@@ -6,6 +6,9 @@ static char	get_nsew(int fd, t_cube *cube)
 	int i;
 	char *line;
 	char **file_cont;
+	char *word;
+	int index;
+	int b_i;
 
 	file_cont = NULL;
 
@@ -18,29 +21,36 @@ static char	get_nsew(int fd, t_cube *cube)
 	}
 
 	i = 0;
+	char state;
+	word = get_word(file_cont, &index, &b_i);
 
-	while(file_cont[i])
+	while(word)
 	{
-		file_cont[i] = normalize_spaces(file_cont[i]);
+		state = is_newsfc(word);
+		if(!state)
+			return(print_error("Data is broken."), EXIT_FAILURE);
+		if(state == 'N')
+			cube->map.nsewfc_tex[0] = get_word(file_cont, &index, &b_i);
+		if(state == 'E')
+			cube->map.nsewfc_tex[1] = get_word(file_cont, &index, &b_i);
+		if(state == 'W')
+			cube->map.nsewfc_tex[2] = get_word(file_cont, &index, &b_i);
+		if(state == 'S')
+			cube->map.nsewfc_tex[3] = get_word(file_cont, &index, &b_i);
+		if(state == 'F')
+			cube->map.nsewfc_tex[4] = get_word(file_cont, &index, &b_i);
+		if(state == 'C')
+			cube->map.nsewfc_tex[5] = get_word(file_cont, &index, &b_i);
 		i++;
+		word = get_word(file_cont, &index, &b_i);
+		i++;
+		if(i == 12)
+			break;
 	}
-	int j;
-
-	i = 0;
-	j = 0;
-	while(file_cont[j])
-	{
-		while(file_cont[j][i])
-		{
-			if(ft_strchr(file_cont[j][i],'N') && ft_strchr(file_cont[j][i + 1],'O'))
-			{
-				while(file_cont[j][i] != ' ')
-					i++;
-			}
-			i++;
-		}
-		j++;
-	}
+	while(file_cont[index])
+	/*
+	./inc/map/selam.xpm 1\n
+	*/
 
 }
 

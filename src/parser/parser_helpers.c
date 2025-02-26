@@ -1,48 +1,56 @@
 #include "../../inc/cub3d.h"
 
-char *normalize_spaces(const char *str)
+char *get_word(char **cub,int *backup_index, int *backup_i)
 {
-    if (!str)
-        return NULL;
+	static int 	i;
+	static int	index;
+	char 		*word;
+	char 		c;
+	size_t		start;
+	size_t		len;
+	while(cub[index])
+	{
+		while(cub[index][i])
+		{
+			c = cub[index][i];
+			while(c == 32 || c == 9 || (c >= 11 && c <= 13))
+			{
+				i++;
+				c = cub[index][i];
+			}
+			start = i;
+			len = 0;
+			while(!(c == 32 || c == 9 || (c >= 11 && c <= 13)))
+			{
+				if(c == 10)
+					break;
+				i++;
+				c = cub[index][i];
+				len++;
+			}
+			word = ft_substr(cub[index],start,len);
+			backup_index = index;
+			backup_i = i;
+			return(word);
+		}
+		index++;
+	}
+	return (NULL);
+}
 
-    int i;
-	int j;
-    int space_flag;
-
-    size_t len;
-
-	i = 0;
-	j = 0;
-	space_flag = 1;
-	len = 0;
-
-    while (str[len])
-        len++;
-
-    char *dup = malloc(len + 1);
-    if (!dup)
-        return (NULL);
-
-    while (str[i])
-    {
-        if (str[i] == 9 || str[i] == 32 || (str[i] >= 11 && str[i] <= 13))
-        {
-            if (!space_flag && j > 0)
-            {
-                dup[j++] = ' ';
-                space_flag = 1;
-            }
-        }
-        else
-        {
-            dup[j++] = str[i];
-            space_flag = 0;
-        }
-        i++;
-    }
-    if (j > 0 && dup[j - 1] == ' ')
-        j--;
-
-    dup[j] = '\0';
-    return (dup);
+char is_newsfc(char *word)
+{
+	if(word[0] == 'N' && word[1] == 'O' && !word[2])
+		return('N');
+	if(word[0] == 'S' && word[1] == 'O' && !word[2])
+		return('S');
+	if(word[0] == 'W' && word[1] == 'E' && !word[2])
+		return('W');
+	if(word[0] == 'E' && word[1] == 'A' && !word[2])
+		return('E');
+	if(word[0] == 'F' && !word[1])
+		return('F');
+	if(word[0] == 'C' && !word[1])
+		return('C');
+	return(0);
 }

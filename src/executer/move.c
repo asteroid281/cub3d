@@ -40,7 +40,7 @@ static void	move_f_b(t_cube *cube, char state)
 		p->y_rick = temp;
 }
 
-void	move(int keycode, t_cube *cube)
+char	move(int keycode, t_cube *cube)
 {
 	t_pos	*p;
 	t_calc	*c;
@@ -55,4 +55,7 @@ void	move(int keycode, t_cube *cube)
 		move_r_l(cube, 1);
 	else if (keycode == LEFT)
 		move_r_l(cube, 0);
+	if (set_all_data_to_window(cube))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

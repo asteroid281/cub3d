@@ -11,13 +11,13 @@ static int	key_pressed(int keycode, t_cube *cube)
 {
 	if (keycode == 53)
 		exit_cube(cube);
-	move(keycode);
+	if (move(keycode, cube))
+		exit_cube(cube);
 	return (EXIT_SUCCESS);
 }
 
 char	executer(t_cube *cube)
 {
-	cube->calc.rot = 180/3.14159;
 	if (set_all_data_to_window(cube))
 		return (EXIT_FAILURE);
 	mlx_hook(cube->window, 17, 0, exit_cube, cube);

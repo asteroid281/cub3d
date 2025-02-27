@@ -110,11 +110,10 @@ void	free_str_arr(char **str_arr);
 void	free_cube(t_cube *cube);
 char	**str_arr_realloc(char **str_arr, char *element);
 
-void	move(int keycode, t_cube *cube);
-
 char	set_all_data_to_window(t_cube *cube);
 char	set_floor_and_ceil(t_cube *cube);
 char	cycle_per_img(t_cube *cube);
 void	get_win_img(t_cube *cube, t_calc *c, int x);
+char	move(int keycode, t_cube *cube);
 
 #endif

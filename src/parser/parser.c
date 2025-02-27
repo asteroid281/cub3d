@@ -102,5 +102,6 @@ char	parser(char **argv, t_cube *cube)
 	close(fd);
 	if (validate_map(cube))
 		return (print_error("Map Error"), EXIT_FAILURE);
+	cube->calc.rot = 180/3.14159;
 	return (EXIT_SUCCESS);
 }

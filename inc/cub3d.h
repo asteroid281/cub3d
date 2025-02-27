@@ -80,7 +80,6 @@ struct	s_tex
 {
 	t_img	nsew[4];
 	t_img	rick;
-	t_img	morty;
 	t_img	floor;
 	int		fl_color;
 	t_img	ceil;
@@ -91,8 +90,6 @@ struct s_pos
 {
 	int		x_rick;
 	int		y_rick;
-	int		x_morty;
-	int		y_morty;
 };
 
 struct s_map

@@ -60,22 +60,22 @@ static void	cpi_lh1(t_cube *cube, t_calc *c)
 	if (c->raydirX < 0)
 	{
 		c->stepX = -1;
-		c->sidedistX = (cube->pos.x_morty - c->mapX) * c->deltadistX;
+		c->sidedistX = (cube->pos.x_rick - c->mapX) * c->deltadistX;
 	}
 	else
 	{
 		c->stepX = 1;
-		c->sidedistX = (c->mapX + 1.0 - cube->pos.x_morty) * c->deltadistX;
+		c->sidedistX = (c->mapX + 1.0 - cube->pos.x_rick) * c->deltadistX;
 	}
 	if (c->raydirY < 0)
 	{
 		c->stepY = 1;
-		c->sidedistY = (cube->pos.y_morty - c->mapY) * c->deltadistY;
+		c->sidedistY = (cube->pos.y_rick - c->mapY) * c->deltadistY;
 	}
 	else
 	{
 		c->stepY = -1;
-		c->sidedistY = (c->mapY + 1.0 - cube->pos.y_morty) * c->deltadistY;
+		c->sidedistY = (c->mapY + 1.0 - cube->pos.y_rick) * c->deltadistY;
 	}
 	cpi_lh1_continue(cube, c);
 	c->drawstart = -c->lineheight / 2 + HEIGHT_2;
@@ -86,7 +86,7 @@ static void	cpi_lh2(t_cube *cube, t_calc *c, int x)
 {
 	if (!c->side)
 	{
-		c->wallX = cube->pos.y_morty + c->perpwalldist * c->raydirY;
+		c->wallX = cube->pos.y_rick + c->perpwalldist * c->raydirY;
 		if (c->raydirX < 0)
 			c->texnum = N;
 		else
@@ -94,7 +94,7 @@ static void	cpi_lh2(t_cube *cube, t_calc *c, int x)
 	}
 	else
 	{
-		c->wallX = cube->pos.x_morty + c->perpwalldist * c->raydirX;
+		c->wallX = cube->pos.x_rick + c->perpwalldist * c->raydirX;
 		if (c->raydirY < 0)
 			c->texnum = E;
 		else
@@ -117,8 +117,8 @@ char	cycle_per_img(t_cube *cube)
 	x = 0;
 	while (x < WIDTH)
 	{
-		c->mapX = (int) cube->pos.x_morty;
-		c->mapY = (int) cube->pos.y_morty;
+		c->mapX = (int) cube->pos.x_rick;
+		c->mapY = (int) cube->pos.y_rick;
 		c->cam = 2 * x / (float) WIDTH - 1;
 		c->raydirX = c->dirX + c->planeX * c->cam;
 		c->raydirY = c->dirY + c->planeY * c->cam;

@@ -13,6 +13,10 @@
 # define S			1
 # define E			2
 # define W			3
+# define LEFT		65361
+# define UP			65362
+# define RIGHT		65363
+# define DOWN		65364
 # define MLX_ERROR	"Mlx Function"
 
 typedef struct s_cube	t_cube;
@@ -35,6 +39,7 @@ struct s_img
 
 struct s_calc
 {
+	double	rot;
 	float	cam;
 	float	dirX;
 	float	dirY;
@@ -88,8 +93,8 @@ struct	s_tex
 
 struct s_pos
 {
-	int		x_rick;
-	int		y_rick;
+	float	x_rick;
+	float	y_rick;
 };
 
 struct s_map
@@ -104,6 +109,8 @@ void	print_error(const char *error);
 void	free_str_arr(char **str_arr);
 void	free_cube(t_cube *cube);
 char	**str_arr_realloc(char **str_arr, char *element);
+
+void	move(int keycode, t_cube *cube);
 
 char	set_all_data_to_window(t_cube *cube);
 char	set_floor_and_ceil(t_cube *cube);

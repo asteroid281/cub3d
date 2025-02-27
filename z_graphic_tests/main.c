@@ -10,7 +10,7 @@ int	exit_cube(void *mlx)
 	exit(0);
 }
 
-//*
+/*
 int main(void)
 {
 	void	*mlx;
@@ -66,12 +66,6 @@ int main(void)
 	char	*addr4;
 	void	*win_img;
 	char	*win_addr;
-	float	s_time;
-	float	e_time;
-	float	ts_time;
-	float	te_time;
-	float	frame_time;
-	float	fps;
 	char	*src;
 	char	*dst;
 	char	*texs[4];
@@ -122,8 +116,6 @@ int main(void)
 		dirY = 0.0;
 		planeX = 0.0;
 		planeY = 0.66;
-		s_time = 0;
-		ts_time = clock();
 		is_done = 0;
 	}
 	while (!is_done)
@@ -228,7 +220,7 @@ int main(void)
 			x++;
 		}
 		mlx_put_image_to_window(mlx, win, win_img, 0, 0);
-		/*
+
 		y = -1;
 		while (++y < height)
 		{
@@ -236,25 +228,14 @@ int main(void)
 			while (++x < width)
 				win_addr[y * width + x] = 0;
 		}
-		//*/
-		e_time = s_time;
-		s_time = clock();
-		frame_time = (s_time - e_time) / CLOCKS_PER_SEC;
-		fps = 1 / frame_time;
-		(void)fps;
-		te_time = clock();
-		if ((te_time - ts_time) / CLOCKS_PER_SEC > 1)
-		{
-			ts_time = te_time;
-			printf("fps = %f\n", fps);
-		}
+
 		mlx_hook(win, 17, 0, exit_cube, mlx);
 	}
 	mlx_loop(mlx);
 }
 //*/
 
-/*
+//*
 int main(int argc, char **argv)
 {
 	void	*mlx;
@@ -264,6 +245,9 @@ int main(int argc, char **argv)
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		r;
+	int		g;
+	int		b;
 
 	if (argc != 1)
 		return (1);
@@ -282,7 +266,10 @@ int main(int argc, char **argv)
 		while (x < 1920)
 		{
 			dst = img_addr + (y * line_length) + (x * 4);
-			*(unsigned int *)dst = 0x00755732;
+			r = 255;
+			g = 255;
+			b = 0;
+			*(unsigned int *)dst = b + (g << 8) + (r << 16) + (255 << 24);
 			x++;
 		}
 		y++;
@@ -292,4 +279,4 @@ int main(int argc, char **argv)
 	mlx_loop(mlx);
 }
 //*/
-// 0x00755732
+// 0x007a5732

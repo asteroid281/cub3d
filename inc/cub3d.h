@@ -106,9 +106,7 @@ struct s_map
 void	print_error(const char *error);
 void	free_str_arr(char **str_arr);
 void	free_cube(t_cube *cube);
-char 	*skip_white_spaces(char *str);
-char 	*strdup_without_spaces(char *str);
-
+char	**str_arr_realloc(char **str_arr, char *element);
 
 char	set_all_data_to_window(t_cube *cube);
 char	set_floor_and_ceil(t_cube *cube);

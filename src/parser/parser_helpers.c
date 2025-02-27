@@ -8,19 +8,20 @@ char *get_word(char **cub,int *backup_index, int *backup_i)
 	char 		c;
 	size_t		start;
 	size_t		len;
+
 	while(cub[index])
 	{
 		while(cub[index][i])
 		{
 			c = cub[index][i];
-			while(c == 32 || c == 9 || (c >= 11 && c <= 13))
+			while(c && (c == 32 || c == 9 || (c >= 11 && c <= 13)))
 			{
 				i++;
 				c = cub[index][i];
 			}
 			start = i;
 			len = 0;
-			while(!(c == 32 || c == 9 || (c >= 11 && c <= 13)))
+			while(c && !(c == 32 || c == 9 || (c >= 11 && c <= 13)))
 			{
 				if(c == 10)
 					break;
@@ -29,8 +30,8 @@ char *get_word(char **cub,int *backup_index, int *backup_i)
 				len++;
 			}
 			word = ft_substr(cub[index],start,len);
-			backup_index = index;
-			backup_i = i;
+			*backup_index = index;
+			*backup_i = i;
 			return(word);
 		}
 		index++;

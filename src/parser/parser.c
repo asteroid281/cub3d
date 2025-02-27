@@ -1,7 +1,7 @@
 #include "../../inc/cub3d.h"
 #include "fcntl.h"
 
-static char	get_nsew(int fd, t_cube *cube)
+static char	get_nsewfc_map(int fd, t_cube *cube)
 {
 	int i;
 	char *line;
@@ -9,6 +9,7 @@ static char	get_nsew(int fd, t_cube *cube)
 	char *word;
 	int index;
 	int b_i;
+	char	c;
 
 	file_cont = NULL;
 
@@ -47,11 +48,47 @@ static char	get_nsew(int fd, t_cube *cube)
 		if(i == 12)
 			break;
 	}
+	
+	while (file_cont[index][i])
+	{
+		c = file_cont[index][i];
+		while (c && (c == 32 || c == 9 || (c >= 11 && c <= 13)))
+		{
+			if (c == 10)
+			{
+				index++;
+				break ;
+			}
+			i++;
+			c = file_cont[index][i];
+		}
+		if (c == 10)
+		{
+			index++;
+			break ;
+		}
+		if (file_cont[index][i])
+			return (print_error("Data is broken."), EXIT_FAILURE);
+	}
+	
+	if (!file_cont[index] || !file_cont[index][0])
+		return (print_error("Data is broken."), EXIT_FAILURE);
+	
 	while(file_cont[index])
-	/*
-	./inc/map/selam.xpm 1\n
-	*/
-
+	{
+		if (file_cont[index][0] == '\n' && !file_cont[index][1])
+			index++;
+		else
+			break ;
+	}
+	while (file_cont[index])
+	{
+		if (file_cont[index][0] == '\n' && !file_cont[index][1])
+			return (print_error("Data is broken."), EXIT_FAILURE);
+		cube->map.map = str_arr_realloc(cube->map.map, file_cont[index]);
+		index++;
+	}
+	return (EXIT_SUCCESS);
 }
 
 char	parser(char **argv, t_cube *cube)
@@ -60,10 +97,8 @@ char	parser(char **argv, t_cube *cube)
 	fd = file_check(argv[1]);
 	if(fd == -1)
 		return(EXIT_FAILURE);
-	if (get_nsew(fd, cube))
+	if (get_nsewfc_map(fd, cube))
 		return (close(fd), print_error("File Order") ,EXIT_FAILURE);
-	if (get_map(fd, cube))
-		return (close(fd), print_error("Map Error"), EXIT_FAILURE);
 	close(fd);
 	if (validate_map(cube))
 		return (print_error("Map Error"), EXIT_FAILURE);

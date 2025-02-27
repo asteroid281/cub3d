@@ -24,8 +24,3 @@ char **str_arr_realloc(char **str_arr, char *element)
 	rtrn[i] = ft_strdup(element);
 	return(rtrn);
 }
-
-char *without_lines(char **str_arr)
-{
-
-}

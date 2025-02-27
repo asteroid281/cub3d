@@ -17,10 +17,11 @@ static int	key_pressed(int keycode, t_cube *cube)
 
 char	executer(t_cube *cube)
 {
+	cube->calc.rot = 180/3.14159;
 	if (set_all_data_to_window(cube))
 		return (EXIT_FAILURE);
 	mlx_hook(cube->window, 17, 0, exit_cube, cube);
-	mlx_key_hook(cube->window, key_pressed, cube);
+	mlx_hook(cube->window, 2, 1L<<0, key_pressed, cube);
 	mlx_loop(cube->mlx);
 	return (EXIT_SUCCESS);
 }

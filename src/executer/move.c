@@ -9,14 +9,14 @@ static void	move_r_l(t_cube *cube, char state)
 	c = &cube->calc;
 	old_dirX = c->dirX;
 	if (state)
-		c->rot = -c->rot;
+		c->rot = -180/3.14159;
+	else
+		c->rot = 180/3.14159;
 	c->dirX = c->dirX * cos(c->rot); - c->dirY * sin(c->rot);
 	c->dirY = old_dirX * sin(c->rot) + c->dirY * cos(c->rot);
 	old_planeX = c->planeX;
 	c->planeX = c->planeX * cos(c->rot) - c->planeY * sin(c->rot);
 	c->planeY = old_planeX * sin(c->rot) + c->planeY * cos(c->rot);
-	if (state)
-		c->rot = c->rot;
 }
 
 static void	move_f_b(t_cube *cube, char state)

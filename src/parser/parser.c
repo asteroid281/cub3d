@@ -3,28 +3,24 @@
 
 static char	get_nsewfc_map(int fd, t_cube *cube)
 {
-	int i;
-	char *line;
-	char **file_cont;
-	char *word;
-	int index;
-	int b_i;
+	char	**file_cont;
+	char	*line;
+	char	*word;
+	char	state;
 	char	c;
+	int		index;
+	int		b_i;
+	int		i;
 
 	file_cont = NULL;
-
 	line = get_next_line(fd);
-
 	while(line != NULL)
 	{
 		file_cont = str_arr_realloc(file_cont, line);
 		line = get_next_line(fd);
 	}
-
 	i = 0;
-	char state;
 	word = get_word(file_cont, &index, &b_i);
-
 	while(word)
 	{
 		state = is_newsfc(word);
@@ -42,13 +38,11 @@ static char	get_nsewfc_map(int fd, t_cube *cube)
 			cube->map.nsewfc_tex[4] = get_word(file_cont, &index, &b_i);
 		if(state == 'C')
 			cube->map.nsewfc_tex[5] = get_word(file_cont, &index, &b_i);
-		i++;
 		word = get_word(file_cont, &index, &b_i);
-		i++;
+		i += 2;
 		if(i == 12)
 			break;
 	}
-	
 	while (file_cont[index][i])
 	{
 		c = file_cont[index][i];
@@ -70,10 +64,8 @@ static char	get_nsewfc_map(int fd, t_cube *cube)
 		if (file_cont[index][i])
 			return (print_error("Data is broken."), EXIT_FAILURE);
 	}
-	
 	if (!file_cont[index] || !file_cont[index][0])
 		return (print_error("Data is broken."), EXIT_FAILURE);
-	
 	while(file_cont[index])
 	{
 		if (file_cont[index][0] == '\n' && !file_cont[index][1])
@@ -93,7 +85,8 @@ static char	get_nsewfc_map(int fd, t_cube *cube)
 
 char	parser(char **argv, t_cube *cube)
 {
-	int fd;
+	int	fd;
+
 	fd = file_check(argv[1]);
 	if(fd == -1)
 		return(EXIT_FAILURE);
@@ -102,6 +95,5 @@ char	parser(char **argv, t_cube *cube)
 	close(fd);
 	if (validate_map(cube))
 		return (print_error("Map Error"), EXIT_FAILURE);
-	cube->calc.rot = 180/3.14159;
 	return (EXIT_SUCCESS);
 }

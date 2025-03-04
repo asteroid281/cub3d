@@ -1,6 +1,6 @@
 #include "../../inc/cub3d.h"
 
-char *get_word(char **cub,int *backup_index, int *backup_i)
+char	*get_word(char **cub,int *backup_index, int *backup_i)
 {
 	static int 	i;
 	static int	index;
@@ -9,22 +9,22 @@ char *get_word(char **cub,int *backup_index, int *backup_i)
 	size_t		start;
 	size_t		len;
 
-	while(cub[index])
+	while (cub[index])
 	{
-		while(cub[index][i])
+		while (cub[index][i])
 		{
 			c = cub[index][i];
-			while(c && (c == 32 || c == 9 || (c >= 11 && c <= 13)))
+			while (c && (c == 32 || c == 9 || (c >= 11 && c <= 13)))
 			{
 				i++;
 				c = cub[index][i];
 			}
 			start = i;
 			len = 0;
-			while(c && !(c == 32 || c == 9 || (c >= 11 && c <= 13)))
+			while (c && !(c == 32 || c == 9 || (c >= 11 && c <= 13)))
 			{
 				if(c == 10)
-					break;
+					break ;
 				i++;
 				c = cub[index][i];
 				len++;
@@ -32,26 +32,26 @@ char *get_word(char **cub,int *backup_index, int *backup_i)
 			word = ft_substr(cub[index],start,len);
 			*backup_index = index;
 			*backup_i = i;
-			return(word);
+			return (word);
 		}
 		index++;
 	}
 	return (NULL);
 }
 
-char is_newsfc(char *word)
+char	is_newsfc(char *word)
 {
 	if(word[0] == 'N' && word[1] == 'O' && !word[2])
-		return('N');
+		return ('N');
 	if(word[0] == 'S' && word[1] == 'O' && !word[2])
-		return('S');
+		return ('S');
 	if(word[0] == 'W' && word[1] == 'E' && !word[2])
-		return('W');
+		return ('W');
 	if(word[0] == 'E' && word[1] == 'A' && !word[2])
-		return('E');
+		return ('E');
 	if(word[0] == 'F' && !word[1])
-		return('F');
+		return ('F');
 	if(word[0] == 'C' && !word[1])
-		return('C');
-	return(0);
+		return ('C');
+	return (0);
 }

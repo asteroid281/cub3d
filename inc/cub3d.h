@@ -86,9 +86,9 @@ struct	s_tex
 	t_img	nsew[4];
 	t_img	rick;
 	t_img	floor;
-	int		fl_color;
 	t_img	ceil;
 	int		ceil_color;
+	int		fl_color;
 };
 
 struct s_pos
@@ -103,6 +103,8 @@ struct s_map
 	int		ones;
 	int		zeros;
 	char	nsew;
+	int		x_player;
+	int 	y_player;
 };
 
 void	print_error(const char *error);
@@ -115,5 +117,7 @@ char	set_floor_and_ceil(t_cube *cube);
 char	cycle_per_img(t_cube *cube);
 void	get_win_img(t_cube *cube, t_calc *c, int x);
 char	move(int keycode, t_cube *cube);
+
+char	map_path_check(t_map *map);
 
 #endif

@@ -5,7 +5,7 @@ void	print_error(const char *error)
 	ft_putstr_fd("Error : ", 2);
 	if (!error)
 		return ;
-	ft_putendl_fd(error, 2);
+	ft_putendl_fd((char *) error, 2);
 }
 
 int main(int argc, char **argv)
@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 	cube = &(t_cube){0};
 	if (argc != 2)
 		return (print_error("Argument Number"), EXIT_FAILURE);
-	if (parser(argv, cube))// error messages
+	if (parser(argv, cube))
 		return (free_cube(cube), EXIT_FAILURE);
 	if (executer(cube))
 		return (free_cube(cube), EXIT_FAILURE);

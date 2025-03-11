@@ -12,6 +12,8 @@ static char	get_nsewfc_map(int fd, t_cube *cube)
 	int		b_i;
 	int		i;
 
+	index = 0;
+	b_i = 0;
 	file_cont = NULL;
 	line = get_next_line(fd);
 	while(line != NULL)
@@ -21,24 +23,43 @@ static char	get_nsewfc_map(int fd, t_cube *cube)
 	}
 	i = 0;
 	word = get_word(file_cont, &index, &b_i);
-	while(word)
+	while (word)
 	{
 		state = is_newsfc(word);
-		if(!state)
-			return(print_error("Data is broken."), EXIT_FAILURE);
-		if(state == 'N')
+		if (!state)
+			return (print_error("Data is broken."), EXIT_FAILURE);
+		if (state == 'N')
+		{
 			cube->map.nsewfc_tex[0] = get_word(file_cont, &index, &b_i);
-		if(state == 'E')
+			printf("N : %s\n", cube->map.nsewfc_tex[0]);
+		}
+		if (state == 'E')
+		{
 			cube->map.nsewfc_tex[1] = get_word(file_cont, &index, &b_i);
-		if(state == 'W')
+			printf("E : %s\n", cube->map.nsewfc_tex[1]);
+		}
+		if (state == 'W')
+		{
 			cube->map.nsewfc_tex[2] = get_word(file_cont, &index, &b_i);
-		if(state == 'S')
+			printf("W : %s\n", cube->map.nsewfc_tex[2]);
+		}
+		if (state == 'S')
+		{
 			cube->map.nsewfc_tex[3] = get_word(file_cont, &index, &b_i);
-		if(state == 'F')
+			printf("S : %s\n", cube->map.nsewfc_tex[3]);
+		}
+		if (state == 'F')
+		{
 			cube->map.nsewfc_tex[4] = get_word(file_cont, &index, &b_i);
-		if(state == 'C')
+			printf("F : %s\n", cube->map.nsewfc_tex[4]);
+		}
+		if (state == 'C')
+		{
 			cube->map.nsewfc_tex[5] = get_word(file_cont, &index, &b_i);
+			printf("C : %s\n", cube->map.nsewfc_tex[5]);
+		}
 		word = get_word(file_cont, &index, &b_i);
+		printf("word : %s\n", word);
 		i += 2;
 		if(i == 12)
 			break;
@@ -91,9 +112,12 @@ char	parser(char **argv, t_cube *cube)
 	if(fd == -1)
 		return(EXIT_FAILURE);
 	if (get_nsewfc_map(fd, cube))
-		return (close(fd), print_error("File Order") ,EXIT_FAILURE);
+	{
+		close(fd);
+		return (EXIT_FAILURE);
+	}
 	close(fd);
-	if (validate_map(cube))
+	if (validate_map(cube->tex, cube->map, cube->calc))
 		return (print_error("Map Error"), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

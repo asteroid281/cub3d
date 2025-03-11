@@ -1,10 +1,21 @@
 #include "../../inc/cub3d.h"
 
+static int	str_arr_len(char **str_arr)
+{
+	int	i;
+
+	if (!str_arr)
+		return (0);
+	i = 0;
+	while (str_arr[i])
+		i++;
+	return (i);
+}
+
 char **str_arr_realloc(char **str_arr, char *element)
 {
-	char **rtrn;
-
-	int i;
+	char	**rtrn;
+	int		i;
 
 	if (!str_arr)
 	{

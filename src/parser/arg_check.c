@@ -19,7 +19,7 @@ static char	is_cub(char *argv)
 {
 	int	len;
 
-	len = ft_strlen(*argv);
+	len = ft_strlen(argv);
 	if (argv[len - 4] == '.' || argv[len - 3] == 'c' || argv[len - 2] == 'u' || argv[len - 1] == 'b')
 		return (true);
 	return (false);

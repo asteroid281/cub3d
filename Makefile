@@ -4,24 +4,26 @@ CFLAGS = -Wall -Werror -Wextra
 
 LIBFT_PATH = inc/libft/
 LIBFT = $(LIBFT_PATH)libft.a
+L_FLAGS = -L $(LIBFT_PATH) -lft
 
 MLX_PATH = inc/mlx/
 MLX = $(MLX_PATH)libmlx_Linux.a
 MLX_FLAGS = -L $(MLX_PATH) -I $(MLX_PATH) -lmlx -O3 -lXext -lX11 -lm -lz
 
-P_PATH = parser/
-PARSER_SRCS = $(P_PATH)parser.c
+P_PATH = src/parser/
+PARSER_SRCS = $(P_PATH)parser.c $(P_PATH)arg_check.c $(P_PATH)map_path_check.c \
+$(P_PATH)parser_helpers.c $(P_PATH)validate_map.c
 
-E_PATH = executer/
-EXEC_SRCS = $(E_PATH)executer.c $(E_PATH)set_all_data_to_window.c \
-$(E_PATH)cycle_per_img.c
+E_PATH = src/executer/
+EXEC_SRCS = $(E_PATH)executer.c $(E_PATH)cycle_per_img.c \
+$(E_PATH)move.c $(E_PATH)set_all_data_to_window.c
 
-H_PATH = helpers/
-H_SRCS = $(H_PATH)free_helpers_1.c
+H_PATH = src/helpers/
+H_SRCS = $(H_PATH)color_helpers.c $(H_PATH)free_helpers_1.c $(H_PATH)str_helpers.c
 
 SRCS_PATH = src/
-SRCS = $(SRCS_PATH)main.c $(SRCS_PATH)$(PARSER_SRCS) $(SRCS_PATH)$(EXEC_SRCS) \
-$(SRCS_PATH)$(H_SRCS)
+SRCS = $(SRCS_PATH)main.c $(SRCS_PATH)get_next_line.c $(SRCS_PATH)get_next_line_utils.c \
+$(PARSER_SRCS) $(EXEC_SRCS) $(H_SRCS)
 
 OBJS = $(SRCS:.c=.o)
 

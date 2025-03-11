@@ -25,7 +25,7 @@ char	*get_buff(char *str)
 	i = 0;
 	while (str[i] && str[i] != '\n')
 		i++;
-	rtrn = (char *) malloc(ft_strlen(str) - i);
+	rtrn = (char *) malloc(ft_strlen_gnl(str) - i);
 	if (!rtrn)
 		return (free(str), NULL);
 	i++;
@@ -57,7 +57,7 @@ char	*get_line_wol(int fd, char *lwol)
 		if (!state)
 			break ;
 		buff[state] = 0;
-		lwol = ft_strjoin(lwol, buff);
+		lwol = ft_strjoin_gnl(lwol, buff);
 		if (!lwol)
 			return (free(buff), free(lwol), NULL);
 	}

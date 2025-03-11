@@ -12,11 +12,12 @@ static void	move_r_l(t_cube *cube, char state)
 		c->rot = -180/3.14159;
 	else
 		c->rot = 180/3.14159;
-	c->dirX = c->dirX * cos(c->rot); - c->dirY * sin(c->rot);
+	c->dirX = c->dirX * cos(c->rot) - c->dirY * sin(c->rot);
 	c->dirY = old_dirX * sin(c->rot) + c->dirY * cos(c->rot);
 	old_planeX = c->planeX;
 	c->planeX = c->planeX * cos(c->rot) - c->planeY * sin(c->rot);
 	c->planeY = old_planeX * sin(c->rot) + c->planeY * cos(c->rot);
+	(void)c;
 }
 
 static void	move_f_b(t_cube *cube, char state)
@@ -38,15 +39,12 @@ static void	move_f_b(t_cube *cube, char state)
 	temp = p->y_rick + step * c->dirY;
 	if (cube->map.map[(int)p->x_rick][(int)temp] != 1)
 		p->y_rick = temp;
+	(void)c;
+	(void)p;
 }
 
 char	move(int keycode, t_cube *cube)
 {
-	t_pos	*p;
-	t_calc	*c;
-
-	p = &cube->pos;
-	c = &cube->calc;
 	if (keycode == UP)
 		move_f_b(cube, 1);
 	else if (keycode == DOWN)

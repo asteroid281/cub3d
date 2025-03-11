@@ -2,9 +2,12 @@
 # define CUB3D_H
 
 # include "libft/libft.h"
-# include "get_next_line/get_next_line.h"
+# include "../src/get_next_line.h"
+# include "unistd.h"
 # include "mlx/mlx.h"
 # include "math.h"
+
+#include "stdio.h" 
 
 # define WIDTH		1920
 # define HEIGHT		1080
@@ -70,17 +73,6 @@ struct s_calc
 	int		texnum;
 };
 
-struct s_cube
-{
-	void	*mlx;
-	void	*window;
-	t_img	win;
-	t_map	map;
-	t_tex	tex;
-	t_pos	pos;
-	t_calc	calc;
-};
-
 struct	s_tex
 {
 	t_img	nsew[4];
@@ -107,17 +99,33 @@ struct s_map
 	int 	y_player;
 };
 
+struct s_cube
+{
+	void	*mlx;
+	void	*window;
+	t_img	win;
+	t_map	map;
+	t_tex	tex;
+	t_pos	pos;
+	t_calc	calc;
+};
+
 void	print_error(const char *error);
 void	free_str_arr(char **str_arr);
 void	free_cube(t_cube *cube);
 char	**str_arr_realloc(char **str_arr, char *element);
 
+char	executer(t_cube *cube);
 char	set_all_data_to_window(t_cube *cube);
 char	set_floor_and_ceil(t_cube *cube);
 char	cycle_per_img(t_cube *cube);
-void	get_win_img(t_cube *cube, t_calc *c, int x);
 char	move(int keycode, t_cube *cube);
 
-char	map_path_check(t_map *map);
+char	parser(char **argv, t_cube *cube);
+char	*get_word(char **cub,int *backup_index, int *backup_i);
+char	is_newsfc(char *word);
+int		file_check(char *argv);
+char	validate_map(t_tex tex, t_map map, t_calc calc);
+char	map_path_check(t_map map);
 
 #endif

@@ -29,7 +29,7 @@ char	ctrl_nl(char *str)
 	return (0);
 }
 
-t_ui	ft_strlen(char *str)
+t_ui	ft_strlen_gnl(char *str)
 {
 	t_ui	i;
 
@@ -41,7 +41,7 @@ t_ui	ft_strlen(char *str)
 	return (i);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin_gnl(char *s1, char *s2)
 {
 	char	*rtrn;
 	int		len1;
@@ -54,7 +54,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	if (!s1 || !s2)
 		return (0);
-	rtrn = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	rtrn = malloc(ft_strlen_gnl(s1) + ft_strlen_gnl(s2) + 1);
 	if (!rtrn)
 		return (0);
 	len1 = -1;

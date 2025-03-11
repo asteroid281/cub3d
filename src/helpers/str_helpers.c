@@ -29,7 +29,6 @@ char **str_arr_realloc(char **str_arr, char *element)
 	if (!rtrn)
 		return(NULL);
 	i = -1;
-
 	while (str_arr[++i])
 		rtrn[i] = str_arr[i];
 	rtrn[i] = ft_strdup(element);

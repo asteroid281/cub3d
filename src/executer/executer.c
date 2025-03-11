@@ -18,6 +18,10 @@ static int	key_pressed(int keycode, t_cube *cube)
 
 char	executer(t_cube *cube)
 {
+	cube->mlx = mlx_init();
+	cube->window = mlx_new_window(cube->mlx, WIDTH, HEIGHT, "cub3d");
+	cube->pos.x_rick = (float) cube->map.x_player;
+	cube->pos.y_rick = (float) cube->map.y_player;
 	if (set_all_data_to_window(cube))
 		return (EXIT_FAILURE);
 	mlx_hook(cube->window, 17, 0, exit_cube, cube);

@@ -43,7 +43,7 @@ static void	cpi_lh1_continue(t_cube *cube, t_calc *c)
 			c->mapY += c->stepY;
 			c->side = 1;
 		}
-		if (cube->map.map[c->mapY][c->mapX] == 1)
+		if (cube->map.map[c->mapY] && cube->map.map[c->mapY][c->mapX] == '1')
 			hit = 1;
 	}
 	if (c->side == 0)

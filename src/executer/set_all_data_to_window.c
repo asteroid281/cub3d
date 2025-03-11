@@ -20,7 +20,7 @@ static void	set_color(t_img img, int color)
 
 char	set_floor_and_ceil(t_cube *cube)
 {
-	cube->tex.floor.img = mlx_new_image(cube->mlx, WIDTH, HEIGHT_2);
+	cube->tex.floor.img = mlx_new_image(cube->mlx, WIDTH, HEIGHT_2); 
 	if (!cube->tex.floor.img)
 		return (EXIT_FAILURE);
 	cube->tex.floor.addr = mlx_get_data_addr(cube->tex.floor.img, &cube->tex.floor.bpp, \
@@ -43,9 +43,9 @@ char	set_all_data_to_window(t_cube *cube)
 {
 	if (set_floor_and_ceil(cube))
 		return (print_error(MLX_ERROR), EXIT_FAILURE);
-	if (mlx_put_image_to_window(cube->mlx, cube->window, cube->tex.floor.img, 0, 540))
+	if (!mlx_put_image_to_window(cube->mlx, cube->window, cube->tex.floor.img, 0, 540))
 		return (print_error(MLX_ERROR), EXIT_FAILURE);
-	if (mlx_put_image_to_window(cube->mlx, cube->window, cube->tex.ceil.img, 0, 0))
+	if (!mlx_put_image_to_window(cube->mlx, cube->window, cube->tex.ceil.img, 0, 0))
 		return (print_error(MLX_ERROR), EXIT_FAILURE);
 	if (cycle_per_img(cube))
 		return (print_error(MLX_ERROR), EXIT_FAILURE);

@@ -8,18 +8,17 @@ static char check_rgb (int rgb)
 	return (EXIT_SUCCESS);
 }
 
-static char validate_rgb(t_tex tex, char **nsewfc_tex)
+static char validate_rgb(t_tex *tex, char **nsewfc_tex)
 {
-    char **fc[2];
+    char **fc[3];
     int i;
     int j;
-
     int rgbs[6];
     int index;
 
     fc[0] = ft_split(nsewfc_tex[4],',');
     fc[1] = ft_split(nsewfc_tex[5],',');
-
+    fc[2] = NULL;
     i = 0;
     index = 0;
     while(fc[i])
@@ -38,12 +37,12 @@ static char validate_rgb(t_tex tex, char **nsewfc_tex)
         i++;
     }
     (void)tex;
-    tex.fl_color = rgbs[2] + (rgbs[1] << 8) + (rgbs[0] << 16) + (255 << 24);
-    tex.ceil_color = rgbs[5] + (rgbs[4] << 8) + (rgbs[3] << 16) + (255 << 24);
+    tex->fl_color = rgbs[2] + (rgbs[1] << 8) + (rgbs[0] << 16) + (255 << 24);
+    tex->ceil_color = rgbs[5] + (rgbs[4] << 8) + (rgbs[3] << 16) + (255 << 24);
     return (0);
 }
 
-static char is_playable(t_map map, t_calc calc)
+static char is_playable(t_map *map, t_calc *calc)
 {
     int i;
     int j;
@@ -52,49 +51,58 @@ static char is_playable(t_map map, t_calc calc)
     (void)calc;
     nsewcount = 0;
     j = 0;
-
-    while(map.map[j])
+    while(map->map[j])
     {
         i = 0;
-        while(map.map[j][i])
+        while(map->map[j][i])
         {
-            if(map.map[j][i] != 0 || map.map[j][i] != 1 || map.map[j][i] != 'S' 
-                || map.map[j][i] != 'N' || map.map[j][i] != 'W' || map.map[j][i] != 'E' || map.map[j][i] != ' ') //if nsew10space fonksiyonu yaz.
-                    return(EXIT_FAILURE);
-            if(map.map[j][i] == 'S') //if is_nsew fonksiyonu yaz.
+            if (map->map[j][i] == '\n')
+                break ;
+            if(map->map[j][i] != '0' && map->map[j][i] != '1' && map->map[j][i] != 'S'
+                && map->map[j][i] != 'N' && map->map[j][i] != 'W' && map->map[j][i] != 'E' && map->map[j][i] != ' ') //if nsew10space fonksiyonu yaz.
+                return (EXIT_FAILURE);
+            if(map->map[j][i] == 'S') //if is_nsew fonksiyonu yaz.
             {
-                map.nsew = 'S';
-                map.x_player = i;
-                map.y_player = j;
-				calc.dirX = 1;
-				calc.dirY = 1;
+                map->nsew = 'S';
+                map->x_player = i;
+                map->y_player = j;
+				calc->dirX = 0.0;
+				calc->dirY = 1.0;
+				calc->planeX = -0.66;
+				calc->planeY = 0.0;
                 nsewcount++;
             }
-            if(map.map[j][i] == 'N')
+            if(map->map[j][i] == 'N')
             {
-                map.nsew = 'N';
-                map.x_player = i;
-                map.y_player = j;
-				calc.dirX = -1;
-				calc.dirY = -1;
+				map->nsew = 'N';
+                map->x_player = i;
+                map->y_player = j;
+				calc->dirX = 0.0;
+				calc->dirY = -1.0;
+				calc->planeX = 0.66;
+				calc->planeY = 0.0;
                 nsewcount++;
             }
-            if(map.map[j][i] == 'W')
+            if(map->map[j][i] == 'W')
             {
-                map.nsew = 'W';
-                map.x_player = i;
-                map.y_player = j;
-				calc.dirX = -1;
-				calc.dirY = 1;
+                map->nsew = 'W';
+                map->x_player = i;
+                map->y_player = j;
+				calc->dirX = -1.0;
+				calc->dirY = 0.0;
+				calc->planeX = 0.0;
+				calc->planeY = -0.66;
                 nsewcount++;
             }
-            if(map.map[j][i] == 'E')
+            if(map->map[j][i] == 'E')
             {
-                map.nsew = 'E';
-                map.x_player = i;
-                map.y_player = j;
-				calc.dirX = 1;
-				calc.dirY = -1;
+                map->nsew = 'E';
+                map->x_player = i;
+                map->y_player = j;
+				calc->dirX = 1.0;
+				calc->dirY = 0.0;
+				calc->planeX = 0.0;
+				calc->planeY = 0.66;
                 nsewcount++;
             }
             i++;
@@ -106,9 +114,9 @@ static char is_playable(t_map map, t_calc calc)
     return (EXIT_SUCCESS);
 }
 
-char validate_map(t_tex tex, t_map map, t_calc calc)
+char validate_map(t_tex *tex, t_map *map, t_calc *calc)
 {
-	if(validate_rgb(tex, map.nsewfc_tex))
+    if(validate_rgb(tex, map->nsewfc_tex))
     {
         print_error("RGB is wrong.");
         return (EXIT_FAILURE);

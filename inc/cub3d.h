@@ -125,7 +125,7 @@ char	parser(char **argv, t_cube *cube);
 char	*get_word(char **cub,int *backup_index, int *backup_i);
 char	is_newsfc(char *word);
 int		file_check(char *argv);
-char	validate_map(t_tex tex, t_map map, t_calc calc);
-char	map_path_check(t_map map);
+char	validate_map(t_tex *tex, t_map *map, t_calc *calc);
+char	map_path_check(t_map *map);
 
 #endif

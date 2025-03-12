@@ -16,8 +16,15 @@ int main(int argc, char **argv)
 	if (argc != 2)
 		return (print_error("Argument Number"), EXIT_FAILURE);
 	if (parser(argv, cube))
-		return (free_cube(cube), EXIT_FAILURE);
+	{
+		free_cube(cube);
+		return (EXIT_FAILURE);
+	}
 	if (executer(cube))
-		return (free_cube(cube), EXIT_FAILURE);
-	return (free_cube(cube), EXIT_SUCCESS);
+	{
+		free_cube(cube);
+		return (EXIT_FAILURE);
+	}
+	free_cube(cube);
+	return (EXIT_SUCCESS);
 }

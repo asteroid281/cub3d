@@ -95,15 +95,15 @@ int main(void)
 		win_img = mlx_new_image(mlx, width, height);
 		win_addr = mlx_get_data_addr(win_img, &bbp, &line_length0, &endian);
 		no = mlx_xpm_file_to_image(mlx, \
-			"textures/no.xpm", &x, &y);
+			"../textures/no.xpm", &x, &y);
 		texW = x;
 		texH = y;
 		so = mlx_xpm_file_to_image(mlx, \
-			"textures/so.xpm", &x, &y);
+			"../textures/so.xpm", &x, &y);
 		we = mlx_xpm_file_to_image(mlx, \
-			"textures/we.xpm", &x, &y);
+			"../textures/we.xpm", &x, &y);
 		ea = mlx_xpm_file_to_image(mlx, \
-			"textures/ea.xpm", &x, &y);
+			"../textures/ea.xpm", &x, &y);
 		addr1 = mlx_get_data_addr(no, &bbp, &line_length, &endian);
 		addr2 = mlx_get_data_addr(so, &bbp, &line_length, &endian);
 		addr3 = mlx_get_data_addr(ea, &bbp, &line_length, &endian);

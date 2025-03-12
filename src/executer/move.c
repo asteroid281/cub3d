@@ -33,12 +33,12 @@ static void	move_f_b(t_cube *cube, char state)
 		step = 0.1;
 	else
 		step = -0.1;
-	temp = p->x_rick + step * c->dirX;
-	if (cube->map.map[(int)temp][(int)p->y_rick] != 1)
-		p->x_rick = temp;
-	temp = p->y_rick + step * c->dirY;
-	if (cube->map.map[(int)p->x_rick][(int)temp] != 1)
-		p->y_rick = temp;
+	temp = p->x_pos + step * c->dirX;
+	if (cube->map.map[(int)temp][(int)p->y_pos] != 1)
+		p->x_pos = temp;
+	temp = p->y_pos + step * c->dirY;
+	if (cube->map.map[(int)p->x_pos][(int)temp] != 1)
+		p->y_pos = temp;
 	(void)c;
 	(void)p;
 }

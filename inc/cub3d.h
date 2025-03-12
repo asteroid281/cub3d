@@ -85,12 +85,13 @@ struct	s_tex
 
 struct s_pos
 {
-	float	x_rick;
-	float	y_rick;
+	float	x_pos;
+	float	y_pos;
 };
 
 struct s_map
-{	char	*nsewfc_tex[6];
+{
+	char	*nsewfc_tex[6];
 	char	**map;
 	int		ones;
 	int		zeros;
@@ -115,17 +116,18 @@ void	free_str_arr(char **str_arr);
 void	free_cube(t_cube *cube);
 char	**str_arr_realloc(char **str_arr, char *element);
 
-char	executer(t_cube *cube);
-char	set_all_data_to_window(t_cube *cube);
-char	set_floor_and_ceil(t_cube *cube);
-char	cycle_per_img(t_cube *cube);
-char	move(int keycode, t_cube *cube);
-
 char	parser(char **argv, t_cube *cube);
 char	*get_word(char **cub,int *backup_index, int *backup_i);
 char	is_newsfc(char *word);
 int		file_check(char *argv);
 char	validate_map(t_tex *tex, t_map *map, t_calc *calc);
 char	map_path_check(t_map *map);
+
+char	init_cube(t_cube *cube);
+char	executer(t_cube *cube);
+char	set_all_data_to_window(t_cube *cube);
+char	set_floor_and_ceil(t_cube *cube);
+char	cycle_per_img(t_cube *cube);
+char	move(int keycode, t_cube *cube);
 
 #endif

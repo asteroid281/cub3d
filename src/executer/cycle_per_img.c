@@ -2,11 +2,11 @@
 
 static void	get_win_img(t_cube *cube, t_calc *c, int x)
 {
-	unsigned int	color;
-	t_img			temp;
-	char			*src;
-	char			*dst;
-	int				y;
+	int		color;
+	t_img	temp;
+	char	*src;
+	char	*dst;
+	int		y;
 
 	y = c->drawstart;
 	while (y < c->drawend)
@@ -22,6 +22,33 @@ static void	get_win_img(t_cube *cube, t_calc *c, int x)
 		c->texpos += c->step;
 		y++;
 	}
+}
+
+// NSEW parser'da aldığın sıraya göre yaz !!!
+static void	cpi_lh2(t_cube *cube, t_calc *c, int x)
+{
+	if (!c->side)
+	{
+		c->wallX = cube->pos.y_pos + c->perpwalldist * c->raydirY;
+		if (c->raydirX < 0)
+			c->texnum = N;
+		else
+			c->texnum = S;
+	}
+	else
+	{
+		c->wallX = cube->pos.x_pos + c->perpwalldist * c->raydirX;
+		if (c->raydirY < 0)
+			c->texnum = E;
+		else
+			c->texnum = W;
+	}
+	c->wallX -= floor(c->wallX);
+	c->texX = (int) (1.0 * c->wallX * cube->tex.nsew[c->texnum].tex_w);
+	if ((!c->side && c->raydirX > 0) || (c->side && c->raydirY < 0))
+		c->texX = cube->tex.nsew[c->texnum].tex_w - c->texX - 1;
+	c->step = 1.0 * cube->tex.nsew[c->texnum].tex_h / c->lineheight;
+	get_win_img(cube, c, x);
 }
 
 static void	cpi_lh1_continue(t_cube *cube, t_calc *c)
@@ -82,32 +109,6 @@ static void	cpi_lh1(t_cube *cube, t_calc *c)
 	c->drawend = c->lineheight / 2 + HEIGHT_2;
 }
 
-static void	cpi_lh2(t_cube *cube, t_calc *c, int x)
-{
-	if (!c->side)
-	{
-		c->wallX = cube->pos.y_pos + c->perpwalldist * c->raydirY;
-		if (c->raydirX < 0)
-			c->texnum = N;
-		else
-			c->texnum = S;
-	}
-	else
-	{
-		c->wallX = cube->pos.x_pos + c->perpwalldist * c->raydirX;
-		if (c->raydirY < 0)
-			c->texnum = E;
-		else
-			c->texnum = W;
-	}
-	c->wallX -= floor(c->wallX);
-	c->texX = (int) (1.0 * c->wallX * cube->tex.nsew[c->texnum].tex_w);
-	if ((!c->side && c->raydirX > 0) || (c->side && c->raydirY < 0))
-		c->texX = cube->tex.nsew[c->texnum].tex_w - c->texX - 1;
-	c->step = 1.0 * cube->tex.nsew[c->texnum].tex_h / c->lineheight;
-	get_win_img(cube, c, x);
-}
-
 char	cycle_per_img(t_cube *cube)
 {
 	t_calc	*c;
@@ -130,7 +131,6 @@ char	cycle_per_img(t_cube *cube)
 		cpi_lh2(cube, c, x);
 		x++;
 	}
-	printf("here\n");
 	if (mlx_put_image_to_window(cube->mlx, cube->window, cube->win.img, 0, 0))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

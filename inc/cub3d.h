@@ -76,9 +76,6 @@ struct s_calc
 struct	s_tex
 {
 	t_img	nsew[4];
-	t_img	rick;
-	t_img	floor;
-	t_img	ceil;
 	int		ceil_color;
 	int		fl_color;
 };
@@ -126,7 +123,6 @@ char	map_path_check(t_map *map);
 char	init_cube(t_cube *cube);
 char	executer(t_cube *cube);
 char	set_all_data_to_window(t_cube *cube);
-char	set_floor_and_ceil(t_cube *cube);
 char	cycle_per_img(t_cube *cube);
 char	move(int keycode, t_cube *cube);
 

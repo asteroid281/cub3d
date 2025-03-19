@@ -24,7 +24,7 @@ static void	get_win_img(t_cube *cube, t_calc *c, int x)
 	}
 }
 
-// NSEW parser'da aldığın sıraya göre yaz !!!
+//	NSEW parser'da aldığın sıraya göre yaz !!!
 static void	cpi_lh2(t_cube *cube, t_calc *c, int x)
 {
 	if (!c->side)
@@ -51,6 +51,7 @@ static void	cpi_lh2(t_cube *cube, t_calc *c, int x)
 	get_win_img(cube, c, x);
 }
 
+//	raydirX'e göre koşullar yanlış olabilir !
 static void	cpi_lh1_continue(t_cube *cube, t_calc *c)
 {
 	char	hit;

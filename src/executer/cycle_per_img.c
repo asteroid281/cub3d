@@ -48,6 +48,7 @@ static void	cpi_lh2(t_cube *cube, t_calc *c, int x)
 	if ((!c->side && c->raydirX > 0) || (c->side && c->raydirY < 0))
 		c->texX = cube->tex.nsew[c->texnum].tex_w - c->texX - 1;
 	c->step = 1.0 * cube->tex.nsew[c->texnum].tex_h / c->lineheight;
+	c->texpos = (c->drawstart - HEIGHT_2 + c->lineheight / 2) * c->step;
 	get_win_img(cube, c, x);
 }
 
@@ -97,12 +98,12 @@ static void	cpi_lh1(t_cube *cube, t_calc *c)
 	}
 	if (c->raydirY < 0)
 	{
-		c->stepY = 1;
+		c->stepY = -1;
 		c->sidedistY = (cube->pos.y_pos - c->mapY) * c->deltadistY;
 	}
 	else
 	{
-		c->stepY = -1;
+		c->stepY = 1;
 		c->sidedistY = (c->mapY + 1.0 - cube->pos.y_pos) * c->deltadistY;
 	}
 	cpi_lh1_continue(cube, c);

@@ -20,6 +20,7 @@
 # define UP			65362
 # define RIGHT		65363
 # define DOWN		65364
+# define ESC		65307
 # define MLX_ERROR	"Mlx Function"
 
 typedef struct s_cube	t_cube;

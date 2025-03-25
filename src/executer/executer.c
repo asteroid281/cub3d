@@ -11,6 +11,8 @@ static int	key_pressed(int keycode, t_cube *cube)
 {
 	if (keycode == 53)
 		exit_cube(cube);
+	if (keycode == ESC)
+		exit_cube(cube);
 	if (move(keycode, cube))
 		exit_cube(cube);
 	return (EXIT_SUCCESS);

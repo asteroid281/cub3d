@@ -1,1 +1,2 @@
 cub3d.h'taki stdio.h'ı unutma !
+texturelari var mi diye kontrol et. ve .xpm gizli dosya olarak gozukebilir bi index oncesi var mi diye bak.

@@ -34,13 +34,13 @@ $(NAME): $(LIBFT) $(MLX) $(OBJS)
 
 $(LIBFT):
 	@make -C $(LIBFT_PATH)
-	@make clean -C $(LIBFT_PATH)
 
 $(MLX):
 	@make -C $(MLX_PATH)
-	@make -C $(MLX_PATH) clean
 
 clean:
+	@make clean -C $(LIBFT_PATH)
+	@make -C $(MLX_PATH) clean
 	$(RM) $(OBJS)
 
 fclean: clean

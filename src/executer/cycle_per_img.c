@@ -133,7 +133,6 @@ char	cycle_per_img(t_cube *cube)
 		cpi_lh2(cube, c, x);
 		x++;
 	}
-	if (mlx_put_image_to_window(cube->mlx, cube->window, cube->win.img, 0, 0))
-		return (EXIT_FAILURE);
+	mlx_put_image_to_window(cube->mlx, cube->window, cube->win.img, 0, 0);
 	return (EXIT_SUCCESS);
 }

@@ -9,9 +9,9 @@ static void	move_r_l(t_cube *cube, char state)
 	c = &cube->calc;
 	old_dirX = c->dirX;
 	if (state)
-		c->rot = -180/3.14159;
+		c->rot = -3.14159/180;
 	else
-		c->rot = 180/3.14159;
+		c->rot = 3.14159/180;
 	c->dirX = c->dirX * cos(c->rot) - c->dirY * sin(c->rot);
 	c->dirY = old_dirX * sin(c->rot) + c->dirY * cos(c->rot);
 	old_planeX = c->planeX;
@@ -34,10 +34,10 @@ static void	move_f_b(t_cube *cube, char state)
 	else
 		step = -0.1;
 	temp = p->x_pos + step * c->dirX;
-	if (cube->map.map[(int)temp][(int)p->y_pos] != 1)
+	if (cube->map.map[(int)p->y_pos][(int)temp] != '1')
 		p->x_pos = temp;
 	temp = p->y_pos + step * c->dirY;
-	if (cube->map.map[(int)p->x_pos][(int)temp] != 1)
+	if (cube->map.map[(int)temp][(int)p->x_pos] != '1')
 		p->y_pos = temp;
 	(void)c;
 	(void)p;

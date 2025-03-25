@@ -5,12 +5,6 @@ static char	init_texs(t_cube *cube)
 	t_img	*temp;
 	int		i;
 
-	cube->win.img = mlx_new_image(cube->mlx, WIDTH, HEIGHT);
-	if (!cube->win.img)
-		return (EXIT_FAILURE);
-	cube->win.addr = mlx_get_data_addr(cube->win.img, &cube->win.bpp, &cube->win.line_len, &cube->win.endian);
-	if (!cube->win.addr)
-		return (EXIT_FAILURE);
 	i = -1;
 	while (++i < 4)
 	{

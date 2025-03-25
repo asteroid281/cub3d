@@ -1,5 +1,24 @@
 #include "../../inc/cub3d.h"
 #include "fcntl.h"
+#include "stdbool.h"
+
+char ft_strlen2(char *s)
+{
+	int i;
+	int len;
+
+	len = 0;
+	i = 0;
+
+	while(s[i])
+	{
+		len++;
+		if(s[i] == '/')
+			len = 0;
+		i++;
+	}
+	return (len);
+}
 
 static char	get_nsewfc_map(int fd, t_cube *cube)
 {
@@ -66,6 +85,55 @@ static char	get_nsewfc_map(int fd, t_cube *cube)
 	return (EXIT_SUCCESS);
 }
 
+static char	is_xpm(t_cube *cube)
+{
+	int	len1;
+	int	len2;
+	int i;
+	i = 0;
+	while(i < 4)
+	{
+		len1 = ft_strlen2(cube->map.nsewfc_tex[i]);
+		len2 = ft_strlen(cube->map.nsewfc_tex[i]);
+		if (!(len1 > 4 && cube->map.nsewfc_tex[i][len2 - 4] == '.' && cube->map.nsewfc_tex[i][len2 - 3] == 'x' && cube->map.nsewfc_tex[i][len2 - 2] == 'p' && cube->map.nsewfc_tex[i][len2 - 1] == 'm'))
+		{
+			return(1);
+			break;
+		}
+		i++;
+	}
+	
+	return (0);
+}
+
+int file_check2(t_cube *cube)
+{
+	int	fd;
+	int i;
+
+	i = -1;
+	if(is_xpm(cube))
+		return(print_error("Not xpm file."), -1);
+	while(++i < 4)
+	{
+		if (is_dir(cube->map.nsewfc_tex[i]))
+		{
+			return (print_error("Not directory"), -1);
+			break;
+
+		}
+		fd = open(cube->map.nsewfc_tex[i], O_RDONLY);
+		if (fd == -1)
+		{
+			return(print_error("File could not be opened."), -1);
+			break;
+
+		}
+		close(fd);
+	}
+		return (fd);
+}
+
 char	parser(char **argv, t_cube *cube)
 {
 	int	fd;
@@ -78,6 +146,9 @@ char	parser(char **argv, t_cube *cube)
 		close(fd);
 		return (EXIT_FAILURE);
 	}
+	fd = file_check2(cube);
+	if (fd == -1)
+		return(EXIT_FAILURE);
 	close(fd);
 	if (validate_map(&cube->tex, &cube->map, &cube->calc))
 		return (EXIT_FAILURE);

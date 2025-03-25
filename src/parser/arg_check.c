@@ -2,11 +2,11 @@
 #include "fcntl.h"
 #include "stdbool.h"
 
-static char is_dir(char *argv)
+char is_dir(char *argv)
 {
 	int fd;
 
-	fd = open(argv, O_DIRECTORY);
+	fd = open(argv, __O_DIRECTORY);
 	if (fd >= 0)
 	{
 		close(fd);
@@ -17,10 +17,12 @@ static char is_dir(char *argv)
 
 static char	is_cub(char *argv)
 {
-	int	len;
+	int	len1;
+	int	len2;
 
-	len = ft_strlen(argv);
-	if (argv[len - 4] == '.' || argv[len - 3] == 'c' || argv[len - 2] == 'u' || argv[len - 1] == 'b')
+	len1 = ft_strlen2(argv);
+	len2 = ft_strlen(argv);
+	if (len1 > 4 && argv[len2 - 4] == '.' && argv[len2 - 3] == 'c' && argv[len2 - 2] == 'u' && argv[len2 - 1] == 'b')
 		return (true);
 	return (false);
 }

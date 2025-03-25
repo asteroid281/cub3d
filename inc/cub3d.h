@@ -120,6 +120,8 @@ char	is_newsfc(char *word);
 int		file_check(char *argv);
 char	validate_map(t_tex *tex, t_map *map, t_calc *calc);
 char	map_path_check(t_map *map);
+char 	is_dir(char *argv);
+char 	ft_strlen2(char *s);
 
 char	init_cube(t_cube *cube);
 char	executer(t_cube *cube);
@@ -128,3 +130,4 @@ char	cycle_per_img(t_cube *cube);
 char	move(int keycode, t_cube *cube);
 
 #endif
+

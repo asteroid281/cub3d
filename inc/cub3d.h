@@ -16,10 +16,12 @@
 # define E			1
 # define S			2
 # define W			3
-# define LEFT		65361
-# define UP			65362
-# define RIGHT		65363
-# define DOWN		65364
+# define KEY_W		119
+# define KEY_S		115
+# define KEY_D		100
+# define KEY_A		97
+# define ARROW_L	65361
+# define ARROW_R	65363
 # define ESC		65307
 # define MLX_ERROR	"Mlx Function"
 
@@ -43,7 +45,7 @@ struct s_img
 
 struct s_calc
 {
-	double	rot;
+	float	rot;
 	float	cam;
 	float	dirX;
 	float	dirY;

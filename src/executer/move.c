@@ -12,11 +12,11 @@
 
 #include "../../inc/cub3d.h"
 
-static void	move_r_l(t_cube *cube, char state)
+static void	rotate_r_l(t_cube *cube, char state)
 {
 	t_calc	*c;
-	double	old_dir_x;
-	double	old_plane_x;
+	float	old_dir_x;
+	float	old_plane_x;
 
 	c = &cube->calc;
 	old_dir_x = c->dirX;
@@ -34,8 +34,8 @@ static void	move_r_l(t_cube *cube, char state)
 
 static void	move_f_b(t_cube *cube, char state)
 {
-	double	temp;
-	double	step;
+	float	temp;
+	float	step;
 	t_pos	*p;
 	t_calc	*c;
 
@@ -55,16 +55,43 @@ static void	move_f_b(t_cube *cube, char state)
 	(void)p;
 }
 
+static void	move_r_l(t_cube *cube, char state)
+{
+	float	temp;
+	float	step;
+	t_pos	*p;
+	t_calc	*c;
+
+	p = &cube->pos;
+	c = &cube->calc;
+	if (state)
+		step = 0.1;
+	else
+		step = -0.1;
+	temp = p->x_pos + step * c->dirY;
+	if (temp >= 0.25 && cube->map.map[(int)p->y_pos][(int)(temp - step)] != '1')
+		p->x_pos = temp;
+	temp = p->y_pos + step * c->dirX;
+	if (temp >= 0.25 && cube->map.map[(int)(temp - step)][(int)p->x_pos] != '1')
+		p->y_pos = temp;
+	(void)c;
+	(void)p;
+}
+
 char	move(int keycode, t_cube *cube)
 {
-	if (keycode == UP)
+	if (keycode == KEY_W)
 		move_f_b(cube, 1);
-	else if (keycode == DOWN)
+	else if (keycode == KEY_S)
 		move_f_b(cube, 0);
-	else if (keycode == RIGHT)
+	else if (keycode == KEY_D)
 		move_r_l(cube, 1);
-	else if (keycode == LEFT)
+	else if (keycode == KEY_A)
 		move_r_l(cube, 0);
+	else if (keycode == ARROW_R)
+		rotate_r_l(cube, 1);
+	else if (keycode == ARROW_L)
+		rotate_r_l(cube, 0);
 	if (set_all_data_to_window(cube))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

@@ -24,7 +24,7 @@ static void	copy_to_win(t_cube *cube)
 		while (++x < WIDTH)
 		{
 			dst = cube->win.addr + (y * cube->win.line_len) + (cube->win.bpp / 8) * x;
-			*(unsigned int *) dst = cube->tex.fl_color;
+			*(unsigned int *) dst = cube->tex.ceil_color;
 		}
 		y++;
 	}
@@ -34,7 +34,7 @@ static void	copy_to_win(t_cube *cube)
 		while (++x < WIDTH)
 		{
 			dst = cube->win.addr + (y * cube->win.line_len) + (cube->win.bpp / 8) * x;
-			*(unsigned int *) dst = cube->tex.ceil_color;
+			*(unsigned int *) dst = cube->tex.fl_color;
 		}
 		y++;
 	}

@@ -63,7 +63,7 @@ static char	get_nsewfc_map(int fd, t_cube *cube)
 			break ;
 		word = get_word(file_cont, &index, &b_i);
 	}
-	if (file_cont[index][i])
+	if (!file_cont[index][b_i] || (file_cont[index][b_i] && file_cont[index][b_i] != '\n'))
 		return (print_error("Data is broken."), EXIT_FAILURE);
 	index++;
 	if (!file_cont[index] || !file_cont[index][0])

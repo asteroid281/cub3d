@@ -1,9 +1,5 @@
 cub3d.h'taki stdio.h'ı unutma !
 
-
-PARSER
-adi cub3d diye degistir.
-
-
 EXEC
 fisheye var.
+texturelar hareket ediyor.

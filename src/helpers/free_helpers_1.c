@@ -28,5 +28,6 @@ void	free_cube(t_cube *cube)
 		free_str_arr(cube->map.map);
 	if (cube->window)
 		mlx_destroy_window(cube->mlx, cube->window);
-	mlx_destroy_display(cube->mlx);
+	if (cube->mlx)
+		mlx_destroy_display(cube->mlx);
 }

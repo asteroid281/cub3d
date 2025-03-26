@@ -27,7 +27,7 @@ static char validate_rgb(t_tex *tex, char **nsewfc_tex)
         while(fc[i][j])
         {
             if (ft_strlen(fc[i][j]) > 3)
-                return (print_error("RGB is not in range."), EXIT_FAILURE);
+                return (print_error("Invalid RGB range."), EXIT_FAILURE);
             rgbs[index] = ft_atoi(fc[i][j]);
             if (check_rgb(rgbs[index]))
                 return (EXIT_FAILURE);
@@ -117,10 +117,7 @@ static char is_playable(t_map *map, t_calc *calc)
 char validate_map(t_tex *tex, t_map *map, t_calc *calc)
 {
     if(validate_rgb(tex, map->nsewfc_tex))
-    {
-        print_error("RGB is wrong.");
         return (EXIT_FAILURE);
-    }
     if(is_playable(map, calc))
     {
         print_error("The map is not playable");

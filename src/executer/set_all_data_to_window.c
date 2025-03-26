@@ -24,32 +24,21 @@ static char	init_win(t_cube *cube)
 	return (EXIT_SUCCESS);
 }
 
-static void	copy_to_win(t_cube *cube)
+static void	copy_to_win(t_cube *cube, int start, int end, int color)
 {
 	char	*dst;
 	int		x;
-	int		y;
 
-	y = 0;
-	while (y < HEIGHT_2)
+	while (start < end)
 	{
 		x = -1;
 		while (++x < WIDTH)
 		{
-			dst = cube->win.addr + (y * cube->win.line_len) + (cube->win.bpp / 8) * x;
-			*(unsigned int *) dst = cube->tex.ceil_color;
+			dst = cube->win.addr + (y * cube->win.line_len) + \
+			(cube->win.bpp / 8) * x;
+			*(unsigned int *) dst = color;
 		}
-		y++;
-	}
-	while (y < HEIGHT)
-	{
-		x = -1;
-		while (++x < WIDTH)
-		{
-			dst = cube->win.addr + (y * cube->win.line_len) + (cube->win.bpp / 8) * x;
-			*(unsigned int *) dst = cube->tex.fl_color;
-		}
-		y++;
+		start++;
 	}
 }
 
@@ -62,7 +51,8 @@ char	set_all_data_to_window(t_cube *cube)
 		print_error(MLX_ERROR);
 		return (EXIT_FAILURE);
 	}
-	copy_to_win(cube);
+	copy_to_win(cube, 0, HEIGHT_2, cube->tex.ceil_color);
+	copy_to_win(cube, HEIGHT_2, HEIGHT, cube->tex.fl_color);
 	if (cycle_per_img(cube))
 	{
 		print_error(MLX_ERROR);

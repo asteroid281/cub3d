@@ -50,9 +50,9 @@ static char	get_nsewfc_map(int fd, t_cube *cube)
 			cube->map.nsewfc_tex[0] = get_word(file_cont, &index, &b_i);
 		if (state == 'E')
 			cube->map.nsewfc_tex[1] = get_word(file_cont, &index, &b_i);
-		if (state == 'W')
-			cube->map.nsewfc_tex[2] = get_word(file_cont, &index, &b_i);
 		if (state == 'S')
+			cube->map.nsewfc_tex[2] = get_word(file_cont, &index, &b_i);
+		if (state == 'W')
 			cube->map.nsewfc_tex[3] = get_word(file_cont, &index, &b_i);
 		if (state == 'F')
 			cube->map.nsewfc_tex[4] = get_word(file_cont, &index, &b_i);

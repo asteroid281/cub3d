@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 20:44:09 by apalaz            #+#    #+#             */
+/*   Updated: 2025/03/26 20:45:06 by apalaz           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/cub3d.h"
 
 static char	init_texs(t_cube *cube)
@@ -9,10 +21,12 @@ static char	init_texs(t_cube *cube)
 	while (++i < 4)
 	{
 		temp = &cube->tex.nsew[i];
-		temp->img = mlx_xpm_file_to_image(cube->mlx, cube->map.nsewfc_tex[i], &temp->tex_w, &temp->tex_h);
+		temp->img = mlx_xpm_file_to_image(cube->mlx, cube->map.nsewfc_tex[i], \
+		&temp->tex_w, &temp->tex_h);
 		if (!temp->img)
 			return (EXIT_FAILURE);
-		temp->addr = mlx_get_data_addr(temp->img, &temp->bpp, &temp->line_len, &temp->endian);
+		temp->addr = mlx_get_data_addr(temp->img, &temp->bpp, &temp->line_len, \
+		&temp->endian);
 		if (!temp->addr)
 			return (EXIT_FAILURE);
 	}

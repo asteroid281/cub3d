@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_all_data_to_window.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 20:46:38 by apalaz            #+#    #+#             */
+/*   Updated: 2025/03/26 20:46:38 by apalaz           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/cub3d.h"
 
 static char	init_win(t_cube *cube)
@@ -5,7 +17,8 @@ static char	init_win(t_cube *cube)
 	cube->win.img = mlx_new_image(cube->mlx, WIDTH, HEIGHT);
 	if (!cube->win.img)
 		return (EXIT_FAILURE);
-	cube->win.addr = mlx_get_data_addr(cube->win.img, &cube->win.bpp, &cube->win.line_len, &cube->win.endian);
+	cube->win.addr = mlx_get_data_addr(cube->win.img, &cube->win.bpp, \
+	&cube->win.line_len, &cube->win.endian);
 	if (!cube->win.addr)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

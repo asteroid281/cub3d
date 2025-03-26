@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cycle_per_img.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 20:43:06 by apalaz            #+#    #+#             */
+/*   Updated: 2025/03/26 20:43:06 by apalaz           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/cub3d.h"
 
 static void	get_win_img(t_cube *cube, t_calc *c, int x)
@@ -13,38 +25,37 @@ static void	get_win_img(t_cube *cube, t_calc *c, int x)
 	{
 		temp = cube->tex.nsew[c->texnum];
 		c->texY = (int) c->texpos & (temp.tex_h - 1);
+		c->texpos += c->step;
 		src = temp.addr + c->texY * temp.line_len + (temp.bpp / 8) * c->texX;
 		color = *(unsigned int *) src;
 		if (c->side)
 			color = (color >> 1) & 0x7F7F7F;
 		dst = cube->win.addr + y * cube->win.line_len + (cube->win.bpp / 8) * x;
 		*(unsigned int *) dst = color;
-		c->texpos += c->step;
 		y++;
 	}
 }
 
-//	NSEW parser'da aldığın sıraya göre yaz !!!
 static void	cpi_lh2(t_cube *cube, t_calc *c, int x)
 {
 	if (!c->side)
 	{
 		c->wallX = cube->pos.y_pos + c->perpwalldist * c->raydirY;
 		if (c->raydirX < 0)
-			c->texnum = N;
+			c->texnum = W;
 		else
-			c->texnum = S;
+			c->texnum = E;
 	}
 	else
 	{
 		c->wallX = cube->pos.x_pos + c->perpwalldist * c->raydirX;
 		if (c->raydirY < 0)
-			c->texnum = E;
+			c->texnum = N;
 		else
-			c->texnum = W;
+			c->texnum = S;
 	}
 	c->wallX -= floor(c->wallX);
-	c->texX = (int) (1.0 * c->wallX * cube->tex.nsew[c->texnum].tex_w);
+	c->texX = (int)(1.0 * c->wallX * cube->tex.nsew[c->texnum].tex_w);
 	if ((!c->side && c->raydirX > 0) || (c->side && c->raydirY < 0))
 		c->texX = cube->tex.nsew[c->texnum].tex_w - c->texX - 1;
 	c->step = 1.0 * cube->tex.nsew[c->texnum].tex_h / c->lineheight;
@@ -60,7 +71,7 @@ static void	cpi_lh1_continue(t_cube *cube, t_calc *c)
 	hit = 0;
 	while (!hit)
 	{
-		if (fabs(c->sidedistX) < fabs(c->sidedistY))
+		if (c->sidedistX < c->sidedistY)
 		{
 			c->sidedistX += c->deltadistX;
 			c->mapX += c->stepX;
@@ -79,13 +90,13 @@ static void	cpi_lh1_continue(t_cube *cube, t_calc *c)
 		c->perpwalldist = c->sidedistX - c->deltadistX;
 	else
 		c->perpwalldist = c->sidedistY - c->deltadistY;
-	c->lineheight = (int) (HEIGHT / c->perpwalldist);
+	c->lineheight = (int)(HEIGHT / c->perpwalldist);
 }
 
 static void	cpi_lh1(t_cube *cube, t_calc *c)
 {
-	c->deltadistX = sqrt(1 + (c->raydirY * c->raydirY) / (c->raydirX * c->raydirX));
-	c->deltadistY = sqrt(1 + (c->raydirX * c->raydirX) / (c->raydirY * c->raydirY));
+	c->deltadistX = fabs(1 / c->raydirX);
+	c->deltadistY = fabs(1 / c->raydirY);
 	if (c->raydirX < 0)
 	{
 		c->stepX = -1;

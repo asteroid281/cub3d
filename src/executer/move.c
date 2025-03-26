@@ -9,9 +9,9 @@ static void	move_r_l(t_cube *cube, char state)
 	c = &cube->calc;
 	old_dirX = c->dirX;
 	if (state)
-		c->rot = -3.14159/180;
-	else
 		c->rot = 3.14159/180;
+	else
+		c->rot = -3.14159/180;
 	c->dirX = c->dirX * cos(c->rot) - c->dirY * sin(c->rot);
 	c->dirY = old_dirX * sin(c->rot) + c->dirY * cos(c->rot);
 	old_planeX = c->planeX;

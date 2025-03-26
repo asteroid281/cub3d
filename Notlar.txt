@@ -2,10 +2,8 @@ cub3d.h'taki stdio.h'ı unutma !
 
 
 PARSER
-texturelari var mi diye kontrol et. ve .xpm gizli dosya olarak gozukebilir bi index oncesi var mi diye bak.
 adi cub3d diye degistir.
 
 
 EXEC
-
-ilk yurumeye baslayinca kapaniyor fakat once saga sola bakip sonra yuruyunce kapanmiyor.
+fisheye var.

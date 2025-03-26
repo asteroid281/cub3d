@@ -43,13 +43,11 @@ static void	copy_to_win(t_cube *cube)
 char	set_all_data_to_window(t_cube *cube)
 {
 	if (cube->win.img)
-	{
 		mlx_destroy_image(cube->mlx, cube->win.img);
-		if (!init_win(cube))
-		{
-			print_error(MLX_ERROR);
-			return (EXIT_FAILURE);
-		}
+	if (init_win(cube))
+	{
+		print_error(MLX_ERROR);
+		return (EXIT_FAILURE);
 	}
 	copy_to_win(cube);
 	if (cycle_per_img(cube))

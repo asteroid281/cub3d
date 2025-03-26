@@ -1,4 +1,4 @@
-NAME = cube3d
+NAME = cub3d
 
 CFLAGS = -Wall -Werror -Wextra
 

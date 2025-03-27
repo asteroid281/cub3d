@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 20:49:05 by apalaz            #+#    #+#             */
+/*   Updated: 2025/03/27 20:49:05 by apalaz           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -7,7 +19,7 @@
 # include "mlx/mlx.h"
 # include "math.h"
 
-#include "stdio.h" 
+# include "stdio.h" 
 
 # define WIDTH		1920
 # define HEIGHT		1080
@@ -47,31 +59,31 @@ struct s_calc
 {
 	float	rot;
 	float	cam;
-	float	dirX;
-	float	dirY;
-	float	planeX;
-	float	planeY;
-	float	raydirX;
-	float	raydirY;
-	float	sidedistX;
-	float	sidedistY;
-	float	deltadistX;
-	float	deltadistY;
+	float	dir_x;
+	float	dir_y;
+	float	plane_x;
+	float	plane_y;
+	float	raydir_x;
+	float	raydir_y;
+	float	sidedist_x;
+	float	sidedist_y;
+	float	deltadist_x;
+	float	deltadist_y;
 	float	perpwalldist;
-	float	wallX;
+	float	wall_x;
 	float	step;
 	float	texpos;
 	char	hit;
 	char	side;
 	int		lineheight;
-	int		mapX;
-	int		mapY;
-	int		stepX;
-	int		stepY;
+	int		map_x;
+	int		map_y;
+	int		step_x;
+	int		step_y;
 	int		drawstart;
 	int		drawend;
-	int		texX;
-	int		texY;
+	int		tex_x;
+	int		tex_y;
 	int		color;
 	int		texnum;
 };
@@ -93,11 +105,11 @@ struct s_map
 {
 	char	*nsewfc_tex[6];
 	char	**map;
-	int		ones;
-	int		zeros;
 	char	nsew;
 	int		x_player;
-	int 	y_player;
+	int		y_player;
+	int		max_w;
+	int		max_h;
 };
 
 struct s_cube
@@ -117,13 +129,13 @@ void	free_cube(t_cube *cube);
 char	**str_arr_realloc(char **str_arr, char *element);
 
 char	parser(char **argv, t_cube *cube);
-char	*get_word(char **cub,int *backup_index, int *backup_i);
+char	*get_word(char **cub, int *backup_index, int *backup_i);
 char	is_newsfc(char *word);
 int		file_check(char *argv);
 char	validate_map(t_tex *tex, t_map *map, t_calc *calc);
 char	map_path_check(t_map *map);
-char 	is_dir(char *argv);
-char 	ft_strlen2(char *s);
+char	is_dir(char *argv);
+char	ft_strlen2(char *s);
 
 char	init_cube(t_cube *cube);
 char	executer(t_cube *cube);
@@ -132,4 +144,3 @@ char	cycle_per_img(t_cube *cube);
 char	move(int keycode, t_cube *cube);
 
 #endif
-

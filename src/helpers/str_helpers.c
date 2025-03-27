@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   str_helpers.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 20:28:01 by apalaz            #+#    #+#             */
+/*   Updated: 2025/03/27 20:28:19 by apalaz           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/cub3d.h"
 
 static int	str_arr_len(char **str_arr)
@@ -12,7 +24,7 @@ static int	str_arr_len(char **str_arr)
 	return (i);
 }
 
-char **str_arr_realloc(char **str_arr, char *element)
+char	**str_arr_realloc(char **str_arr, char *element)
 {
 	char	**rtrn;
 	int		i;
@@ -21,16 +33,16 @@ char **str_arr_realloc(char **str_arr, char *element)
 	{
 		rtrn = ft_calloc(sizeof(char *), 2);
 		if (!rtrn)
-			return(NULL);
+			return (NULL);
 		rtrn[0] = ft_strdup(element);
-		return(rtrn);
+		return (rtrn);
 	}
 	rtrn = ft_calloc(sizeof(char *), str_arr_len(str_arr) + 2);
 	if (!rtrn)
-		return(NULL);
+		return (NULL);
 	i = -1;
 	while (str_arr[++i])
 		rtrn[i] = str_arr[i];
 	rtrn[i] = ft_strdup(element);
-	return(rtrn);
+	return (rtrn);
 }

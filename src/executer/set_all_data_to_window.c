@@ -34,7 +34,7 @@ static void	copy_to_win(t_cube *cube, int start, int end, int color)
 		x = -1;
 		while (++x < WIDTH)
 		{
-			dst = cube->win.addr + (y * cube->win.line_len) + \
+			dst = cube->win.addr + (start * cube->win.line_len) + \
 			(cube->win.bpp / 8) * x;
 			*(unsigned int *) dst = color;
 		}

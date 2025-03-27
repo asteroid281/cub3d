@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_helpers.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 20:35:27 by apalaz            #+#    #+#             */
+/*   Updated: 2025/03/27 20:37:42 by apalaz           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/cub3d.h"
 
-char	*get_word(char **cub,int *backup_index, int *backup_i)
+char	*get_word(char **cub, int *backup_index, int *backup_i)
 {
-	static int 	i = 0;
+	static int	i = 0;
 	static int	index = 0;
-	char 		*word;
-	char 		c;
+	char		*word;
+	char		c;
 	size_t		start;
 	size_t		len;
 
@@ -29,7 +41,7 @@ char	*get_word(char **cub,int *backup_index, int *backup_i)
 		len = 0;
 		while (c && c != 32 && !(c >= 9 && c <= 13))
 		{
-			if(c == '\n')
+			if (c == '\n')
 			{
 				index++;
 				i = 0;
@@ -55,17 +67,17 @@ char	*get_word(char **cub,int *backup_index, int *backup_i)
 
 char	is_newsfc(char *word)
 {
-	if(word[0] == 'N' && word[1] == 'O' && !word[2])
+	if (word[0] == 'N' && word[1] == 'O' && !word[2])
 		return ('N');
-	if(word[0] == 'S' && word[1] == 'O' && !word[2])
+	if (word[0] == 'S' && word[1] == 'O' && !word[2])
 		return ('S');
-	if(word[0] == 'W' && word[1] == 'E' && !word[2])
+	if (word[0] == 'W' && word[1] == 'E' && !word[2])
 		return ('W');
-	if(word[0] == 'E' && word[1] == 'A' && !word[2])
+	if (word[0] == 'E' && word[1] == 'A' && !word[2])
 		return ('E');
-	if(word[0] == 'F' && !word[1])
+	if (word[0] == 'F' && !word[1])
 		return ('F');
-	if(word[0] == 'C' && !word[1])
+	if (word[0] == 'C' && !word[1])
 		return ('C');
 	return (0);
 }

@@ -1,132 +1,144 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validate_map.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 20:42:31 by apalaz            #+#    #+#             */
+/*   Updated: 2025/03/27 20:50:27 by apalaz           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/cub3d.h"
 #include "fcntl.h"
 
-static char check_rgb (int rgb)
+static char	check_rgb(int rgb)
 {
 	if (rgb < 0 || rgb > 255)
 		return (print_error("Invalid RGB range."), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-static char validate_rgb(t_tex *tex, char **nsewfc_tex)
+static char	validate_rgb(t_tex *tex, char **nsewfc_tex)
 {
-    char **fc[3];
-    int i;
-    int j;
-    int rgbs[6];
-    int index;
+	char	**fc[3];
+	int		i;
+	int		j;
+	int		rgbs[6];
+	int		index;
 
-    fc[0] = ft_split(nsewfc_tex[4],',');
-    fc[1] = ft_split(nsewfc_tex[5],',');
-    fc[2] = NULL;
-    i = 0;
-    index = 0;
-    while(fc[i])
-    {
-        j = 0;
-        while(fc[i][j])
-        {
-            if (ft_strlen(fc[i][j]) > 3)
-                return (print_error("Invalid RGB range."), EXIT_FAILURE);
-            rgbs[index] = ft_atoi(fc[i][j]);
-            if (check_rgb(rgbs[index]))
-                return (EXIT_FAILURE);
-            index++;
-            j++;
-        }
-        i++;
-    }
-    (void)tex;
-    tex->fl_color = rgbs[2] + (rgbs[1] << 8) + (rgbs[0] << 16) + (255 << 24);
-    tex->ceil_color = rgbs[5] + (rgbs[4] << 8) + (rgbs[3] << 16) + (255 << 24);
-    return (0);
+	fc[0] = ft_split(nsewfc_tex[4], ',');
+	fc[1] = ft_split(nsewfc_tex[5], ',');
+	fc[2] = NULL;
+	i = 0;
+	index = 0;
+	while (fc[i])
+	{
+		j = 0;
+		while (fc[i][j])
+		{
+			if (ft_strlen(fc[i][j]) > 3)
+				return (print_error("Invalid RGB range."), EXIT_FAILURE);
+			rgbs[index] = ft_atoi(fc[i][j]);
+			if (check_rgb(rgbs[index]))
+				return (EXIT_FAILURE);
+			index++;
+			j++;
+		}
+		i++;
+	}
+	(void)tex;
+	tex->fl_color = rgbs[2] + (rgbs[1] << 8) + (rgbs[0] << 16) + (255 << 24);
+	tex->ceil_color = rgbs[5] + (rgbs[4] << 8) + (rgbs[3] << 16) + (255 << 24);
+	return (0);
 }
 
-static char is_playable(t_map *map, t_calc *calc)
+static char	is_playable(t_map *map, t_calc *calc)
 {
-    int i;
-    int j;
-    int nsewcount;
+	int	i;
+	int	j;
+	int	nsewcount;
 
-    (void)calc;
-    nsewcount = 0;
-    j = 0;
-    while(map->map[j])
-    {
-        i = 0;
-        while(map->map[j][i])
-        {
-            if (map->map[j][i] == '\n')
-                break ;
-            if(map->map[j][i] != '0' && map->map[j][i] != '1' && map->map[j][i] != 'S'
-                && map->map[j][i] != 'N' && map->map[j][i] != 'W' && map->map[j][i] != 'E' && map->map[j][i] != ' ') //if nsew10space fonksiyonu yaz.
-                return (EXIT_FAILURE);
-            if(map->map[j][i] == 'S') //if is_nsew fonksiyonu yaz.
-            {
-                map->nsew = 'S';
-                map->x_player = i;
-                map->y_player = j;
-				calc->dirX = 0.0;
-				calc->dirY = 1.0;
-				calc->planeX = -0.66;
-				calc->planeY = 0.0;
-                nsewcount++;
-            }
-            if(map->map[j][i] == 'N')
-            {
+	(void)calc;
+	nsewcount = 0;
+	j = 0;
+	while (map->map[j])
+	{
+		i = 0;
+		while (map->map[j][i])
+		{
+			if (map->map[j][i] == '\n')
+				break ;
+			if (map->map[j][i] != '0' && map->map[j][i] != '1' && map->map[j][i] != 'S'
+				&& map->map[j][i] != 'N' && map->map[j][i] != 'W' && map->map[j][i] != 'E' && map->map[j][i] != ' ') //if nsew10space fonksiyonu yaz.
+				return (EXIT_FAILURE);
+			if (map->map[j][i] == 'S') //if is_nsew fonksiyonu yaz.
+			{
+				map->nsew = 'S';
+				map->x_player = i;
+				map->y_player = j;
+				calc->dir_x = 0.0;
+				calc->dir_y = 1.0;
+				calc->plane_x = -0.66;
+				calc->plane_y = 0.0;
+				nsewcount++;
+			}
+			else if (map->map[j][i] == 'N')
+			{
 				map->nsew = 'N';
-                map->x_player = i;
-                map->y_player = j;
-				calc->dirX = 0.0;
-				calc->dirY = -1.0;
-				calc->planeX = 0.66;
-				calc->planeY = 0.0;
-                nsewcount++;
-            }
-            if(map->map[j][i] == 'W')
-            {
-                map->nsew = 'W';
-                map->x_player = i;
-                map->y_player = j;
-				calc->dirX = -1.0;
-				calc->dirY = 0.0;
-				calc->planeX = 0.0;
-				calc->planeY = -0.66;
-                nsewcount++;
-            }
-            if(map->map[j][i] == 'E')
-            {
-                map->nsew = 'E';
-                map->x_player = i;
-                map->y_player = j;
-				calc->dirX = 1.0;
-				calc->dirY = 0.0;
-				calc->planeX = 0.0;
-				calc->planeY = 0.66;
-                nsewcount++;
-            }
-            i++;
-        }
-        j++;
-    }
-    if (nsewcount != 1)
-        return(EXIT_FAILURE);
-    return (EXIT_SUCCESS);
+				map->x_player = i;
+				map->y_player = j;
+				calc->dir_x = 0.0;
+				calc->dir_y = -1.0;
+				calc->plane_x = 0.66;
+				calc->plane_y = 0.0;
+				nsewcount++;
+			}
+			else if (map->map[j][i] == 'W')
+			{
+				map->nsew = 'W';
+				map->x_player = i;
+				map->y_player = j;
+				calc->dir_x = -1.0;
+				calc->dir_y = 0.0;
+				calc->plane_x = 0.0;
+				calc->plane_y = -0.66;
+				nsewcount++;
+			}
+			else if (map->map[j][i] == 'E')
+			{
+				map->nsew = 'E';
+				map->x_player = i;
+				map->y_player = j;
+				calc->dir_x = 1.0;
+				calc->dir_y = 0.0;
+				calc->plane_x = 0.0;
+				calc->plane_y = 0.66;
+				nsewcount++;
+			}
+			i++;
+		}
+		j++;
+	}
+	if (nsewcount != 1)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
-char validate_map(t_tex *tex, t_map *map, t_calc *calc)
+char	validate_map(t_tex *tex, t_map *map, t_calc *calc)
 {
-    if(validate_rgb(tex, map->nsewfc_tex))
-        return (EXIT_FAILURE);
-    if(is_playable(map, calc))
-    {
-        print_error("The map is not playable");
-        return (EXIT_FAILURE);
-    }
-	if(map_path_check(map))
-    {
-        print_error("The map is not surrounded by walls.");
+	if (validate_rgb(tex, map->nsewfc_tex))
 		return (EXIT_FAILURE);
-    }
-    return (EXIT_SUCCESS);
+	if (is_playable(map, calc))
+	{
+		print_error("The map is not playable");
+		return (EXIT_FAILURE);
+	}
+	if (map_path_check(map))
+	{
+		print_error("The map is not surrounded by walls.");
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }

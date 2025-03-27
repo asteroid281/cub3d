@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 20:26:58 by apalaz            #+#    #+#             */
+/*   Updated: 2025/03/27 20:26:58 by apalaz           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
 void	print_error(const char *error)
@@ -8,7 +20,7 @@ void	print_error(const char *error)
 	ft_putendl_fd((char *) error, 2);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_cube	*cube;
 

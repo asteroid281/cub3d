@@ -19,7 +19,7 @@ EXEC_SRCS = $(E_PATH)executer.c $(E_PATH)cycle_per_img.c \
 $(E_PATH)init.c $(E_PATH)move.c $(E_PATH)set_all_data_to_window.c
 
 H_PATH = src/helpers/
-H_SRCS = $(H_PATH)color_helpers.c $(H_PATH)free_helpers_1.c $(H_PATH)str_helpers.c
+H_SRCS = $(H_PATH)free_helpers_1.c $(H_PATH)str_helpers.c
 
 SRCS_PATH = src/
 SRCS = $(SRCS_PATH)main.c $(SRCS_PATH)get_next_line.c $(SRCS_PATH)get_next_line_utils.c \

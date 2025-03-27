@@ -1,19 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 20:37:59 by apalaz            #+#    #+#             */
+/*   Updated: 2025/03/27 20:37:59 by apalaz           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/cub3d.h"
 #include "fcntl.h"
 #include "stdbool.h"
 
-char ft_strlen2(char *s)
+char	ft_strlen2(char *s)
 {
-	int i;
-	int len;
+	int	len;
+	int	i;
 
 	len = 0;
 	i = 0;
-
-	while(s[i])
+	while (s[i])
 	{
 		len++;
-		if(s[i] == '/')
+		if (s[i] == '/')
 			len = 0;
 		i++;
 	}
@@ -34,7 +45,7 @@ static char	get_nsewfc_map(int fd, t_cube *cube)
 	b_i = 0;
 	file_cont = NULL;
 	line = get_next_line(fd);
-	while(line != NULL)
+	while (line != NULL)
 	{
 		file_cont = str_arr_realloc(file_cont, line);
 		line = get_next_line(fd);
@@ -59,7 +70,7 @@ static char	get_nsewfc_map(int fd, t_cube *cube)
 		if (state == 'C')
 			cube->map.nsewfc_tex[5] = get_word(file_cont, &index, &b_i);
 		i += 2;
-		if(i == 12)
+		if (i == 12)
 			break ;
 		word = get_word(file_cont, &index, &b_i);
 	}
@@ -68,7 +79,7 @@ static char	get_nsewfc_map(int fd, t_cube *cube)
 	index++;
 	if (!file_cont[index] || !file_cont[index][0])
 		return (print_error("Data is broken."), EXIT_FAILURE);
-	while(file_cont[index])
+	while (file_cont[index])
 	{
 		if (file_cont[index][0] == '\n' && !file_cont[index][1])
 			index++;
@@ -80,6 +91,10 @@ static char	get_nsewfc_map(int fd, t_cube *cube)
 		if (file_cont[index][0] == '\n' && !file_cont[index][1])
 			return (print_error("Data is broken."), EXIT_FAILURE);
 		cube->map.map = str_arr_realloc(cube->map.map, file_cont[index]);
+		b_i = (int) ft_strlen(file_cont[index]);
+		if (cube->map.max_w < b_i)
+			cube->map.max_w = b_i;
+		cube->map.max_h++;
 		index++;
 	}
 	return (EXIT_SUCCESS);
@@ -89,49 +104,50 @@ static char	is_xpm(t_cube *cube)
 {
 	int	len1;
 	int	len2;
-	int i;
+	int	i;
+
 	i = 0;
-	while(i < 4)
+	while (i < 4)
 	{
 		len1 = ft_strlen2(cube->map.nsewfc_tex[i]);
 		len2 = ft_strlen(cube->map.nsewfc_tex[i]);
-		if (!(len1 > 4 && cube->map.nsewfc_tex[i][len2 - 4] == '.' && cube->map.nsewfc_tex[i][len2 - 3] == 'x' && cube->map.nsewfc_tex[i][len2 - 2] == 'p' && cube->map.nsewfc_tex[i][len2 - 1] == 'm'))
+		if (!(len1 > 4 && cube->map.nsewfc_tex[i][len2 - 4] == '.' \
+		&& cube->map.nsewfc_tex[i][len2 - 3] == 'x' \
+		&& cube->map.nsewfc_tex[i][len2 - 2] == 'p' \
+		&& cube->map.nsewfc_tex[i][len2 - 1] == 'm'))
 		{
-			return(1);
-			break;
+			return (1);
+			break ;
 		}
 		i++;
 	}
-	
 	return (0);
 }
 
-int file_check2(t_cube *cube)
+int	file_check2(t_cube *cube)
 {
 	int	fd;
-	int i;
+	int	i;
 
 	i = -1;
-	if(is_xpm(cube))
-		return(print_error("Not xpm file."), -1);
-	while(++i < 4)
+	if (is_xpm(cube))
+		return (print_error("Not xpm file."), -1);
+	while (++i < 4)
 	{
 		if (is_dir(cube->map.nsewfc_tex[i]))
 		{
 			return (print_error("Not directory"), -1);
-			break;
-
+			break ;
 		}
 		fd = open(cube->map.nsewfc_tex[i], O_RDONLY);
 		if (fd == -1)
 		{
-			return(print_error("File could not be opened."), -1);
-			break;
-
+			return (print_error("File could not be opened."), -1);
+			break ;
 		}
 		close(fd);
 	}
-		return (fd);
+	return (fd);
 }
 
 char	parser(char **argv, t_cube *cube)
@@ -139,8 +155,8 @@ char	parser(char **argv, t_cube *cube)
 	int	fd;
 
 	fd = file_check(argv[1]);
-	if(fd == -1)
-		return(EXIT_FAILURE);
+	if (fd == -1)
+		return (EXIT_FAILURE);
 	if (get_nsewfc_map(fd, cube))
 	{
 		close(fd);
@@ -148,7 +164,7 @@ char	parser(char **argv, t_cube *cube)
 	}
 	fd = file_check2(cube);
 	if (fd == -1)
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	close(fd);
 	if (validate_map(&cube->tex, &cube->map, &cube->calc))
 		return (EXIT_FAILURE);

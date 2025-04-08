@@ -18,6 +18,8 @@
 # include "unistd.h"
 # include "mlx/mlx.h"
 # include "math.h"
+# include "fcntl.h"
+# include "stdbool.h"
 
 # include "stdio.h" 
 
@@ -110,6 +112,7 @@ struct s_map
 	int		y_player;
 	int		max_w;
 	int		max_h;
+	int		nsewcount;
 };
 
 struct s_cube
@@ -132,10 +135,15 @@ char	parser(char **argv, t_cube *cube);
 char	*get_word(char **cub, int *backup_index, int *backup_i);
 char	is_newsfc(char *word);
 int		file_check(char *argv);
-char	validate_map(t_tex *tex, t_map *map, t_calc *calc);
+char	validate_map(t_cube *cube, t_tex *tex, t_map *map);
 char	map_path_check(t_map *map);
 char	is_dir(char *argv);
 char	ft_strlen2(char *s);
+char    get_nsewfc_map(int fd, t_cube *cube);
+void	set_nsew_data1(t_cube *cube, int i, int j, char state);
+void	set_nsew_data2(t_cube *cube, int i, int j, char state);
+char	is_news_one_zero_space(char c);
+char    get_nsewfc_tex(char ***fc, int *rgbs);
 
 char	init_cube(t_cube *cube);
 char	executer(t_cube *cube);

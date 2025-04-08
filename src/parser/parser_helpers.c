@@ -12,47 +12,62 @@
 
 #include "../../inc/cub3d.h"
 
+static void	skip_whitespace(char **cub, int *i, int *index)
+{
+	char	c;
+
+	c = cub[*index][*i];
+	while (c && (c == ' ' || (c >= 9 && c <= 13)))
+	{
+		if (c == '\n')
+		{
+			(*index)++;
+			*i = 0;
+		}
+		else
+			(*i)++;
+		c = cub[*index][*i];
+	}
+}
+
+static size_t	get_word_length(char **cub, int *i, int *index, int *backup_i)
+{
+	char		c;
+	size_t		len;
+
+	len = 0;
+	c = cub[*index][*i];
+	while (c && c != ' ' && !(c >= 9 && c <= 13))
+	{
+		if (c == '\n')
+		{
+			(*index)++;
+			*i = 0;
+			*backup_i = 0;
+			break ;
+		}
+		(*i)++;
+		c = cub[*index][*i];
+		len++;
+	}
+	return (len);
+}
+
 char	*get_word(char **cub, int *backup_index, int *backup_i)
 {
-	static int	i = 0;
-	static int	index = 0;
+	static int	i;
+	static int	index;
 	char		*word;
-	char		c;
 	size_t		start;
 	size_t		len;
 
 	while (cub[index])
 	{
 		i = *backup_i;
-		c = cub[index][i];
-		while (c && (c == 32 || (c >= 9 && c <= 13)))
-		{
-			if (c == '\n')
-			{
-				index++;
-				i = 0;
-				c = cub[index][i];
-				continue ;
-			}
-			i++;
-			c = cub[index][i];
-		}
+		skip_whitespace(cub, &i, &index);
 		start = i;
-		len = 0;
-		while (c && c != 32 && !(c >= 9 && c <= 13))
-		{
-			if (c == '\n')
-			{
-				index++;
-				i = 0;
-				*backup_i = 0;
-				break ;
-			}
-			i++;
-			c = cub[index][i];
-			len++;
-		}
-		if (!len)
+		len = get_word_length(cub, &i, &index, backup_i);
+		if (len == 0)
 		{
 			index++;
 			continue ;

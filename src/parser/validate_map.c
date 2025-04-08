@@ -11,126 +11,56 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
-#include "fcntl.h"
-
-static char	check_rgb(int rgb)
-{
-	if (rgb < 0 || rgb > 255)
-		return (print_error("Invalid RGB range."), EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
 
 static char	validate_rgb(t_tex *tex, char **nsewfc_tex)
 {
 	char	**fc[3];
-	int		i;
-	int		j;
 	int		rgbs[6];
-	int		index;
 
 	fc[0] = ft_split(nsewfc_tex[4], ',');
 	fc[1] = ft_split(nsewfc_tex[5], ',');
 	fc[2] = NULL;
-	i = 0;
-	index = 0;
-	while (fc[i])
-	{
-		j = 0;
-		while (fc[i][j])
-		{
-			if (ft_strlen(fc[i][j]) > 3)
-				return (print_error("Invalid RGB range."), EXIT_FAILURE);
-			rgbs[index] = ft_atoi(fc[i][j]);
-			if (check_rgb(rgbs[index]))
-				return (EXIT_FAILURE);
-			index++;
-			j++;
-		}
-		i++;
-	}
+	if (get_nsewfc_tex(fc, rgbs))
+		return (EXIT_FAILURE);
 	(void)tex;
 	tex->fl_color = rgbs[2] + (rgbs[1] << 8) + (rgbs[0] << 16) + (255 << 24);
 	tex->ceil_color = rgbs[5] + (rgbs[4] << 8) + (rgbs[3] << 16) + (255 << 24);
-	return (0);
+	free_str_arr(fc[0]);
+	free_str_arr(fc[1]);
+	return (EXIT_SUCCESS);
 }
 
-static char	is_playable(t_map *map, t_calc *calc)
+static char	is_playable(t_cube *cube, t_map *map)
 {
 	int	i;
 	int	j;
-	int	nsewcount;
 
-	(void)calc;
-	nsewcount = 0;
-	j = 0;
-	while (map->map[j])
+	j = -1;
+	while (map->map[++j])
 	{
-		i = 0;
-		while (map->map[j][i])
+		i = -1;
+		while (map->map[j][++i])
 		{
 			if (map->map[j][i] == '\n')
 				break ;
-			if (map->map[j][i] != '0' && map->map[j][i] != '1' && map->map[j][i] != 'S'
-				&& map->map[j][i] != 'N' && map->map[j][i] != 'W' && map->map[j][i] != 'E' && map->map[j][i] != ' ') //if nsew10space fonksiyonu yaz.
+			if (is_news_one_zero_space(map->map[j][i]))
 				return (EXIT_FAILURE);
-			if (map->map[j][i] == 'S') //if is_nsew fonksiyonu yaz.
-			{
-				map->nsew = 'S';
-				map->x_player = i;
-				map->y_player = j;
-				calc->dir_x = 0.0;
-				calc->dir_y = 1.0;
-				calc->plane_x = -0.66;
-				calc->plane_y = 0.0;
-				nsewcount++;
-			}
-			else if (map->map[j][i] == 'N')
-			{
-				map->nsew = 'N';
-				map->x_player = i;
-				map->y_player = j;
-				calc->dir_x = 0.0;
-				calc->dir_y = -1.0;
-				calc->plane_x = 0.66;
-				calc->plane_y = 0.0;
-				nsewcount++;
-			}
-			else if (map->map[j][i] == 'W')
-			{
-				map->nsew = 'W';
-				map->x_player = i;
-				map->y_player = j;
-				calc->dir_x = -1.0;
-				calc->dir_y = 0.0;
-				calc->plane_x = 0.0;
-				calc->plane_y = -0.66;
-				nsewcount++;
-			}
-			else if (map->map[j][i] == 'E')
-			{
-				map->nsew = 'E';
-				map->x_player = i;
-				map->y_player = j;
-				calc->dir_x = 1.0;
-				calc->dir_y = 0.0;
-				calc->plane_x = 0.0;
-				calc->plane_y = 0.66;
-				nsewcount++;
-			}
-			i++;
+			if (map->map[j][i] == 'S' || map->map[j][i] == 'N')
+				set_nsew_data1(cube, i, j, map->map[j][i]);
+			else if (map->map[j][i] == 'W' || map->map[j][i] == 'E')
+				set_nsew_data2(cube, i, j, map->map[j][i]);
 		}
-		j++;
 	}
-	if (nsewcount != 1)
+	if (map->nsewcount != 1)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-char	validate_map(t_tex *tex, t_map *map, t_calc *calc)
+char	validate_map(t_cube *cube, t_tex *tex, t_map *map)
 {
 	if (validate_rgb(tex, map->nsewfc_tex))
 		return (EXIT_FAILURE);
-	if (is_playable(map, calc))
+	if (is_playable(cube, map))
 	{
 		print_error("The map is not playable");
 		return (EXIT_FAILURE);

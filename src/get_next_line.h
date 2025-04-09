@@ -13,6 +13,8 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
+# include "stdlib.h"
+
 typedef unsigned int	t_ui;
 
 # ifndef BUFFER_SIZE

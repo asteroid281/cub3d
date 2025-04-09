@@ -6,13 +6,11 @@
 /*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 20:30:26 by apalaz            #+#    #+#             */
-/*   Updated: 2025/03/27 20:30:47 by apalaz           ###   ########.fr       */
+/*   Updated: 2025/04/09 14:04:42 by apalaz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
-#include "fcntl.h"
-#include "stdbool.h"
 
 char	is_dir(char *argv)
 {

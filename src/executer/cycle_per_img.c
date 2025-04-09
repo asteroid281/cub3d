@@ -83,13 +83,13 @@ static void	cpi_lh1_continue(t_cube *cube, t_calc *c)
 			c->side = 1;
 		}
 		if (c->map_y > cube->map.max_h - 1 || c->map_x > cube->map.max_w - 1 \
-		|| (cube->map.map[c->map_y] && cube->map.map[c->map_y][c->map_x] == '1'))
+		|| (cube->map.map[c->map_y] \
+		&& cube->map.map[c->map_y][c->map_x] == '1'))
 			hit = 1;
 	}
 	c->perpwalldist = c->sidedist_y - c->deltadist_y;
 	if (c->side == 0)
 		c->perpwalldist = c->sidedist_x - c->deltadist_x;
-	c->lineheight = (int)(HEIGHT / c->perpwalldist);
 }
 
 static void	cpi_lh1(t_cube *cube, t_calc *c)
@@ -117,8 +117,7 @@ static void	cpi_lh1(t_cube *cube, t_calc *c)
 		c->sidedist_y = (c->map_y + 1.0 - cube->pos.y_pos) * c->deltadist_y;
 	}
 	cpi_lh1_continue(cube, c);
-	c->drawstart = -c->lineheight / 2 + HEIGHT_2;
-	c->drawend = c->lineheight / 2 + HEIGHT_2;
+	c->lineheight = (int)(HEIGHT / c->perpwalldist);
 }
 
 char	cycle_per_img(t_cube *cube)
@@ -136,6 +135,8 @@ char	cycle_per_img(t_cube *cube)
 		c->raydir_x = c->dir_x + c->plane_x * c->cam;
 		c->raydir_y = c->dir_y + c->plane_y * c->cam;
 		cpi_lh1(cube, c);
+		c->drawstart = -c->lineheight / 2 + HEIGHT_2;
+		c->drawend = c->lineheight / 2 + HEIGHT_2;
 		if (c->drawstart < 0)
 			c->drawstart = 0;
 		if (c->drawend >= HEIGHT)

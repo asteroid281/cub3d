@@ -28,7 +28,7 @@ static void	get_win_img(t_cube *cube, t_calc *c, int x)
 		c->texpos += c->step;
 		src = temp.addr + c->tex_y * temp.line_len + (temp.bpp / 8) * c->tex_x;
 		color = *(unsigned int *) src;
-		if (c->side)
+		if ((!c->side && c->raydir_x > 0) || (c->side && c->raydir_y < 0))
 			color = (color >> 1) & 0x7F7F7F;
 		dst = cube->win.addr + y * cube->win.line_len + (cube->win.bpp / 8) * x;
 		*(unsigned int *) dst = color;

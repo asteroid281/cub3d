@@ -6,7 +6,7 @@
 /*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 20:32:31 by apalaz            #+#    #+#             */
-/*   Updated: 2025/04/09 15:35:53 by apalaz           ###   ########.fr       */
+/*   Updated: 2025/04/09 19:18:47 by apalaz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	flood_fill(int y, int x, char **map)
 {
 	if (y < 0 || x < 0)
 		return (EXIT_FAILURE);
-	if (!map[y] || x >= (int)ft_strlen(map[y]))
+	if (!map[y] || x >= (int) ft_strlen(map[y]))
 		return (EXIT_FAILURE);
 	if (map[y][x] == '1' || map[y][x] == 'F')
 		return (EXIT_SUCCESS);

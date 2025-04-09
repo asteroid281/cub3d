@@ -15,30 +15,7 @@
 
 #include "../../inc/cub3d.h"
 
-static char	is_xpm(t_cube *cube)
-{
-	int	len1;
-	int	len2;
-	int	i;
-
-	i = 0;
-	while (i < 4)
-	{
-		len1 = ft_strlen2(cube->map.nsewfc_tex[i]);
-		len2 = ft_strlen(cube->map.nsewfc_tex[i]);
-		if (!(len1 > 4 && cube->map.nsewfc_tex[i][len2 - 4] == '.'
-			&& cube->map.nsewfc_tex[i][len2 - 3] == 'x'
-			&& cube->map.nsewfc_tex[i][len2 - 2] == 'p'
-			&& cube->map.nsewfc_tex[i][len2 - 1] == 'm'))
-		{
-			return (EXIT_FAILURE);
-		}
-		i++;
-	}
-	return (EXIT_SUCCESS);
-}
-
-int	file_check2(t_cube *cube)
+static int	file_check_2(t_cube *cube)
 {
 	int	fd;
 	int	i;
@@ -67,11 +44,34 @@ int	file_check2(t_cube *cube)
 	return (fd);
 }
 
+int	file_check_1(char *argv)
+{
+	int	fd;
+
+	if (is_dir(argv))
+	{
+		print_error("Not directory");
+		return (-1);
+	}
+	if (!is_cub(argv))
+	{
+		print_error("File is not cub file.");
+		return (-1);
+	}
+	fd = open(argv, O_RDONLY);
+	if (fd == -1)
+	{
+		print_error("File could not be opened.");
+		return (-1);
+	}
+	return (fd);
+}
+
 char	parser(char **argv, t_cube *cube)
 {
 	int	fd;
 
-	fd = file_check(argv[1]);
+	fd = file_check_1(argv[1]);
 	if (fd == -1)
 		return (EXIT_FAILURE);
 	if (get_nsewfc_map(fd, cube))
@@ -79,7 +79,7 @@ char	parser(char **argv, t_cube *cube)
 		close(fd);
 		return (EXIT_FAILURE);
 	}
-	fd = file_check2(cube);
+	fd = file_check_2(cube);
 	if (fd == -1)
 		return (EXIT_FAILURE);
 	close(fd);

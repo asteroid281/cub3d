@@ -11,8 +11,8 @@ MLX = $(MLX_PATH)libmlx_Linux.a
 MLX_FLAGS = -L $(MLX_PATH) -I $(MLX_PATH) -lmlx -O3 -lXext -lX11 -lm -lz
 
 P_PATH = src/parser/
-PARSER_SRCS = $(P_PATH)parser.c $(P_PATH)arg_check.c $(P_PATH)map_path_check.c \
-$(P_PATH)parser_helpers.c $(P_PATH)validate_map.c $(P_PATH)parser_utils.c \
+PARSER_SRCS = $(P_PATH)parser.c $(P_PATH)parser_helpers_1.c $(P_PATH)parser_helpers_2.c\
+$(P_PATH)map_path_check.c $(P_PATH)validate_map.c $(P_PATH)parser_utils.c \
 $(P_PATH)validate_map_utils.c
 
 E_PATH = src/executer/

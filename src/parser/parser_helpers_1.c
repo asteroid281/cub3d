@@ -1,16 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arg_check.c                                        :+:      :+:    :+:   */
+/*   parser_helpers_1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 20:30:26 by apalaz            #+#    #+#             */
-/*   Updated: 2025/04/09 15:38:26 by apalaz           ###   ########.fr       */
+/*   Updated: 2025/04/09 19:12:55 by apalaz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+
+char	is_xpm(t_cube *cube)
+{
+	int	len1;
+	int	len2;
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		len1 = ft_strlen2(cube->map.nsewfc_tex[i]);
+		len2 = ft_strlen(cube->map.nsewfc_tex[i]);
+		if (!(len1 > 4 && cube->map.nsewfc_tex[i][len2 - 4] == '.'
+			&& cube->map.nsewfc_tex[i][len2 - 3] == 'x'
+			&& cube->map.nsewfc_tex[i][len2 - 2] == 'p'
+			&& cube->map.nsewfc_tex[i][len2 - 1] == 'm'))
+		{
+			return (EXIT_FAILURE);
+		}
+		i++;
+	}
+	return (EXIT_SUCCESS);
+}
 
 char	is_dir(char *argv)
 {
@@ -25,7 +48,7 @@ char	is_dir(char *argv)
 	return (false);
 }
 
-static char	is_cub(char *argv)
+char	is_cub(char *argv)
 {
 	int	len1;
 	int	len2;
@@ -36,27 +59,4 @@ static char	is_cub(char *argv)
 	&& argv[len2 - 2] == 'u' && argv[len2 - 1] == 'b')
 		return (true);
 	return (false);
-}
-
-int	file_check(char *argv)
-{
-	int	fd;
-
-	if (is_dir(argv))
-	{
-		print_error("Not directory");
-		return (-1);
-	}
-	if (!is_cub(argv))
-	{
-		print_error("File is not cub file.");
-		return (-1);
-	}
-	fd = open(argv, O_RDONLY);
-	if (fd == -1)
-	{
-		print_error("File could not be opened.");
-		return (-1);
-	}
-	return (fd);
 }

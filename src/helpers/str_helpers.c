@@ -6,7 +6,7 @@
 /*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 20:28:01 by apalaz            #+#    #+#             */
-/*   Updated: 2025/03/27 20:28:19 by apalaz           ###   ########.fr       */
+/*   Updated: 2025/04/09 14:36:20 by apalaz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,15 @@ char	**str_arr_realloc(char **str_arr, char *element)
 		return (NULL);
 	i = -1;
 	while (str_arr[++i])
-		rtrn[i] = str_arr[i];
+	{
+		rtrn[i] = ft_strdup(str_arr[i]);
+		if (!rtrn[i])
+		{
+			free_str_arr(rtrn);
+			return (NULL);
+		}
+	}
 	rtrn[i] = ft_strdup(element);
+	free_str_arr(str_arr);
 	return (rtrn);
 }

@@ -24,22 +24,33 @@ void	free_str_arr(char **str_arr)
 	free(str_arr);
 }
 
+static void	free_texs(char **texs)
+{
+	short	i;
+
+	i = -1;
+	while (++i < 6)
+		free(texs[i]);
+}
+
 void	free_cube(t_cube *cube)
 {
 	short	i;
 
 	if (!cube)
 		return ;
+	if (cube->map.map)
+		free_str_arr(cube->map.map);
+	free_texs(cube->map.nsewfc_tex);
 	i = -1;
 	while (++i < 4)
 		if (cube->tex.nsew[i].img)
 			mlx_destroy_image(cube->mlx, cube->tex.nsew[i].img);
 	if (cube->win.img)
 		mlx_destroy_image(cube->mlx, cube->win.img);
-	if (cube->map.map)
-		free_str_arr(cube->map.map);
 	if (cube->window)
 		mlx_destroy_window(cube->mlx, cube->window);
 	if (cube->mlx)
 		mlx_destroy_display(cube->mlx);
+	free(cube->mlx);
 }

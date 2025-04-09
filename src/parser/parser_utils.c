@@ -6,7 +6,7 @@
 /*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 14:04:54 by apalaz            #+#    #+#             */
-/*   Updated: 2025/04/09 14:04:55 by apalaz           ###   ########.fr       */
+/*   Updated: 2025/04/09 14:44:38 by apalaz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static char	**read_file_lines(int fd)
 	while (line)
 	{
 		file_cont = str_arr_realloc(file_cont, line);
+		free(line);
 		line = get_next_line(fd);
 	}
 	return (file_cont);
@@ -50,7 +51,7 @@ static char	process_textures(char **file_cont, t_cube *cube, int *index,
 	char		*word;
 	char		state;
 	int			count;
-	int			k;
+	int			i;
 	const char	*states = "NESWFC";
 
 	count = 0;
@@ -58,14 +59,15 @@ static char	process_textures(char **file_cont, t_cube *cube, int *index,
 	while (word)
 	{
 		state = is_newsfc(word);
+		free(word);
 		if (!state)
 			return (print_error("Data is broken."), EXIT_FAILURE);
-		k = 0;
-		while (k < 6 && states[k] != state)
-			k++;
-		if (k == 6)
+		i = 0;
+		while (i < 6 && states[i] != state)
+			i++;
+		if (i == 6)
 			return (print_error("Data is broken."), EXIT_FAILURE);
-		cube->map.nsewfc_tex[k] = get_word(file_cont, index, b_i);
+		cube->map.nsewfc_tex[i] = get_word(file_cont, index, b_i);
 		count += 2;
 		if (count == 12)
 			break ;
@@ -115,5 +117,6 @@ char	get_nsewfc_map(int fd, t_cube *cube)
 	if (ret == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	ret = process_map_data(file_cont, cube, &index, &b_i);
+	free_str_arr(file_cont);
 	return (ret);
 }

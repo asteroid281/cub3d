@@ -21,8 +21,6 @@
 # include "fcntl.h"
 # include "stdbool.h"
 
-# include "stdio.h" 
-
 # define WIDTH		1920
 # define HEIGHT		1080
 # define HEIGHT_2	540
@@ -130,6 +128,7 @@ void	print_error(const char *error);
 void	free_str_arr(char **str_arr);
 void	free_cube(t_cube *cube);
 char	**str_arr_realloc(char **str_arr, char *element);
+int		str_arr_len(char **str_arr);
 
 char	parser(char **argv, t_cube *cube);
 char	*get_word(char **cub, int *backup_index, int *backup_i);

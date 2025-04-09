@@ -13,6 +13,23 @@
 #include "get_next_line.h"
 #include "unistd.h"
 
+static char	get_line_wol_helper(char *lwol, char *buff, char state, char which)
+{
+	if (!which && state == -1)
+	{
+		free(buff);
+		free(lwol);
+		return (EXIT_FAILURE);
+	}
+	else if (which && !lwol)
+	{
+		free(buff);
+		free(lwol);
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
 char	*get_buff(char *str)
 {
 	char	*rtrn;
@@ -20,20 +37,23 @@ char	*get_buff(char *str)
 	t_ui	j;
 
 	if (!ctrl_nl(str))
-		return (free(str), NULL);
+	{
+		free(str);
+		return (NULL);
+	}
 	i = 0;
 	while (str[i] && str[i] != '\n')
 		i++;
 	rtrn = (char *) malloc(ft_strlen_gnl(str) - i);
 	if (!rtrn)
-		return (free(str), NULL);
-	i++;
-	j = 0;
-	while (str[i + j])
 	{
-		rtrn[j] = str[i + j];
-		j++;
+		free(str);
+		return (NULL);
 	}
+	i++;
+	j = -1;
+	while (str[++j + i])
+		rtrn[j] = str[i + j];
 	rtrn[j] = 0;
 	free(str);
 	return (rtrn);
@@ -46,19 +66,22 @@ char	*get_line_wol(int fd, char *lwol)
 
 	buff = (char *) malloc(BUFFER_SIZE + 1);
 	if (!buff)
-		return (free(lwol), NULL);
+	{
+		free(lwol);
+		return (NULL);
+	}
 	state = 1;
 	while (state && !ctrl_nl(lwol))
 	{
 		state = read(fd, buff, BUFFER_SIZE);
-		if (state == -1)
-			return (free(buff), free(lwol), NULL);
+		if (get_line_wol_helper(lwol, buff, state, 0))
+			return (NULL);
 		if (!state)
 			break ;
 		buff[state] = 0;
 		lwol = ft_strjoin_gnl(lwol, buff);
-		if (!lwol)
-			return (free(buff), free(lwol), NULL);
+		if (get_line_wol_helper(lwol, buff, state, 1))
+			return (NULL);
 	}
 	free(buff);
 	return (lwol);

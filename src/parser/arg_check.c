@@ -6,7 +6,7 @@
 /*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 20:30:26 by apalaz            #+#    #+#             */
-/*   Updated: 2025/04/09 14:04:42 by apalaz           ###   ########.fr       */
+/*   Updated: 2025/04/09 15:38:26 by apalaz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,20 @@ int	file_check(char *argv)
 	int	fd;
 
 	if (is_dir(argv))
-		return (print_error("Not directory"), -1);
+	{
+		print_error("Not directory");
+		return (-1);
+	}
 	if (!is_cub(argv))
-		return (print_error("File is not cub file."), -1);
+	{
+		print_error("File is not cub file.");
+		return (-1);
+	}
 	fd = open(argv, O_RDONLY);
 	if (fd == -1)
-		return (print_error("File could not be opened."), -1);
+	{
+		print_error("File could not be opened.");
+		return (-1);
+	}
 	return (fd);
 }

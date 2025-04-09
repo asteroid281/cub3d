@@ -6,7 +6,7 @@
 /*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 20:42:31 by apalaz            #+#    #+#             */
-/*   Updated: 2025/03/27 20:50:27 by apalaz           ###   ########.fr       */
+/*   Updated: 2025/04/09 16:50:29 by apalaz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,20 @@ static char	validate_rgb(t_tex *tex, char **nsewfc_tex)
 
 	fc[0] = ft_split(nsewfc_tex[4], ',');
 	fc[1] = ft_split(nsewfc_tex[5], ',');
+	if (str_arr_len(fc[0]) != 3 || str_arr_len(fc[1]) != 3)
+	{
+		free_str_arr(fc[0]);
+		free_str_arr(fc[1]);
+		print_error("RGB order is incorrect.");
+		return (EXIT_FAILURE);
+	}
 	fc[2] = NULL;
 	if (get_nsewfc_tex(fc, rgbs))
+	{
+		free_str_arr(fc[0]);
+		free_str_arr(fc[1]);
 		return (EXIT_FAILURE);
+	}
 	(void)tex;
 	tex->fl_color = rgbs[2] + (rgbs[1] << 8) + (rgbs[0] << 16) + (255 << 24);
 	tex->ceil_color = rgbs[5] + (rgbs[4] << 8) + (rgbs[3] << 16) + (255 << 24);

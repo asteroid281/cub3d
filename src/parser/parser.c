@@ -31,11 +31,11 @@ static char	is_xpm(t_cube *cube)
 			&& cube->map.nsewfc_tex[i][len2 - 2] == 'p'
 			&& cube->map.nsewfc_tex[i][len2 - 1] == 'm'))
 		{
-			return (1);
+			return (EXIT_FAILURE);
 		}
 		i++;
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 int	file_check2(t_cube *cube)
@@ -45,14 +45,23 @@ int	file_check2(t_cube *cube)
 
 	i = -1;
 	if (is_xpm(cube))
-		return (print_error("Not xpm file."), -1);
+	{
+		print_error("Not xpm file.");
+		return (-1);
+	}
 	while (++i < 4)
 	{
 		if (is_dir(cube->map.nsewfc_tex[i]))
-			return (print_error("Not directory"), -1);
+		{
+			print_error("Not directory");
+			return (-1);
+		}
 		fd = open(cube->map.nsewfc_tex[i], O_RDONLY);
 		if (fd == -1)
-			return (print_error("File could not be opened."), -1);
+		{
+			print_error("File could not be opened.");
+			return (-1);
+		}
 		close(fd);
 	}
 	return (fd);

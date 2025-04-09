@@ -6,7 +6,7 @@
 /*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 20:44:09 by apalaz            #+#    #+#             */
-/*   Updated: 2025/03/26 20:45:06 by apalaz           ###   ########.fr       */
+/*   Updated: 2025/04/09 16:54:12 by apalaz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	init_cube(t_cube *cube)
 		return (EXIT_FAILURE);
 	if (init_texs(cube))
 		return (EXIT_FAILURE);
-	cube->pos.x_pos = (float) cube->map.x_player;
-	cube->pos.y_pos = (float) cube->map.y_player;
+	cube->pos.x_pos = (float) cube->map.x_player + 0.5;
+	cube->pos.y_pos = (float) cube->map.y_player + 0.5;
 	return (EXIT_SUCCESS);
 }

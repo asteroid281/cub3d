@@ -6,53 +6,33 @@
 /*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 14:04:54 by apalaz            #+#    #+#             */
-/*   Updated: 2025/04/09 14:44:38 by apalaz           ###   ########.fr       */
+/*   Updated: 2025/04/09 16:46:19 by apalaz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-char	ft_strlen2(char *s)
+static int	find_index(char state, const char *states)
 {
-	int	len;
-	int	i;
+	static int	indexes[6] = {0};
+	int			i;
 
-	len = 0;
 	i = 0;
-	while (s[i])
-	{
-		len++;
-		if (s[i] == '/')
-			len = 0;
+	while (i < 6 && state != states[i])
 		i++;
-	}
-	return (len);
-}
-
-static char	**read_file_lines(int fd)
-{
-	char	*line;
-	char	**file_cont;
-
-	file_cont = NULL;
-	line = get_next_line(fd);
-	while (line)
-	{
-		file_cont = str_arr_realloc(file_cont, line);
-		free(line);
-		line = get_next_line(fd);
-	}
-	return (file_cont);
+	if (i == 6 || indexes[i] == 1)
+		return (6);
+	indexes[i] = 1;
+	return (i);
 }
 
 static char	process_textures(char **file_cont, t_cube *cube, int *index,
 		int *b_i)
 {
-	char		*word;
-	char		state;
-	int			count;
-	int			i;
-	const char	*states = "NESWFC";
+	char	*word;
+	char	state;
+	int		count;
+	int		i;
 
 	count = 0;
 	word = get_word(file_cont, index, b_i);
@@ -60,13 +40,12 @@ static char	process_textures(char **file_cont, t_cube *cube, int *index,
 	{
 		state = is_newsfc(word);
 		free(word);
-		if (!state)
-			return (print_error("Data is broken."), EXIT_FAILURE);
-		i = 0;
-		while (i < 6 && states[i] != state)
-			i++;
-		if (i == 6)
-			return (print_error("Data is broken."), EXIT_FAILURE);
+		i = find_index(state, "NESWFC");
+		if (!state || i == 6)
+		{
+			print_error("Data is broken.");
+			return (EXIT_FAILURE);
+		}
 		cube->map.nsewfc_tex[i] = get_word(file_cont, index, b_i);
 		count += 2;
 		if (count == 12)
@@ -76,29 +55,46 @@ static char	process_textures(char **file_cont, t_cube *cube, int *index,
 	return (EXIT_SUCCESS);
 }
 
-static char	process_map_data(char **file_cont, t_cube *cube, int *index,
-		int *b_i)
+static char	pmd_helper(t_cube *cube, char **file_cont, int index)
 {
 	int	tmp;
 
-	if (!file_cont[*index][*b_i] || file_cont[*index][*b_i] != '\n')
-		return (print_error("Data is broken."), EXIT_FAILURE);
-	(*index)++;
-	if (!file_cont[*index] || !file_cont[*index][0])
-		return (print_error("Data is broken."), EXIT_FAILURE);
-	while (file_cont[*index] && file_cont[*index][0] == '\n'
-		&& !file_cont[*index][1])
-		(*index)++;
-	while (file_cont[*index])
+	if (file_cont[index][0] == '\n' && !file_cont[index][1])
 	{
-		if (file_cont[*index][0] == '\n' && !file_cont[*index][1])
-			return (print_error("Data is broken."), EXIT_FAILURE);
-		cube->map.map = str_arr_realloc(cube->map.map, file_cont[*index]);
-		tmp = (int)ft_strlen(file_cont[*index]);
-		if (cube->map.max_w < tmp)
-			cube->map.max_w = tmp;
-		cube->map.max_h++;
-		(*index)++;
+		print_error("Data is broken.");
+		return (EXIT_FAILURE);
+	}
+	cube->map.map = str_arr_realloc(cube->map.map, file_cont[index]);
+	if (!cube->map.map)
+		return (EXIT_FAILURE);
+	tmp = (int) ft_strlen(file_cont[index]);
+	if (cube->map.max_w < tmp)
+		cube->map.max_w = tmp;
+	cube->map.max_h++;
+	return (EXIT_SUCCESS);
+}
+
+static char	proc_map_data(char **file_cont, t_cube *cube, int index, int b_i)
+{
+	if (!file_cont[index][b_i] || file_cont[index][b_i] != '\n')
+	{
+		print_error("Data is broken.");
+		return (EXIT_FAILURE);
+	}
+	index++;
+	if (!file_cont[index] || !file_cont[index][0])
+	{
+		print_error("Data is broken.");
+		return (EXIT_FAILURE);
+	}
+	while (file_cont[index] && file_cont[index][0] == '\n'
+		&& !file_cont[index][1])
+		index++;
+	while (file_cont[index])
+	{
+		if (pmd_helper(cube, file_cont, index))
+			return (EXIT_FAILURE);
+		index++;
 	}
 	return (EXIT_SUCCESS);
 }
@@ -106,17 +102,27 @@ static char	process_map_data(char **file_cont, t_cube *cube, int *index,
 char	get_nsewfc_map(int fd, t_cube *cube)
 {
 	char	**file_cont;
+	char	*line;
 	char	ret;
 	int		index;
 	int		b_i;
 
+	file_cont = NULL;
+	line = get_next_line(fd);
+	while (line)
+	{
+		file_cont = str_arr_realloc(file_cont, line);
+		free(line);
+		line = get_next_line(fd);
+	}
 	index = 0;
 	b_i = 0;
-	file_cont = read_file_lines(fd);
-	ret = process_textures(file_cont, cube, &index, &b_i);
-	if (ret == EXIT_FAILURE)
+	if (process_textures(file_cont, cube, &index, &b_i))
+	{
+		free_str_arr(file_cont);
 		return (EXIT_FAILURE);
-	ret = process_map_data(file_cont, cube, &index, &b_i);
+	}
+	ret = proc_map_data(file_cont, cube, index, b_i);
 	free_str_arr(file_cont);
 	return (ret);
 }

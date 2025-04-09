@@ -6,7 +6,7 @@
 /*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 20:32:31 by apalaz            #+#    #+#             */
-/*   Updated: 2025/03/27 20:35:06 by apalaz           ###   ########.fr       */
+/*   Updated: 2025/04/09 15:35:53 by apalaz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,12 @@ static char	**create_flat_map(char **map)
 	int		i;
 
 	copied_flat_map = NULL;
-	i = 0;
-	while (map[i])
+	i = -1;
+	while (map[++i])
 	{
 		copied_flat_map = str_arr_realloc(copied_flat_map, map[i]);
-		i++;
+		if (!copied_flat_map)
+			return (NULL);
 	}
 	return (copied_flat_map);
 }
@@ -57,7 +58,10 @@ char	map_path_check(t_map *map)
 
 	copied_flat_map = create_flat_map(map->map);
 	if (flood_fill(map->y_player, map->x_player, copied_flat_map))
+	{
+		free_str_arr(copied_flat_map);
 		return (EXIT_FAILURE);
+	}
 	free_str_arr(copied_flat_map);
 	return (EXIT_SUCCESS);
 }

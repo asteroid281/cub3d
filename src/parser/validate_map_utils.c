@@ -6,7 +6,7 @@
 /*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 14:04:59 by apalaz            #+#    #+#             */
-/*   Updated: 2025/04/09 14:05:00 by apalaz           ###   ########.fr       */
+/*   Updated: 2025/04/09 15:32:32 by apalaz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ void	set_nsew_data2(t_cube *cube, int i, int j, char state)
 static char	check_rgb(int rgb)
 {
 	if (rgb < 0 || rgb > 255)
-		return (print_error("Invalid RGB range."), EXIT_FAILURE);
+	{
+		print_error("Invalid RGB range.");
+		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
 

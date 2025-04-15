@@ -140,11 +140,11 @@ char	is_dir(char *argv);
 char	is_xpm(t_cube *cube);
 char	is_cub(char *argv);
 char	ft_strlen2(char *s);
-char    get_nsewfc_map(int fd, t_cube *cube);
+char	get_nsewfc_map(int fd, t_cube *cube);
 void	set_nsew_data1(t_cube *cube, int i, int j, char state);
 void	set_nsew_data2(t_cube *cube, int i, int j, char state);
 char	is_news_one_zero_space(char c);
-char    get_nsewfc_tex(char ***fc, int *rgbs);
+char	get_nsewfc_tex(char ***fc, int *rgbs);
 
 char	init_cube(t_cube *cube);
 char	executer(t_cube *cube);

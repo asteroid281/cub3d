@@ -152,5 +152,4 @@ char	set_all_data_to_window(t_cube *cube);
 char	cycle_per_img(t_cube *cube);
 char	move(int keycode, t_cube *cube);
 
-
 #endif

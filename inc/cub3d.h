@@ -145,6 +145,7 @@ void	set_nsew_data1(t_cube *cube, int i, int j, char state);
 void	set_nsew_data2(t_cube *cube, int i, int j, char state);
 char	is_news_one_zero_space(char c);
 char	get_nsewfc_tex(char ***fc, int *rgbs);
+char	*first_line_check(char ***file_cont, int fd);
 
 char	init_cube(t_cube *cube);
 char	executer(t_cube *cube);

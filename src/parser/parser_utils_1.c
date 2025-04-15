@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*   parser_utils_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 14:04:54 by apalaz            #+#    #+#             */
-/*   Updated: 2025/04/09 16:46:19 by apalaz           ###   ########.fr       */
+/*   Updated: 2025/04/15 18:45:11 by apalaz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,9 @@ char	get_nsewfc_map(int fd, t_cube *cube)
 	int		index;
 	int		b_i;
 
-	file_cont = NULL;
-	line = get_next_line(fd);
+	line = first_line_check(&file_cont, fd);
+	if (!line)
+		return (EXIT_FAILURE);
 	while (line)
 	{
 		file_cont = str_arr_realloc(file_cont, line);

@@ -15,36 +15,36 @@
 
 #include "../../inc/cub3d.h"
 
-static int	file_check_2(t_cube *cube)
+static char	file_check_2(t_cube *cube)
 {
 	int	fd;
 	int	i;
 
-	i = -1;
 	if (is_xpm(cube))
 	{
 		print_error("Not xpm file.");
-		return (-1);
+		return (EXIT_FAILURE);
 	}
+	i = -1;
 	while (++i < 4)
 	{
 		if (is_dir(cube->map.nsewfc_tex[i]))
 		{
 			print_error("Not directory");
-			return (-1);
+			return (EXIT_FAILURE);
 		}
 		fd = open(cube->map.nsewfc_tex[i], O_RDONLY);
 		if (fd == -1)
 		{
 			print_error("File could not be opened.");
-			return (-1);
+			return (EXIT_FAILURE);
 		}
 		close(fd);
 	}
-	return (fd);
+	return (EXIT_SUCCESS);
 }
 
-int	file_check_1(char *argv)
+static int	file_check_1(char *argv)
 {
 	int	fd;
 
@@ -77,12 +77,12 @@ char	parser(char **argv, t_cube *cube)
 	if (get_nsewfc_map(fd, cube))
 	{
 		close(fd);
+		print_error("Data is broken.");
 		return (EXIT_FAILURE);
 	}
-	fd = file_check_2(cube);
-	if (fd == -1)
-		return (EXIT_FAILURE);
 	close(fd);
+	if (file_check_2(cube))
+		return (EXIT_FAILURE);
 	if (validate_map(cube, &cube->tex, &cube->map))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

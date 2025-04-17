@@ -6,7 +6,7 @@
 /*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 20:28:01 by apalaz            #+#    #+#             */
-/*   Updated: 2025/04/09 15:29:17 by apalaz           ###   ########.fr       */
+/*   Updated: 2025/04/17 16:13:03 by apalaz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@ char	ft_strlen2(char *s)
 	int	i;
 
 	len = 0;
-	i = 0;
-	while (s[i])
+	i = -1;
+	while (s[++i])
 	{
 		len++;
 		if (s[i] == '/')
 			len = 0;
-		i++;
 	}
 	return (len);
 }

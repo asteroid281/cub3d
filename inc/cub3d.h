@@ -133,7 +133,6 @@ int		str_arr_len(char **str_arr);
 char	parser(char **argv, t_cube *cube);
 char	*get_word(char **cub, int *backup_index, int *backup_i);
 char	is_newsfc(char *word);
-int		file_check_1(char *argv);
 char	validate_map(t_cube *cube, t_tex *tex, t_map *map);
 char	map_path_check(t_map *map);
 char	is_dir(char *argv);
@@ -145,7 +144,9 @@ void	set_nsew_data1(t_cube *cube, int i, int j, char state);
 void	set_nsew_data2(t_cube *cube, int i, int j, char state);
 char	is_news_one_zero_space(char c);
 char	get_nsewfc_tex(char ***fc, int *rgbs);
+char	is_full_ws(char *str);
 char	*first_line_check(char ***file_cont, int fd);
+char	process_textures(char **file_cont, t_cube *cube, int *index, int *b_i);
 
 char	init_cube(t_cube *cube);
 char	executer(t_cube *cube);

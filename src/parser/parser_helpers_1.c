@@ -6,7 +6,7 @@
 /*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 20:30:26 by apalaz            #+#    #+#             */
-/*   Updated: 2025/04/09 19:12:55 by apalaz           ###   ########.fr       */
+/*   Updated: 2025/04/17 16:20:38 by apalaz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,18 @@ char	is_xpm(t_cube *cube)
 	int	len2;
 	int	i;
 
-	i = 0;
-	while (i < 4)
+	i = -1;
+	while (++i < 4)
 	{
 		len1 = ft_strlen2(cube->map.nsewfc_tex[i]);
 		len2 = ft_strlen(cube->map.nsewfc_tex[i]);
-		if (!(len1 > 4 && cube->map.nsewfc_tex[i][len2 - 4] == '.'
+		if (len1 < 4 || !(cube->map.nsewfc_tex[i][len2 - 4] == '.'
 			&& cube->map.nsewfc_tex[i][len2 - 3] == 'x'
 			&& cube->map.nsewfc_tex[i][len2 - 2] == 'p'
 			&& cube->map.nsewfc_tex[i][len2 - 1] == 'm'))
 		{
 			return (EXIT_FAILURE);
 		}
-		i++;
 	}
 	return (EXIT_SUCCESS);
 }

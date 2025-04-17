@@ -1,4 +1,4 @@
-NAME = cub3d
+NAME = cub3D
 
 CFLAGS = -Wall -Werror -Wextra
 
@@ -49,4 +49,37 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+test: all
+	echo "testing color_invalid_rgb.cub" ;./cub3D maps/bad/color_invalid_rgb.cub; \
+	echo "testing color_missing.cub" ;./cub3D maps/bad/color_missing.cub; \
+	echo "testing color_missing_ceiling_rgb.cub" ;./cub3D maps/bad/color_missing_ceiling_rgb.cub; \
+	echo "testing color_missing_floor_rgb.cub" ;./cub3D maps/bad/color_missing_floor_rgb.cub; \
+	echo "testing color_none.cub" ;./cub3D maps/bad/color_none.cub; \
+	echo "testing empty.cub" ;./cub3D maps/bad/empty.cub; \
+	echo "testing empty_nl.cub" ;./cub3D maps/bad/empty_nl.cub; \
+	echo "testing file_letter_end.cub" ;./cub3D maps/bad/file_letter_end.cub; \
+	echo "testing filetype_missing" ;./cub3D maps/bad/filetype_missing; \
+	echo "testing filetype_wrong.buc" ;./cub3D maps/bad/filetype_wrong.buc; \
+	echo "testing map_first.cub" ;./cub3D maps/bad/map_first.cub; \
+	echo "testing map_middle.cub" ;./cub3D maps/bad/map_middle.cub; \
+	echo "testing map_missing.cub" ;./cub3D maps/bad/map_missing.cub; \
+	echo "testing map_only.cub" ;./cub3D maps/bad/map_only.cub; \
+	echo "testing map_too_small.cub" ;./cub3D maps/bad/map_too_small.cub; \
+	echo "testing player_multiple.cub" ;./cub3D maps/bad/player_multiple.cub; \
+	echo "testing player_none.cub" ;./cub3D maps/bad/player_none.cub; \
+	echo "testing player_on_edge.cub" ;./cub3D maps/bad/player_on_edge.cub; \
+	echo "testing textures_dir.cub" ;./cub3D maps/bad/textures_dir.cub; \
+	echo "testing textures_duplicates.cub" ;./cub3D maps/bad/textures_duplicates.cub; \
+	echo "testing map_divided.cub" ;./cub3D maps/bad/map_divided.cub; \
+	echo "testing textures_invalid.cub" ;./cub3D maps/bad/textures_invalid.cub; \
+	echo "testing textures_missing.cub" ;./cub3D maps/bad/textures_missing.cub; \
+	echo "testing textures_none.cub" ;./cub3D maps/bad/textures_none.cub; \
+	echo "testing textures_not_xpm.cub" ;./cub3D maps/bad/textures_not_xpm.cub; \
+	echo "testing wall_hole_east.cub" ;./cub3D maps/bad/wall_hole_east.cub; \
+	echo "testing wall_hole_north.cub" ;./cub3D maps/bad/wall_hole_north.cub; \
+	echo "testing wall_hole_south.cub" ;./cub3D maps/bad/wall_hole_south.cub; \
+	echo "testing wall_hole_west.cub" ;./cub3D maps/bad/wall_hole_west.cub; \
+	echo "testing wall_none.cub"; ./cub3D maps/bad/wall_none.cub
+
+
+.PHONY: all clean fclean re test

@@ -1,22 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_helpers.c                                   :+:      :+:    :+:   */
+/*   parser_helpers_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apalaz <apalaz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 20:35:27 by apalaz            #+#    #+#             */
-/*   Updated: 2025/04/09 14:19:50 by apalaz           ###   ########.fr       */
+/*   Updated: 2025/04/17 16:54:13 by apalaz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
+char	is_full_ws(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+		if (!((str[i] >= 9 && str[i] <= 13) || str[i] == ' '))
+			return (0);
+	return (1);
+}
+
 static void	skip_whitespace(char **cub, int *i, int *index)
 {
 	char	c;
 
-	c = cub[*index][*i];
+	c = 0;
+	if (cub[*index])
+		c = cub[*index][*i];
+	else
+		return ;
 	while (c && (c == ' ' || (c >= 9 && c <= 13)))
 	{
 		if (c == '\n')
@@ -26,7 +41,10 @@ static void	skip_whitespace(char **cub, int *i, int *index)
 		}
 		else
 			(*i)++;
-		c = cub[*index][*i];
+		if (cub[*index])
+			c = cub[*index][*i];
+		else
+			c = 0;
 	}
 }
 
@@ -36,7 +54,10 @@ static size_t	get_word_length(char **cub, int *i, int *index, int *backup_i)
 	size_t		len;
 
 	len = 0;
-	c = cub[*index][*i];
+	if (cub[*index])
+		c = cub[*index][*i];
+	else
+		c = 0;
 	while (c && c != ' ' && !(c >= 9 && c <= 13))
 	{
 		if (c == '\n')
@@ -47,7 +68,10 @@ static size_t	get_word_length(char **cub, int *i, int *index, int *backup_i)
 			break ;
 		}
 		(*i)++;
-		c = cub[*index][*i];
+		if (cub[*index])
+			c = cub[*index][*i];
+		else
+			c = 0;
 		len++;
 	}
 	return (len);
